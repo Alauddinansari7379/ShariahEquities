@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/fragment_Home">
+
+    <fragment
+        android:id="@+id/fragment_Home"
+        android:name="com.amtech.gadgetzone.home.HomeFragment"
+        tools:layout="@layout/fragment_home"
+        android:label="Home" />
+    <fragment
+        android:id="@+id/fragment_cart"
+        tools:layout="@layout/fragment_cart"
+        android:name="com.amtech.gadgetzone.cart.CartFragment"
+        android:label="News" />
+    <fragment
+        android:id="@+id/fragment_notification"
+        tools:layout="@layout/fragment_notification"
+        android:name="com.amtech.gadgetzone.notification.NotificationFragment"
+        android:label="Profile" />
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="com.amtech.gadgetzone.profile.activity.ProfileFragment"
+        tools:layout="@layout/fragment_cart"
+        android:label="fragment_booking2"
+        />
+
+
+</navigation>
