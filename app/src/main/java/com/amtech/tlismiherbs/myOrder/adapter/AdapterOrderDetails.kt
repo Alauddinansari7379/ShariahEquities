@@ -69,6 +69,7 @@ class AdapterOrderDetails(
                 binding.layoutPlush.setOnClickListener {
                     vibrateOnce(context)
                     cart.addToCart(term_id)
+
                 }
                 binding.layoutDelete.setOnClickListener {
                     vibrateOnce(context)
