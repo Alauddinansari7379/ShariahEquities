@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/main_background"
     android:orientation="vertical"
-    tools:context=".category.Details">
+    tools:context="com.amtech.tlismiherbs.category.Details">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -90,17 +90,18 @@
 
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/image"
                             android:layout_width="220dp"
                             android:layout_height="200dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginStart="25dp"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/phone1"
-                            android:scaleType="centerCrop">
+                             android:scaleType="fitCenter">
 
                         </androidx.appcompat.widget.AppCompatImageView>
 
                         <LinearLayout
+                            android:id="@+id/layoutWishList"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="35dp"
@@ -110,11 +111,22 @@
                             android:gravity="center">
 
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/wishList"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:background="@drawable/heart"
+
                                 android:backgroundTint="@color/gray_text"
                                 android:elevation="5dp">
+
+                            </androidx.appcompat.widget.AppCompatImageView>
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/wishListRed"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:visibility="gone"
+                                android:background="@drawable/heart_red"
+                                 android:elevation="5dp">
 
                             </androidx.appcompat.widget.AppCompatImageView>
 
@@ -130,6 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp">
 
@@ -154,11 +167,11 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvPrice"
+                        android:id="@+id/tvTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semi_bold"
-                        android:text="Samsung Galaxy A12 Dual Sim LTE, 6.4 64 GB - Black"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold">
@@ -174,6 +187,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="5dp"
+                    android:visibility="gone"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -234,7 +248,7 @@
                             android:layout_marginEnd="7dp"
                             android:fontFamily="@font/poppins_regular"
                             android:gravity="center"
-                            android:text="4.1"
+                            android:text="0.0"
                             android:textColor="@color/white"
                             android:textSize="10sp">
 
@@ -248,7 +262,7 @@
                         android:layout_marginStart="5dp"
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
-                        android:text="87"
+                        android:text="00"
                         android:textColor="@color/gray_text"
                         android:textSize="9sp">
 
@@ -274,10 +288,11 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semi_bold"
-                        android:text="$35,000"
+                        android:text="000"
                         android:textColor="@color/main_color"
                         android:textSize="14sp">
 
@@ -291,6 +306,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/layoutPlush"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="?actionBarItemBackground"
@@ -327,6 +343,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/layoutMinus"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="?actionBarItemBackground"
@@ -480,6 +497,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="20dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
@@ -502,6 +520,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -564,6 +583,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="20dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
@@ -614,6 +634,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
@@ -665,6 +686,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
@@ -685,6 +707,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:background="#E5E7EB">
 
@@ -704,6 +727,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -798,6 +822,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="15dp"
+                    android:visibility="gone"
                     android:background="#E5E7EB">
 
                 </androidx.viewpager.widget.ViewPager>
@@ -808,6 +833,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:orientation="vertical">
 
@@ -879,6 +905,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -922,6 +949,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
@@ -975,6 +1003,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="David Johnson, 1st Jan 2020"
@@ -989,6 +1018,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="15dp"
+                    android:visibility="gone"
                     android:background="#E5E7EB">
 
                 </androidx.viewpager.widget.ViewPager>
@@ -1006,6 +1036,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
 
@@ -1027,6 +1058,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:visibility="gone"
                         android:layout_weight="5"
                         android:gravity="end">
 
@@ -1088,10 +1120,11 @@
                 </androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
-                    android:text="$35,000"
+                    android:text="00"
                     android:textColor="@color/main_color"
                     android:textSize="14sp">
 

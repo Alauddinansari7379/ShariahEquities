@@ -3,12 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".notification.NotificationFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context="com.amtech.tlismiherbs.notification.NotificationFragment">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNoDtaFound"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="notification" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No Notification Found"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+         >
+
+    </androidx.appcompat.widget.AppCompatTextView>
 
 </FrameLayout>

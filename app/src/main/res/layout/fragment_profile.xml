@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".profile.activity.ProfileFragment">
+    tools:context="com.amtech.tlismiherbs.profile.activity.ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,6 +31,7 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgEdit"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="5dp"
@@ -47,17 +48,17 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:background="@drawable/profilepic">
+                            android:background="@drawable/profile">
 
                         </de.hdodenhof.circleimageview.CircleImageView>
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvFullName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/poppins_semi_bold"
-                            android:text="David Smith"
-                            android:textAlignment="center"
+                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="14sp">
 
@@ -78,11 +79,12 @@
                             </androidx.appcompat.widget.AppCompatImageView>
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvEmail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:fontFamily="@font/poppins_light"
-                                android:text="david@gmail.com"
+                                android:text=""
                                 android:textAlignment="center"
                                 android:textColor="@color/gray_text"
                                 android:textSize="12sp">
@@ -107,11 +109,12 @@
                             </androidx.appcompat.widget.AppCompatImageView>
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvMobile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:fontFamily="@font/poppins_light"
-                                android:text="003314353435535"
+                                android:text=" "
                                 android:textAlignment="center"
                                 android:textColor="@color/gray_text"
                                 android:textSize="12sp">
@@ -146,6 +149,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -265,6 +269,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardChangePass"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="15dp"
@@ -333,6 +338,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -394,6 +400,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
+                android:visibility="gone"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -457,6 +464,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -582,6 +590,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -638,6 +647,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardContactUs"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="15dp"
@@ -700,6 +710,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardPrivacyPolicy"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="15dp"
@@ -748,6 +759,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:layout_marginEnd="10dp"
                             android:layout_gravity="center_horizontal"
                             android:background="@drawable/baseline_keyboard_arrow_right_24"
                             android:backgroundTint="@color/gray_text">
@@ -767,6 +779,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
@@ -822,6 +835,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardDelete"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="15dp"
@@ -853,7 +867,7 @@
                             android:fontFamily="@font/poppins_semi_bold"
                             android:gravity="center_vertical"
                             android:text="Delete Account"
-                            android:textColor="@color/main_color"
+                            android:textColor="#F44336"
                             android:textSize="12sp"
                             android:textStyle="bold">
 
@@ -885,6 +899,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSignOut"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="15dp"

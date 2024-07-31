@@ -22,5 +22,5 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "Gadget Zone"
+rootProject.name = "Tlismi Herbs"
 include ':app'

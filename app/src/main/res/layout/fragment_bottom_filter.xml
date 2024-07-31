@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardCornerRadius="20dp"
-    tools:context=".category.BottomFilterFragment">
+    tools:context="com.amtech.tlismiherbs.category.BottomFilterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

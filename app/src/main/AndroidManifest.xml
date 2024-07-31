@@ -2,44 +2,60 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/headphone"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.GadgetZone"
         tools:targetApi="31">
         <activity
-            android:name=".profile.activity.ReferAndEarn"
+            android:name="com.amtech.tlismiherbs.profile.activity.PrivacyPolicy"
             android:exported="false" />
         <activity
-            android:name=".myOrder.activity.OrderDetails"
+            android:name="com.amtech.tlismiherbs.profile.activity.ReferAndEarn"
             android:exported="false" />
         <activity
-            android:name=".category.Details"
+            android:name="com.amtech.tlismiherbs.myOrder.activity.OrderDetails"
             android:exported="false" />
         <activity
-            android:name=".myOrder.activity.MyOrder"
+            android:name="com.amtech.tlismiherbs.category.Details"
             android:exported="false" />
         <activity
-            android:name=".wishlist.Wishlist"
+            android:name="com.amtech.tlismiherbs.myOrder.activity.MyOrder"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.amtech.tlismiherbs.wishlist.Wishlist"
             android:exported="false" />
         <activity
-            android:name=".category.Listing"
+            android:name="com.amtech.tlismiherbs.login.Login"
+            android:exported="false"></activity>
+        <activity
+            android:name="com.amtech.tlismiherbs.login.SignUp"
             android:exported="false" />
         <activity
-            android:name=".category.Category"
+            android:name="com.amtech.tlismiherbs.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".profile.activity.Promo"
+            android:name="com.amtech.tlismiherbs.category.Listing"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name="com.amtech.tlismiherbs.category.Category"
+            android:exported="false" />
+        <activity
+            android:name="com.amtech.tlismiherbs.profile.activity.Promo"
+            android:exported="false" />
+        <activity
+            android:name="com.amtech.tlismiherbs.SplashScreen"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -48,6 +64,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel"
+            android:value="@string/channel_id" />
+        <service
+            android:name="com.amtech.tlismiherbs.notification.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/fragment_Home"
-        android:name="com.amtech.gadgetzone.home.HomeFragment"
+        android:name="com.amtech.tlismiherbs.home.activity.HomeFragment"
         tools:layout="@layout/fragment_home"
         android:label="Home" />
     <fragment
         android:id="@+id/fragment_cart"
         tools:layout="@layout/fragment_cart"
-        android:name="com.amtech.gadgetzone.cart.CartFragment"
+        android:name="com.amtech.tlismiherbs.cart.CartFragment"
         android:label="News" />
     <fragment
         android:id="@+id/fragment_notification"
         tools:layout="@layout/fragment_notification"
-        android:name="com.amtech.gadgetzone.notification.NotificationFragment"
+        android:name="com.amtech.tlismiherbs.notification.NotificationFragment"
         android:label="Profile" />
     <fragment
         android:id="@+id/fragment_profile"
-        android:name="com.amtech.gadgetzone.profile.activity.ProfileFragment"
+        android:name="com.amtech.tlismiherbs.profile.activity.ProfileFragment"
         tools:layout="@layout/fragment_cart"
         android:label="fragment_booking2"
         />

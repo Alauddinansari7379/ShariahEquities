@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/main_background"
     android:orientation="vertical"
-    tools:context=".profile.activity.Promo">
+    tools:context="com.amtech.tlismiherbs.profile.activity.Promo">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

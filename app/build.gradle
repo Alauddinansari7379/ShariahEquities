@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.amtech.gadgetzone'
+    namespace 'com.sellacha.tlismiherbs'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.amtech.gadgetzone"
+        applicationId "com.sellacha.tlismiherbs"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -40,26 +41,30 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:24.0.0'
+    implementation 'androidx.activity:activity:1.9.0'
     def nav_version = "2.5.2"
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.7.6'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-
+    //For screen
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    //circleImage
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // (Retrofit dependencies)
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
     //okhttp3
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
     //Navigation Architecture Component
     //noinspection GradleDependency
@@ -72,8 +77,8 @@ dependencies {
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     //Counter Code Picker
     implementation 'com.hbb20:ccp:2.5.0'
-//    //For screen
-//    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    //For screen
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
 
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
@@ -99,14 +104,16 @@ dependencies {
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     //Multiselection Spinner
-   // implementation 'com.github.AnuraganuPunalur:Multi-Selection-Spinner-Android:1.0'
+    implementation 'com.github.AnuraganuPunalur:Multi-Selection-Spinner-Android:1.0'
 
     //Auto IMge Slider
     implementation 'com.github.Fuadafdhal:Auto-Image-Slider:1.0'
 
     //swipeButton
     implementation 'com.github.MAXDeliveryNG:slideview:1.1.0'
+    //Check update from  the play store
+    //noinspection RiskyLibrary
+    implementation 'com.google.android.play:core:1.10.0'
 
-    //order Tracking
-    implementation 'com.github.vipulasri:timelineview:1.1.5'
+
 }
