@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sellacha.tlismiherbs.R
@@ -36,11 +37,12 @@ class AdapterCart(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         sessionManager= SessionManager(context)
         with(holder){
+            binding.layoutAdd.visibility=View.VISIBLE
             with(list[position]){
                // binding.priceUndrline.paintFlags = binding.priceUndrline.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 binding.price.text = "₹$price"
                 binding.title.text = term_title
-                binding.tvQty.text = qty
+                binding.qty.text = qty
 
                 if (list[position].preview != null) {
                     Picasso.get().load("https:"+list[position].preview)
@@ -58,7 +60,7 @@ class AdapterCart(
 //
 //                    }
 //                }
-                 itemView.setOnClickListener {
+                binding.layout.setOnClickListener {
                     val intent = Intent(context as Activity, Details::class.java)
                         .putExtra("id", term_id)
                     context.startActivity(intent)

@@ -63,6 +63,12 @@ class MainActivity : AppCompatActivity() {
         Log.e("userName", sessionManager.userName.toString())
         Log.e("sessionManager.fcmToken", sessionManager.fcmToken.toString())
 
+        if (sessionManager.randomKey!!.isEmpty()){
+            sessionManager.randomKey=generateRandomString(10)
+            val randomString = generateRandomString(10)
+            println("Random String: $randomString")
+        }
+
         checkForUpdate(this)
         checkForUpdate(this)
         when {
@@ -223,6 +229,12 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+    private fun generateRandomString(length: Int): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
     }
     private fun showNotificationPermissionRationale() {
 

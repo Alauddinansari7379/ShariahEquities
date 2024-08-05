@@ -2,6 +2,7 @@ package com.amtech.tlismiherbs.retrofit
 
 
 
+ import com.example.tlismimoti.cart.model.ModelActiveGateway.ModelActiveGateWays
  import com.sellacha.tlismiherbs.cart.model.ModelAddtoCart
  import com.sellacha.tlismiherbs.cart.model.ModelOrderCreate
  import com.example.tlismimoti.cart.model.ModelPayment.ModelPayment
@@ -88,7 +89,9 @@ interface ApiInterface {
         @Header("Authorization") authHeader: String?,
         @Query("term_id") term_id: String?,
         @Query("qty") qty: String?,
-        @Query("device_id")device_id:String?
+        @Query("device_id")device_id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?
     ): Call<ModelCart>
 
     @Headers("content-type: application/json")
@@ -96,14 +99,18 @@ interface ApiInterface {
     fun removeToCart(
         @Header("Authorization") authHeader: String?,
         @Query("id") id: String?,
-         @Query("device_id")device_id:String?
+         @Query("device_id")device_id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?,
     ): Call<ModelAddtoCart>
 
     @Headers("content-type: application/json")
     @GET("get_cart")
     fun getCart(
         @Header("Authorization") authHeader: String?,
-        @Query("device_id")device_id:String?
+        @Query("device_id")device_id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?,
     ): Call<ModelAddtoCart>
 //
 //    @Headers("content-type: application/json")
@@ -135,6 +142,8 @@ interface ApiInterface {
         @Query("email")email:String?,
         @Query("term_id")term_id:String?,
         @Query("device_id")device_id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?,
     ): Call<ModelDestoryCart>
 
     @Headers("content-type: application/json")
@@ -142,6 +151,8 @@ interface ApiInterface {
     fun removeWishlist(
         @Header("Authorization") authHeader: String?,
         @Query("id")id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?,
     ): Call<ModelDestoryCart>
 
     @Headers("content-type: application/json")
@@ -149,6 +160,8 @@ interface ApiInterface {
     fun getWishlists(
         @Header("Authorization") authHeader: String?,
         @Query("device_id")device_id:String?,
+        @Query("unsession")unsession:String?,
+        @Query("type")type:String?
     ): Call<ModelWishlist>
 
     @Headers("content-type: application/json")
@@ -175,7 +188,11 @@ interface ApiInterface {
     fun paymentList(
         @Header("Authorization") authHeader: String?,
     ): Call<ModelPayment>
-
+    @Headers("content-type: application/json")
+    @POST("active_getways")
+    fun activeGateways(
+        @Header("Authorization") authHeader: String?,
+    ): Call<ModelActiveGateWays>
     @Headers("content-type: application/json")
     @GET("get_state")
     fun getState(

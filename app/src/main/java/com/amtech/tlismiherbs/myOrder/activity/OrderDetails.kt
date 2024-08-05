@@ -39,9 +39,11 @@ import com.sellacha.tlismiherbs.databinding.ActivityOrderDetailsBinding
 import com.amtech.tlismiherbs.retrofit.ApiClient
 import com.amtech.tlismiherbs.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
+import com.example.tlismimoti.cart.model.ModelActiveGateway.ModelActiveGateWays
 import com.example.tlismimoti.cart.model.ModelPayment.ModelPayment
 import com.example.tlismimoti.cart.model.ModelState.ModelState
 import com.example.tlismimoti.mainActivity.ModelDestoryCart
+import com.razorpay.PaymentResultListener
 import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -51,7 +53,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
+class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart , PaymentResultListener {
     private val binding by lazy {
         ActivityOrderDetailsBinding.inflate(layoutInflater)
     }
@@ -62,11 +64,13 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
     var count1 = 0
     var count2 = 0
     var countS = 0
+    var countA = 0
     private var utrNumber = ""
     private var paymentType = ""
     private var selectedState = ""
     private var selectedCity = ""
     private var imageuRL = ""
+    private var keyId = ""
     val finalTotal=ArrayList<Int>()
     private var dialog: Dialog? = null
 
@@ -77,7 +81,9 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
 
         apiCallCartProduct()
         apiCallGetState()
-        apiCallGetQRCode()
+        apiCallGetPaymentList()
+        apiCallGetActiveGateways()
+
         with(binding) {
             imgBack.setOnClickListener {
                 onBackPressed()
@@ -159,10 +165,54 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
                     btnCancel.setOnClickListener {
                         dialog?.dismiss()
                     }
+                } else if (binding.radioRazorPay.isChecked) {
+                    startPaymentOnlineRazorPay()
+                } else {
+                    Toast.makeText(context, "Please Select Payment Gateways", Toast.LENGTH_LONG)
+                        .show()
+
                 }
 
             }
         }
+
+    }
+
+    private fun startPaymentOnlineRazorPay() {
+        val co = com.razorpay.Checkout()
+        try {
+            co.setKeyID(keyId)
+            val options = JSONObject()
+            options.put("name", "Tlismi Herbs")
+            options.put("description", "Payment Description")
+            //You can omit the image option to fetch the image from the dashboard
+            options.put(
+                "image",
+                "https://tlismimoti.com/uploads/709/logo.png"
+            )
+            options.put("theme.color", "#04064c");
+            options.put("currency", "INR");
+             options.put("amount", totalAmt.toInt() * 100)//pass amount in currency subunits
+           // options.put("amount", 1 * 100)//pass amount in currency subunits
+            val prefill = JSONObject()
+            prefill.put("email", sessionManager.userEmail)
+            prefill.put("contact", sessionManager.userMobile)
+            options.put("prefill", prefill)
+            co.open(this, options)
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
+    }
+    override fun onPaymentSuccess(p0: String?) {
+        Toast.makeText(this, "Payment Successful: ", Toast.LENGTH_LONG).show()
+        apiCallMakeOrder()
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(this, "Payment Field ", Toast.LENGTH_LONG).show()
+
 
     }
     override fun onRequestPermissionsResult(
@@ -519,7 +569,7 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
     }
     private fun apiCallCartProduct() {
         // AppProgressBar.showLoaderDialog(requireContext())
-        ApiClient.apiService.getCart(sessionManager.authToken!!, sessionManager.deviceId)
+        ApiClient.apiService.getCart(sessionManager.authToken!!,sessionManager.deviceId,sessionManager.randomKey,"cart")
             .enqueue(object : Callback<ModelAddtoCart> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
@@ -609,7 +659,7 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
 
             })
     }
-    private fun apiCallGetQRCode() {
+    private fun apiCallGetPaymentList() {
         // AppProgressBar.showLoaderDialog(requireContext())
 
         ApiClient.apiService.paymentList(sessionManager.authToken)
@@ -651,7 +701,7 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
                     countS++
                     if (countS <= 2) {
                         Log.e("count", countS.toString())
-                        apiCallGetQRCode()
+                        apiCallGetPaymentList()
                     } else {
                         myToast(context, t.message.toString())
                         AppProgressBar.hideLoaderDialog()
@@ -666,14 +716,85 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart {
             })
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        finish()
-        startActivity(intent)
+    private fun apiCallGetActiveGateways() {
+        // AppProgressBar.showLoaderDialog(requireContext())
+
+        ApiClient.apiService.activeGateways(sessionManager.authToken)
+            .enqueue(object : Callback<ModelActiveGateWays> {
+                @SuppressLint("LogNotTimber")
+                override fun onResponse(
+                    call: Call<ModelActiveGateWays>, response: Response<ModelActiveGateWays>
+                ) {
+                    try {
+                        if (response.code() == 500) {
+                            myToast(context, "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+
+                        } else if (response.body()!!.data.getways.isEmpty()) {
+                            AppProgressBar.hideLoaderDialog()
+                        } else {
+                            var data = ""
+                            for (i in response.body()!!.data.getways) {
+                                data = i.content
+
+                                countA = 0
+                                val jsonString = """
+                             ${data}
+                            """.trimIndent()
+
+                                val jsonObject = JSONObject(jsonString)
+                                val title = jsonObject.getString("title")
+                                when (title) {
+                                    "QR Payment" -> binding.radioOnline.visibility = View.VISIBLE
+                                    "Razorpay" -> {
+                                        binding.radioRazorPay.visibility = View.VISIBLE
+                                        keyId = jsonObject.getString("key_id")
+
+                                    }
+
+                                    "instamojo" -> binding.radioInstamojo.visibility = View.VISIBLE
+                                    "paypal" -> binding.radioPaypal.visibility = View.VISIBLE
+                                }
+
+
+                                println("title: $title")
+
+                            }
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelActiveGateWays>, t: Throwable) {
+                    countA++
+                    if (countA <= 3) {
+                        Log.e("count", countA.toString())
+                        apiCallGetActiveGateways()
+                    } else {
+                        myToast(context, t.message.toString())
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+
+                    // AppProgressBar.hideLoaderDialog()
+
+
+                }
+
+            })
     }
+
+
+//    @Deprecated("Deprecated in Java")
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        val intent = Intent(applicationContext, MainActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//        finish()
+//        startActivity(intent)
+//    }
 
     override fun addToCart(toString: String) {
 

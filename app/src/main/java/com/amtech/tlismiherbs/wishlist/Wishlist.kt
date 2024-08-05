@@ -44,7 +44,7 @@ class Wishlist : AppCompatActivity() {
     }
     private fun apiCallGetWishlist() {
         // AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.getWishlists(sessionManager.authToken!!,sessionManager.deviceId)
+        ApiClient.apiService.getWishlists(sessionManager.authToken!!,sessionManager.deviceId,sessionManager.randomKey,"wishlist")
             .enqueue(object : Callback<ModelWishlist> {
                 override fun onResponse(
                     call: Call<ModelWishlist>, response: Response<ModelWishlist>

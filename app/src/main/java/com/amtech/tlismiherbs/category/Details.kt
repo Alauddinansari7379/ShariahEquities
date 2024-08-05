@@ -173,7 +173,7 @@ class Details : AppCompatActivity() {
             sessionManager.authToken,
             productId,
             itemCount.toString(),
-            sessionManager.deviceId
+            sessionManager.deviceId,sessionManager.randomKey,"cart"
         )
             .enqueue(object : Callback<ModelCart> {
                 override fun onResponse(
@@ -235,7 +235,7 @@ class Details : AppCompatActivity() {
             sessionManager.authToken,
             sessionManager.userEmail,
             productId,
-            sessionManager.deviceId
+            sessionManager.deviceId,sessionManager.randomKey,"wishlist"
         )
             .enqueue(object : Callback<ModelDestoryCart> {
                 override fun onResponse(
@@ -289,7 +289,7 @@ class Details : AppCompatActivity() {
 
     private fun apiCallRemoveToWishList() {
         AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.removeWishlist(sessionManager.authToken, wishlistId)
+        ApiClient.apiService.removeWishlist(sessionManager.authToken, wishlistId,sessionManager.randomKey,"wishlist")
             .enqueue(object : Callback<ModelDestoryCart> {
                 override fun onResponse(
                     call: Call<ModelDestoryCart>, response: Response<ModelDestoryCart>
@@ -344,7 +344,7 @@ class Details : AppCompatActivity() {
 
     private fun apiCallGetWishlist() {
         // AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.getWishlists(sessionManager.authToken!!, sessionManager.deviceId)
+        ApiClient.apiService.getWishlists(sessionManager.authToken!!, sessionManager.deviceId,sessionManager.randomKey,"wishlist")
             .enqueue(object : Callback<ModelWishlist> {
                 override fun onResponse(
                     call: Call<ModelWishlist>, response: Response<ModelWishlist>

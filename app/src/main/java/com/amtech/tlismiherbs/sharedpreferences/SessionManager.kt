@@ -29,6 +29,8 @@ class SessionManager(context: Context?) {
         private const val PRICE = "pricing"
         private const val DEVICEID = "deviceId"
         private const val SELECTED_DATE = "selected_date"
+        private const val RANDOM_KEY = "random_key"
+
     }
 
     var isLogin: Boolean
@@ -82,6 +84,11 @@ class SessionManager(context: Context?) {
         get() = prefs.getString(DEVICEID, "")
         set(deviceId) {
             prefs.edit().putString(DEVICEID, deviceId).apply()
+        }
+    var randomKey: String?
+        get() = prefs.getString(RANDOM_KEY, "")
+        set(randomKey) {
+            prefs.edit().putString(RANDOM_KEY, randomKey).apply()
         }
     var latitude: String?
         get() = prefs.getString(LATITUDE, "")

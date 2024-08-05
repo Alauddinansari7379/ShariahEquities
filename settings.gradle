@@ -8,6 +8,8 @@ pluginManagement {
         }
         maven { url 'https://www.jitpack.io'
         }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
     }
 }
 dependencyResolutionManagement {
@@ -20,6 +22,8 @@ dependencyResolutionManagement {
         }
         maven { url 'https://www.jitpack.io'
         }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
     }
 }
 rootProject.name = "Tlismi Herbs"

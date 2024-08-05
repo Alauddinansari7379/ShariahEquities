@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.amtech.tlismiherbs.Helper.AppProgressBar
+import com.amtech.tlismiherbs.cart.adapter.AdapterCart
 import com.sellacha.tlismiherbs.R
 import com.amtech.tlismiherbs.myOrder.adapter.AdapterOrderDetails
 import com.sellacha.tlismiherbs.cart.model.ModelAddtoCart
@@ -30,7 +31,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CartFragment : Fragment(), AdapterOrderDetails.Cart {
+class CartFragment : Fragment(), AdapterCart.Cart {
     private lateinit var binding: FragmentCartBinding
     private lateinit var sessionManager: SessionManager
     var shimmerFrameLayout: ShimmerFrameLayout? = null
@@ -72,12 +73,12 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                     }catch (e:Exception){
                         e.printStackTrace()
                     }
-                }else if(CartItem =="0"){
-                    myToast(requireActivity(),"Cart Empty")
+                }else if(Companion.totalAmt.isEmpty()){
+                    activity?.let { it1 -> myToast(it1,"Cart Empty") }
                 }else{
                     val intent = Intent(context as Activity, OrderDetails::class.java)
                         .putExtra("finalTotal", finalTotal)
-                    requireActivity().startActivity(intent)
+                    activity?.startActivity(intent)
 
                 }
             }
@@ -118,7 +119,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
 //    }
     private fun apiCallCartProduct() {
         // AppProgressBar.showLoaderDialog(requireContext())
-        ApiClient.apiService.getCart(sessionManager.authToken!!, sessionManager.deviceId)
+        ApiClient.apiService.getCart(sessionManager.authToken!!, sessionManager.deviceId,sessionManager.randomKey,"cart")
             .enqueue(object : Callback<ModelAddtoCart> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
@@ -127,7 +128,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                     try {
 
                         if (response.code() == 500) {
-                            myToast(requireActivity(), "Server Error")
+                            activity?.let { myToast(it, "Server Error") }
                             binding.shimmer.visibility = View.GONE
                             AppProgressBar.hideLoaderDialog()
 
@@ -135,13 +136,13 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                         } else if (response.body()!!.data.items.size == 0) {
                             binding!!.recyclerView.adapter =
                                 activity?.let {
-                                    AdapterOrderDetails(
+                                    AdapterCart(
                                         it,
                                         response.body()!!.data.items,
                                         this@CartFragment
                                     )
                                 }
-                            myToast(requireActivity(), "No Item Found")
+                            activity?.let { myToast(it, "No Item Found") }
                             binding.shimmer.visibility = View.GONE
                             binding.layoutMain.visibility = View.GONE
                             binding.tvNoDtaFound.visibility = View.VISIBLE
@@ -153,7 +154,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                         } else {
                             binding!!.recyclerView.adapter =
                                 activity?.let {
-                                    AdapterOrderDetails(
+                                    AdapterCart(
                                         it,
                                         response.body()!!.data.items!!,
 
@@ -197,6 +198,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        activity?.let { myToast(it, "Something went wrong") }
                         binding.shimmer.visibility = View.GONE
                     }
                 }
@@ -206,7 +208,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                     if (count <= 3) {
                         apiCallCartProduct()
                     } else {
-                        myToast(requireActivity(), "Something went wrong")
+                        activity?.let { myToast(it, "Something went wrong") }
                         AppProgressBar.hideLoaderDialog()
                         binding.shimmer.visibility = View.GONE
 
@@ -228,7 +230,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
             sessionManager.authToken,
             productId,
             "1",
-            sessionManager.deviceId.toString()
+            sessionManager.deviceId.toString(),sessionManager.randomKey,"cart"
         )
             .enqueue(object : Callback<ModelCart> {
                 override fun onResponse(
@@ -241,14 +243,14 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
 //
 //                        }
                         if (response.code() == 500) {
-                            myToast(requireActivity(), "Server Error")
+                            activity?.let { myToast(it, "Server Error") }
                             AppProgressBar.hideLoaderDialog()
                         } else if (response.code() == 404) {
-                            myToast(requireActivity(), "Something went wrong")
+                            activity?.let { myToast(it, "Something went wrong") }
                             AppProgressBar.hideLoaderDialog()
 
                         } else if (response.code() == 200) {
-                            myToast(requireActivity(), "item Added in Cart")
+                            activity?.let { myToast(it, "item Added in Cart") }
                             apiCallCartProduct()
                             AppProgressBar.hideLoaderDialog()
                         } else {
@@ -257,7 +259,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        myToast(requireActivity(), "Something went wrong")
+                        activity?.let { myToast(it, "Something went wrong") }
                         AppProgressBar.hideLoaderDialog()
 
 
@@ -265,13 +267,13 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                 }
 
                 override fun onFailure(call: Call<ModelCart>, t: Throwable) {
-                    //myToast(requireActivity(), "Something went wrong")
+                    //myToast(activity, "Something went wrong")
                     count++
                     if (count <= 2) {
                         Log.e("count", count.toString())
                         addToCart(productId)
                     } else {
-                        myToast(requireActivity(), t.message.toString())
+                        activity?.let { myToast(it, t.message.toString()) }
                         AppProgressBar.hideLoaderDialog()
 
                     }
@@ -288,7 +290,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
         ApiClient.apiService.removeToCart(
             sessionManager.authToken,
             id,
-            sessionManager.deviceId.toString()
+            sessionManager.deviceId.toString(),sessionManager.randomKey,"cart"
         )
             .enqueue(object : Callback<ModelAddtoCart> {
                 override fun onResponse(
@@ -301,14 +303,14 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
 //
 //                        }
                         if (response.code() == 500) {
-                            myToast(requireActivity(), "Server Error")
+                            activity?.let { myToast(it, "Server Error") }
                             AppProgressBar.hideLoaderDialog()
                         } else if (response.code() == 404) {
-                            myToast(requireActivity(), "Something went wrong")
+                            activity?.let { myToast(it, "Something went wrong") }
                             AppProgressBar.hideLoaderDialog()
 
                         } else if (response.code() == 200) {
-                            myToast(requireActivity(), "item Removed from Cart")
+                            activity?.let { myToast(it, "item Removed from Cart") }
                             apiCallCartProduct()
                             countRe=0
                             AppProgressBar.hideLoaderDialog()
@@ -318,7 +320,7 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        myToast(requireActivity(), "Something went wrong")
+                        activity?.let { myToast(it, "Something went wrong") }
                         AppProgressBar.hideLoaderDialog()
 
 
@@ -326,14 +328,14 @@ class CartFragment : Fragment(), AdapterOrderDetails.Cart {
                 }
 
                 override fun onFailure(call: Call<ModelAddtoCart>, t: Throwable) {
-                    //myToast(requireActivity(), "Something went wrong")
+                    //myToast(activity, "Something went wrong")
                     countRe++
                     if (countRe <= 3) {
                         Log.e("count", countRe.toString())
                         addToCart(id)
 
                     } else {
-                        myToast(requireActivity(), t.message.toString())
+                        activity?.let { myToast(it, t.message.toString()) }
                         AppProgressBar.hideLoaderDialog()
                         countRe=0
 

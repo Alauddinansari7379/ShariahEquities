@@ -394,105 +394,136 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                 android:gravity="center_vertical"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                   >
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <RadioGroup
-                            android:layout_width="0dp"
-                            android:layout_height="25dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioCash"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                 android:text="@string/cash_on_delivery"
-                                android:checked="true"
-                                android:visibility="gone"
-                                android:textSize="10sp"
-                                android:textStyle="bold">
-
-                            </RadioButton>
-
-                            <RadioButton
-                                android:id="@+id/radioOnline"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                android:layout_marginStart="5dp"
-                                android:text="@string/online_payment"
-                                android:textSize="10sp"
-                                android:checked="true"
-                                android:textStyle="bold">
-
-                            </RadioButton>
-                        </RadioGroup>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:backgroundTint="#DAF2F4"
-                    android:visibility="gone"
-                    app:cardCornerRadius="5dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="25dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/atm_card">
-
-                    </androidx.appcompat.widget.AppCompatImageView>
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:gravity="start"
+                    android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <RadioButton
+                        android:id="@+id/radioOnline"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:fontFamily="@font/poppins_semi_bold"
-                        android:text="************2548"
-                        android:textColor="@color/black"
-                        android:textSize="10sp">
+                        android:layout_height="25dp"
+                        android:text="QR Payment"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
 
-                    </androidx.appcompat.widget.AppCompatTextView>
+                    </RadioButton>
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <RadioButton
+                        android:id="@+id/radioRazorPay"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="3dp"
-                        android:fontFamily="@font/poppins_regular"
-                        android:text="Credit Card"
-                        android:textColor="@color/gray_text"
-                        android:textSize="10sp">
+                        android:layout_height="25dp"
+                        android:text="Razor Pay"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
 
-                    </androidx.appcompat.widget.AppCompatTextView>
+                    </RadioButton>
 
+                    <RadioButton
+                        android:id="@+id/radioInstamojo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Instamojo"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
 
-                </LinearLayout>
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/radioPaypal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Paypal"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/radioStripe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Stripe"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp">
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioToyyibpay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Toyyibpay"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/radioMollie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Mollie"
+                        android:visibility="gone"
+                        android:textSize="10sp"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/radioPaystack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Paystack"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/radioMercado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="Mercado"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        android:textStyle="bold">
+
+                    </RadioButton>
+
+                </RadioGroup>
 
             </LinearLayout>
             <LinearLayout
