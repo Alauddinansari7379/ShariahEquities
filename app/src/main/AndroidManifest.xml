@@ -38,13 +38,16 @@
             android:exported="false" />
         <activity
             android:name="com.amtech.tlismiherbs.login.Login"
-            android:exported="false"></activity>
+            android:exported="false">
+
+        </activity>
         <activity
             android:name="com.amtech.tlismiherbs.login.SignUp"
             android:exported="false" />
         <activity
             android:name="com.amtech.tlismiherbs.MainActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.amtech.tlismiherbs.category.Listing"
             android:exported="false" />

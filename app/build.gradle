@@ -113,7 +113,7 @@ dependencies {
     implementation 'com.github.MAXDeliveryNG:slideview:1.1.0'
     //Check update from  the play store
     //noinspection RiskyLibrary
-    implementation 'com.google.android.play:core:1.10.0'
+   // implementation 'com.google.android.play:core:1.10.3'
     //RazorPay
     implementation 'com.razorpay:checkout:1.6.26'
 

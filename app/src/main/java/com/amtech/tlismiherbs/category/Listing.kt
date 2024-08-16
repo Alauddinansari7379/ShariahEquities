@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.amtech.tlismiherbs.Helper.AppProgressBar
 import com.sellacha.tlismiherbs.R
 import com.amtech.tlismiherbs.category.adapter.AdapterListing
+import com.amtech.tlismiherbs.login.Login
+import com.amtech.tlismiherbs.login.SignUp
 import com.sellacha.tlismiherbs.databinding.ActivityListingBinding
 import com.sellacha.tlismiherbs.home.model.DataX
 import com.amtech.tlismiherbs.retrofit.ApiClient
@@ -17,6 +21,7 @@ import com.amtech.tlismiherbs.wishlist.Wishlist
 import com.example.tlismimoti.Helper.myToast
 import com.example.tlismimoti.home.model.ModelProduct
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +46,22 @@ class Listing : AppCompatActivity() {
         shimmerFrameLayout = findViewById(R.id.shimmer)
         shimmerFrameLayout!!.startShimmer()
         sessionManager= SessionManager(context)
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
+        bottomSheetDialog.setContentView(parentView)
+        val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
+        val login = parentView.findViewById<Button>(R.id.btnLoginDil)
+        val signUp = parentView.findViewById<Button>(R.id.btnSignUpDil)
+
+        imgCloseNew.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+        login.setOnClickListener {
+            startActivity(Intent(context, Login::class.java))
+        }
+        signUp.setOnClickListener {
+            startActivity(Intent(context, SignUp::class.java))
+        }
         with(binding){
             filter.setOnClickListener {
                 val bottomSheetFragment = BottomFilterFragment()
@@ -49,7 +70,15 @@ class Listing : AppCompatActivity() {
             imgBack.setOnClickListener {
                 onBackPressed()
             }
+
             linearLayout.setOnClickListener {
+                if (sessionManager.authTokenUser!!.isEmpty()){
+                    try {
+                        bottomSheetDialog.show()
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                }else
                 startActivity(Intent(context, Wishlist::class.java))
             }
 

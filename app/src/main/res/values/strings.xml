@@ -64,7 +64,7 @@
     <string name="sort">Sort</string>
     <string name="filter">Filter</string>
     <string name="login">Login</string>
-    <string name="sana_example_com">Sana@example.com</string>
+    <string name="sana_example_com">xyz@gmail.com</string>
     <string name="password">Password</string>
     <string name="starts">***********</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -80,9 +80,9 @@
     <string name="delete_your_account">Delete Your Account</string>
     <string name="logout">Logout</string>
     <string name="signup">Signup</string>
-    <string name="saima_yousuf">Saima Yousuf</string>
+    <string name="saima_yousuf">xyz</string>
     <string name="email_address">Email address</string>
-    <string name="yousuf_example_com">Yousuf@example.com</string>
+    <string name="yousuf_example_com">xyz@example.com</string>
     <string name="_03326603430">03326603430</string>
     <string name="splash_screen">Splash Screen</string>
     <string name="wishlist">Wishlist</string>

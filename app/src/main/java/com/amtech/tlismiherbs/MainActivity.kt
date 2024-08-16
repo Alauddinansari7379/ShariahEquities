@@ -13,6 +13,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,16 +22,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.amtech.tlismiherbs.login.Login
+import com.amtech.tlismiherbs.login.SignUp
 import com.sellacha.tlismiherbs.databinding.ActivityMainBinding
 import com.amtech.tlismiherbs.sharedpreferences.SessionManager
 import com.amtech.tlismiherbs.wishlist.Wishlist
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.tasks.Task
+//import com.google.android.play.core.appupdate.AppUpdateInfo
+//import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+//import com.google.android.play.core.install.model.UpdateAvailability
+//import com.google.android.play.core.tasks.Task
 import com.sellacha.tlismiherbs.R
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +61,22 @@ class MainActivity : AppCompatActivity() {
             val deviceID = getDeviceId(context)
             sessionManager.deviceId = deviceID
         }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
+        bottomSheetDialog.setContentView(parentView)
+        val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
+        val login = parentView.findViewById<Button>(R.id.btnLoginDil)
+        val signUp = parentView.findViewById<Button>(R.id.btnSignUpDil)
+
+        imgCloseNew.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+        login.setOnClickListener {
+            startActivity(Intent(context, Login::class.java))
+        }
+        signUp.setOnClickListener {
+            startActivity(Intent(context, SignUp::class.java))
+        }
         Log.e("DeviceId", sessionManager.deviceId.toString())
         requestNotificationPermission()
         Log.e("authTokenUser", sessionManager.authTokenUser.toString())
@@ -69,8 +90,8 @@ class MainActivity : AppCompatActivity() {
             println("Random String: $randomString")
         }
 
-        checkForUpdate(this)
-        checkForUpdate(this)
+//        checkForUpdate(this)
+//        checkForUpdate(this)
         when {
             ContextCompat.checkSelfPermission(
                 this, Manifest.permission.POST_NOTIFICATIONS
@@ -113,13 +134,34 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.fragment_notification -> {
                         appCompatTextView2.text = "Notification"
+                        if (sessionManager.authTokenUser!!.isEmpty()){
+                            try {
+                                bottomSheetDialog.show()
+                            }catch (e:Exception){
+                                e.printStackTrace()
+                            }
+                        }
                     }
                     R.id.fragment_profile -> {
                         appCompatTextView2.text = "Profile"
+                        if (sessionManager.authTokenUser!!.isEmpty()){
+                            try {
+                                bottomSheetDialog.show()
+                            }catch (e:Exception){
+                                e.printStackTrace()
+                            }
+                        }
                     }
                 }
             }
             layoutWishList.setOnClickListener {
+                if (sessionManager.authTokenUser!!.isEmpty()){
+                    try {
+                        bottomSheetDialog.show()
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                }else
                 startActivity(Intent(this@MainActivity, Wishlist::class.java))
             }
         }
@@ -129,26 +171,26 @@ class MainActivity : AppCompatActivity() {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
     }
-    private fun checkForUpdate(context: Context) {
-        val appUpdateManager = AppUpdateManagerFactory.create(context)
-        val appUpdateInfoTask: Task<AppUpdateInfo> = appUpdateManager.appUpdateInfo
-
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            val currentVersionCode = context.packageManager
-                .getPackageInfo(context.packageName, 0).versionCode
-
-            Log.d("UpdateCheck", "Installed version: $currentVersionCode")
-            Log.d("UpdateCheck", "Play Store version: ${appUpdateInfo.availableVersionCode()}")
-
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                appUpdateInfo.clientVersionStalenessDays() ?: -1 >= 0) {
-                Log.d("UpdateCheck", "Update available")
-                showUpdateDialog(context)
-            } else {
-                Log.d("UpdateCheck", "No update available")
-            }
-        }
-    }
+//    private fun checkForUpdate(context: Context) {
+//        val appUpdateManager = AppUpdateManagerFactory.create(context)
+//        val appUpdateInfoTask: Task<AppUpdateInfo> = appUpdateManager.appUpdateInfo
+//
+//        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+//            val currentVersionCode = context.packageManager
+//                .getPackageInfo(context.packageName, 0).versionCode
+//
+//            Log.d("UpdateCheck", "Installed version: $currentVersionCode")
+//            Log.d("UpdateCheck", "Play Store version: ${appUpdateInfo.availableVersionCode()}")
+//
+//            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+//                appUpdateInfo.clientVersionStalenessDays() ?: -1 >= 0) {
+//                Log.d("UpdateCheck", "Update available")
+//                showUpdateDialog(context)
+//            } else {
+//                Log.d("UpdateCheck", "No update available")
+//            }
+//        }
+//    }
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission())
         { isGranted: Boolean ->

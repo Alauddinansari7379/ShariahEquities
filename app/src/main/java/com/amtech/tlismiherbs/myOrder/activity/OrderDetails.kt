@@ -61,6 +61,7 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart , PaymentResu
     private var context = this@OrderDetails
     lateinit var sessionManager: SessionManager
     var count = 0
+    var countD = 0
     var count1 = 0
     var count2 = 0
     var countS = 0
@@ -529,6 +530,7 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart , PaymentResu
                             AppProgressBar.hideLoaderDialog()
 
                         } else if (response.code() == 200) {
+                            countD=0
 //                            myToast(context, "All Item Deleted")
 //                            AppProgressBar.hideLoaderDialog()
 //                            val intent = Intent(this@MainActivity, MainActivity::class.java)
@@ -551,13 +553,14 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart , PaymentResu
 
                 override fun onFailure(call: Call<ModelDestoryCart>, t: Throwable) {
                     //myToast(requireActivity(), "Something went wrong")
-                    count++
-                    if (count <= 2) {
-                        Log.e("count", count.toString())
+                    countD++
+                    if (countD <= 3) {
+                        Log.e("count", countD.toString())
                         apiCallDestroyCart()
                     } else {
                         myToast(context, t.message.toString())
                         AppProgressBar.hideLoaderDialog()
+                        countD=0
 
                     }
                     // AppProgressBar.hideLoaderDialog()
@@ -787,14 +790,14 @@ class OrderDetails : AppCompatActivity(), AdapterOrderDetails.Cart , PaymentResu
     }
 
 
-//    @Deprecated("Deprecated in Java")
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        val intent = Intent(applicationContext, MainActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//        finish()
-//        startActivity(intent)
-//    }
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        finish()
+        startActivity(intent)
+    }
 
     override fun addToCart(toString: String) {
 
