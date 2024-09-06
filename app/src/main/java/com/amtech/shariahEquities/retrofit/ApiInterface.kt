@@ -21,7 +21,7 @@ interface ApiInterface {
     @Query("mobile_number") mobile_number: String,
     @Query("password") password: String,
     ): Call<ModelSignUp>
-
+///somenath
     @GET("get_profile")
     fun getProfile(
     @Query("id") id: String,
