@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/fragment_Home">
+    app:startDestination="@id/fragment_explore">
 
     <fragment
-        android:id="@+id/fragment_Home"
-        android:name="com.amtech.tlismiherbs.home.activity.HomeFragment"
+        android:id="@+id/fragment_explore"
+        android:name="com.amtech.shariahEquities.home.activity.ExploreFragment"
         tools:layout="@layout/fragment_home"
         android:label="Home" />
     <fragment
-        android:id="@+id/fragment_cart"
+        android:id="@+id/fragment_search"
         tools:layout="@layout/fragment_cart"
-        android:name="com.amtech.tlismiherbs.cart.CartFragment"
+        android:name="com.amtech.shariahEquities.Search.SearchFragment"
         android:label="News" />
     <fragment
-        android:id="@+id/fragment_notification"
-        tools:layout="@layout/fragment_notification"
-        android:name="com.amtech.tlismiherbs.notification.NotificationFragment"
+        android:id="@+id/fragment_watchlist"
+        tools:layout="@layout/fragment_watchlist"
+        android:name="com.amtech.shariahEquities.notification.WatchlistFragment"
         android:label="Profile" />
     <fragment
-        android:id="@+id/fragment_profile"
-        android:name="com.amtech.tlismiherbs.profile.activity.ProfileFragment"
-        tools:layout="@layout/fragment_cart"
+        android:id="@+id/fragment_portfolio"
+        android:name="com.amtech.shariahEquities.profile.activity.ProfileFragment"
+        tools:layout="@layout/fragment_profile"
         android:label="fragment_booking2"
         />
 

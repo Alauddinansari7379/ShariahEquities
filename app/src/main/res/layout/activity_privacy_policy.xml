@@ -5,7 +5,7 @@
      android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    tools:context="com.amtech.tlismiherbs.profile.activity.PrivacyPolicy">
+    tools:context="com.amtech.shariahEquities.profile.activity.PrivacyPolicy">
     <LinearLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"

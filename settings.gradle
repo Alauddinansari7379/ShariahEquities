@@ -26,5 +26,5 @@ dependencyResolutionManagement {
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
     }
 }
-rootProject.name = "Tlismi Herbs"
+rootProject.name = "Shariah Equities"
 include ':app'

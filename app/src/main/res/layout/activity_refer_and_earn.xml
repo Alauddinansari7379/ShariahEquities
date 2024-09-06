@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:backgroundTint="@color/main_background"
     android:orientation="vertical"
-    tools:context="com.amtech.tlismiherbs.profile.activity.ReferAndEarn">
+    tools:context="com.amtech.shariahEquities.profile.activity.ReferAndEarn">
 
     <LinearLayout
         android:id="@+id/constraintLayout2"

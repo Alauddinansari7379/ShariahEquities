@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAF8FA"
-    tools:context="com.amtech.tlismiherbs.MainActivity">
+    tools:context="com.amtech.shariahEquities.MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +36,50 @@
 
         </androidx.appcompat.widget.AppCompatImageView>
 
+        <LinearLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="As-salamu alaykum"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+            <androidx.appcompat.widget.AppCompatTextView
+                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Alauddeen"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView2"
             android:layout_width="wrap_content"
@@ -55,24 +99,27 @@
 
         <LinearLayout
             android:id="@+id/layoutWishList"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/dot_main_c"
-            android:gravity="center"
-            android:backgroundTint="#F8E5E5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+             android:gravity="center_vertical"
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:elevation="5dp"
-                android:background="@drawable/heart"
-                android:backgroundTint="@color/red_btn_bg_color">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnUpgrade"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                  android:layout_marginBottom="5dp"
+                android:background="@drawable/gradient_button"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Upgrade"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="11sp">
 
-            </androidx.appcompat.widget.AppCompatImageView>
+            </androidx.appcompat.widget.AppCompatButton>
 
         </LinearLayout>
 

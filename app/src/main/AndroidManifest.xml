@@ -19,46 +19,28 @@
         android:theme="@style/Theme.GadgetZone"
         tools:targetApi="31">
         <activity
-            android:name="com.amtech.tlismiherbs.profile.activity.PrivacyPolicy"
+            android:name="com.amtech.shariahEquities.profile.activity.PrivacyPolicy"
             android:exported="false" />
+
         <activity
-            android:name="com.amtech.tlismiherbs.profile.activity.ReferAndEarn"
+            android:name="com.amtech.shariahEquities.forgotPass.OTPVerification"
             android:exported="false" />
+
         <activity
-            android:name="com.amtech.tlismiherbs.myOrder.activity.OrderDetails"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.category.Details"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.myOrder.activity.MyOrder"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.wishlist.Wishlist"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.login.Login"
+            android:name="com.amtech.shariahEquities.login.Login"
             android:exported="false">
 
         </activity>
         <activity
-            android:name="com.amtech.tlismiherbs.login.SignUp"
+            android:name="com.amtech.shariahEquities.login.SignUp"
             android:exported="false" />
         <activity
-            android:name="com.amtech.tlismiherbs.MainActivity"
+            android:name="com.amtech.shariahEquities.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
-            android:name="com.amtech.tlismiherbs.category.Listing"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.category.Category"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.profile.activity.Promo"
-            android:exported="false" />
-        <activity
-            android:name="com.amtech.tlismiherbs.SplashScreen"
+            android:name="com.amtech.shariahEquities.SplashScreen"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -81,7 +63,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel"
             android:value="@string/channel_id" />
         <service
-            android:name="com.amtech.tlismiherbs.notification.MyFirebaseMessagingService"
+            android:name="com.amtech.shariahEquities.notification.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
