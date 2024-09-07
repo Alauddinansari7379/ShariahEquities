@@ -1,4 +1,4 @@
-package com.amtech.shariahEquities.fragments.stockadapter
+package com.amtech.shariahEquities.fragments.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater

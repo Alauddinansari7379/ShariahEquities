@@ -3,13 +3,16 @@ package com.amtech.shariahEquities.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amtech.shariahEquities.Helper.AppProgressBar
-import com.amtech.shariahEquities.fragments.stockadapter.StocksAdapter
+import com.amtech.shariahEquities.fragments.adapter.StocksAdapter
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
@@ -37,6 +40,7 @@ class StocksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.llCreateWon.visibility = View.GONE
 
         stocksAdapter = StocksAdapter { _, _ -> updateSaveButtonVisibility() }
         binding.rvCompanyList.apply {
@@ -57,7 +61,39 @@ class StocksFragment : Fragment() {
             binding.btnSave.visibility = View.GONE
         }
 
+        // Update search functionality
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                performSearch(s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         apiCallgetCompanyList()
+    }
+
+    private fun performSearch(query: String) {
+        val trimmedQuery = query.trim()
+
+        // Show all data when query is empty
+        val filteredList = if (trimmedQuery.isEmpty()) {
+            companyList
+        } else {
+            companyList.filter { result ->
+                result.name_of_company?.contains(trimmedQuery, ignoreCase = true) == true ||
+                        result.symbol?.contains(trimmedQuery, ignoreCase = true) == true
+            }
+        }
+
+        setRecyclerViewAdapter(filteredList)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setRecyclerViewAdapter(userList: List<Result>) {
+        if (binding.rvCompanyList != null) {
+            stocksAdapter.submitList(userList)
+        }
     }
 
     private fun updateSaveButtonVisibility() {
@@ -85,7 +121,6 @@ class StocksFragment : Fragment() {
                                 companyList =
                                     response.body()!!.result.toMutableList()
                                 stocksAdapter.submitList(companyList)
-                                myToast(context as Activity, response.body()!!.message)
                             }
                             else -> myToast(context as Activity, "Unexpected error")
                         }
@@ -112,5 +147,3 @@ class StocksFragment : Fragment() {
         _binding = null
     }
 }
-
-

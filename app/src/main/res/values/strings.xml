@@ -125,4 +125,5 @@
     <string name="_2_999">2,999</string>
     <string name="_5_0">5.0</string>
     <string name="send">Send</string>
+    <string name="name">Name</string>
 </resources>

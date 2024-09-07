@@ -38,7 +38,6 @@ class WatchlistFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        // Initialize the adapter and set it to the RecyclerView
         watchListAdapter = WatchListAdapter(requireContext(), watchList)
         binding.rvCompanyList.apply {
             adapter = watchListAdapter
