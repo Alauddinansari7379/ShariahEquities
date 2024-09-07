@@ -57,7 +57,7 @@ class StocksFragment : Fragment() {
             binding.btnSave.visibility = View.GONE
         }
 
-        getCompanyList()
+        apiCallgetCompanyList()
     }
 
     private fun updateSaveButtonVisibility() {
@@ -65,7 +65,7 @@ class StocksFragment : Fragment() {
         binding.btnSave.visibility = if (hasSelectedItems) View.VISIBLE else View.GONE
     }
 
-    private fun getCompanyList() {
+    private fun apiCallgetCompanyList() {
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
             .enqueue(object : Callback<ModelCompanyList> {
@@ -98,7 +98,7 @@ class StocksFragment : Fragment() {
                 override fun onFailure(call: Call<ModelCompanyList>, t: Throwable) {
                     count++
                     if (count <= 2) {
-                        getCompanyList()
+                        apiCallgetCompanyList()
                     } else {
                         myToast(context as Activity, "Something went wrong")
                     }

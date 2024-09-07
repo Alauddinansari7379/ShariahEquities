@@ -5,6 +5,7 @@ import com.amtech.shariahEquities.login.model.ModelSignUp
 import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
+import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -30,6 +31,12 @@ interface ApiInterface {
     fun getProfile(
     @Query("id") id: String,
      ): Call<ModelSignUp>
+
+
+    @GET("get_watch_list")
+    fun getWatchList(
+    @Query("id") id: String,
+     ): Call<ModelWatchList>
 
     @POST("SendOTP")
     fun sendOTP(
