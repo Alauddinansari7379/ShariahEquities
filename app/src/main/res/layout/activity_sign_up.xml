@@ -128,11 +128,16 @@
                         android:textSize="12sp">
 
                     </androidx.appcompat.widget.AppCompatTextView>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal">
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:background="@null"
                         android:hint="@string/yousuf_example_com"
@@ -143,6 +148,20 @@
                         android:textStyle="bold">
 
                     </androidx.appcompat.widget.AppCompatEditText>
+                    <ImageView
+                        android:id="@+id/imgVerified"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/green_tick"
+                        app:layout_constraintBottom_toBottomOf="@+id/passwordEdt"
+                        app:layout_constraintEnd_toEndOf="@+id/passwordEdt"
+                        app:layout_constraintTop_toTopOf="@+id/passwordEdt"
+                        app:tint="@color/black" />
+                </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/layoutSendOTP"
                         android:layout_width="match_parent"
@@ -210,10 +229,10 @@
                             android:layout_height="30dp"
                             android:layout_marginStart="10dp"
                             android:background="@null"
-                            android:hint="1234"
+                            android:hint="123456"
                             android:imeOptions="actionDone"
                             android:inputType="number"
-                            android:maxLength="12"
+                            android:maxLength="6"
                             android:fontFamily="@font/poppins_regular"
                             android:textSize="11sp"
                             android:textStyle="bold">

@@ -1,5 +1,9 @@
 package com.amtech.shariahEquities
 
+//import com.google.android.play.core.appupdate.AppUpdateInfo
+//import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+//import com.google.android.play.core.install.model.UpdateAvailability
+//import com.google.android.play.core.tasks.Task
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ComponentName
@@ -8,7 +12,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -18,23 +21,18 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.amtech.shariahEquities.login.Login
-import com.amtech.shariahEquities.login.SignUp
-import com.sellacha.tlismiherbs.databinding.ActivityMainBinding
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
- import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-//import com.google.android.play.core.appupdate.AppUpdateInfo
-//import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-//import com.google.android.play.core.install.model.UpdateAvailability
-//import com.google.android.play.core.tasks.Task
 import com.sellacha.tlismiherbs.R
+import com.sellacha.tlismiherbs.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var context = this@MainActivity

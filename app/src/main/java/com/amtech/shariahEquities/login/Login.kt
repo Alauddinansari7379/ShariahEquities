@@ -10,8 +10,10 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.amtech.shariahEquities.Helper.AppProgressBar
- import com.amtech.shariahEquities.MainActivity
+import com.amtech.shariahEquities.MainActivity
 import com.amtech.shariahEquities.forgotPass.OTPVerification
+import com.amtech.shariahEquities.login.model.ModelSignUp
+import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.sellacha.tlismiherbs.databinding.ActivityLoginBinding
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
@@ -25,7 +27,7 @@ class Login : AppCompatActivity() {
     private val context = this@Login
     private lateinit var binding: ActivityLoginBinding
     lateinit var sessionManager: SessionManager
-    var count=0
+    var count = 0
     private val PREF_NAME = "MyPrefs"
     private val PREF_USERNAME = "username"
     private val PREF_PASSWORD = "password"
@@ -43,7 +45,13 @@ class Login : AppCompatActivity() {
 
         Log.e("sessionManager.fcmToken", sessionManager.fcmToken.toString())
 
-
+        if (sharedPreferences.getBoolean("islogin", false)) {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            finish()
+            startActivity(intent)
+        }
         with(binding) {
 
             passwordToggle.setOnClickListener {
@@ -66,94 +74,98 @@ class Login : AppCompatActivity() {
             }
             btnLogIn.setOnClickListener {
 
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                finish()
-                startActivity(intent)
-                Log.e("FCMNewSession",fcmTokenNew)
-//                if (edtUserName.text!!.isEmpty()) {
-//                    edtUserName.error = "Enter Username"
-//                    edtUserName.requestFocus()
-//                    return@setOnClickListener
-//                }
-//                if (edtPassword.text!!.isEmpty()) {
-//                    edtPassword.error = "Enter Password"
-//                    edtPassword.requestFocus()
-//                    return@setOnClickListener
-//                }
+//                val intent = Intent(applicationContext, MainActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                finish()
+//                startActivity(intent)
+//                Log.e("FCMNewSession",fcmTokenNew)
+                if (edtUserName.text!!.isEmpty()) {
+                    edtUserName.error = "Enter Username"
+                    edtUserName.requestFocus()
+                    return@setOnClickListener
+                }
+                if (edtPassword.text!!.isEmpty()) {
+                    edtPassword.error = "Enter Password"
+                    edtPassword.requestFocus()
+                    return@setOnClickListener
+                }
 //                if(sessionManager.fcmToken!!.isNotEmpty()){
 //                    saveFCM(sessionManager.fcmToken.toString())
 //                }
 //                fcmTokenNew = sharedPreferences.getString(FCM_TOKEN, "").toString()
 //
-//                 //login()
+                login(edtUserName.text.toString().trim(), edtPassword.text.toString().trim())
 
             }
         }
 
     }
 
-//    private fun login() {
-//
-//        AppProgressBar.showLoaderDialog(this@Login)
-//        ApiClient.apiService.loginUser(
-//            binding.edtUserName.text.toString().trim(),
-//            binding.edtPassword.text.toString().trim(),
-//            fcmTokenNew,"android"
-//        ).enqueue(object :
-//            Callback<ModelLogin> {
-//            @SuppressLint("LogNotTimber", "LongLogTag")
-//            override fun onResponse(
-//                call: Call<ModelLogin>,
-//                response: Response<ModelLogin>
-//            ) {
-//                try {
-//                    if (response.code() == 500) {
-//                        myToast(this@Login, "Server Error")
-//                        AppProgressBar.hideLoaderDialog()
-//                    } else if (response.code() == 404) {
-//                        myToast(this@Login, "Something went wrong")
-//                        AppProgressBar.hideLoaderDialog()
+    private fun login(email: String, password: String) {
+
+        AppProgressBar.showLoaderDialog(this@Login)
+        ApiClient.apiService.login(
+            email,
+            password,
+        ).enqueue(object :
+            Callback<ModelLogin> {
+            @SuppressLint("LogNotTimber", "LongLogTag")
+            override fun onResponse(
+                call: Call<ModelLogin>,
+                response: Response<ModelLogin>
+            ) {
+                try {
+                    if (response.code() == 500) {
+                        myToast(this@Login, "Server Error")
+                        AppProgressBar.hideLoaderDialog()
+                    } else if (response.code() == 404) {
+                        myToast(this@Login, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
 //                    }else if (response.body()!!.data.token!!.isNotEmpty()) {
-//                        myToast(context, "Login Successfully")
+                    } else {
+                        myToast(context, "Login Successfully")
 //                        sessionManager.authTokenUser = "Bearer " + response.body()!!.data.token
-//                        sessionManager.userEmail = response.body()!!.data.email
-//                        sessionManager.userName = response.body()!!.data.name
-//                        val intent = Intent(applicationContext, MainActivity::class.java)
-//                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                        finish()
-//                        startActivity(intent)
-//                         AppProgressBar.hideLoaderDialog()
-//
+                        sessionManager.userEmail = response.body()!!.result.email
+                        sessionManager.userName = response.body()!!.result.name
+                        sessionManager.status = response.body()!!.result.status.toString()
+                        sessionManager.isLogin = true
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        finish()
+                        startActivity(intent)
+                        AppProgressBar.hideLoaderDialog()
+
 //                    } else {
 //                        myToast(context, "Login failed, please try again!")
 //                        AppProgressBar.hideLoaderDialog()
-//                    }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                    myToast(context, "Something went wrong")
-//                    AppProgressBar.hideLoaderDialog()
-//
-//                }
-//
-//            }
-//
-//            override fun onFailure(call: Call<ModelLogin>, t: Throwable) {
-//                count++
-//                if (count <= 2) {
-//                    login()
-//                } else {
-//                    myToast(context, "Something went wrong")
-//                    AppProgressBar.hideLoaderDialog()
-//
-//                }
-//                AppProgressBar.hideLoaderDialog()
-//
-//
-//            }
-//
-//        })
-//    }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    myToast(context, "Something went wrong")
+                    AppProgressBar.hideLoaderDialog()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<ModelLogin>, t: Throwable) {
+                count++
+                if (count <= 2) {
+                    login(email, password)
+                } else {
+                    myToast(context, "Something went wrong")
+                    AppProgressBar.hideLoaderDialog()
+
+                }
+                AppProgressBar.hideLoaderDialog()
+
+
+            }
+
+        })
+    }
+
     private fun saveFCM(fcmToken: String) {
         val editor = sharedPreferences.edit()
         editor.putString(FCM_TOKEN, fcmToken)

@@ -11,6 +11,8 @@ import android.util.Patterns
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.amtech.shariahEquities.Helper.AppProgressBar
+import com.amtech.shariahEquities.login.model.ModelSignUp
+import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.sellacha.tlismiherbs.databinding.ActivitySignUpBinding
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
@@ -26,6 +28,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     lateinit var sessionManager: SessionManager
     var count = 0
+    var otp = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -49,7 +52,6 @@ class SignUp : AppCompatActivity() {
             }
             btnSignUp.setOnClickListener {
 
-                startActivity(Intent(context, Login::class.java))
                 if (edtFullName.text!!.isEmpty()) {
                     edtFullName.error = "Enter Full Name"
                     edtFullName.requestFocus()
@@ -87,16 +89,35 @@ class SignUp : AppCompatActivity() {
                     edtPassword.requestFocus()
                     return@setOnClickListener
                 }
+                apiCallSignUp()
+            }
+            btnSendOTP.setOnClickListener {
+                apiCallSendOTP()
+            }
+
+            btnVerify.setOnClickListener {
+                if (otp == edtOTP.text.toString().toInt()) {
+                    cardOTP.visibility = View.GONE
+                    imgVerified.visibility = View.VISIBLE
+
+                } else {
+                    myToast(context, "Wrong OTP entered.")
+                }
             }
 
             edtEmail.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
                     // No action needed here
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     // Validate email every time the text changes
-                     if (isEmailValid(edtEmail.text.toString())) {
+                    if (isEmailValid(edtEmail.text.toString())) {
                         layoutSendOTP.visibility = View.VISIBLE
                     } else {
                         layoutSendOTP.visibility = View.GONE
@@ -108,10 +129,7 @@ class SignUp : AppCompatActivity() {
                     // No action needed here
                 }
             })
-                    //apiCallCartRegisterUser()
-
-
-
+            //apiCallCartRegisterUser()
 
 
         }
@@ -123,64 +141,117 @@ class SignUp : AppCompatActivity() {
             .matches()
     }
 
-//    private fun apiCallCartRegisterUser() {
-//        AppProgressBar.showLoaderDialog(context)
-//        ApiClient.apiService.registerUser(
-//            sessionManager.authToken!!,
-//            binding.edtFullName.text.toString().trim(),
-//            binding.edtEmail.text.toString().trim(),
-//            binding.edtPassword.text.toString().trim(),
-//            binding.edtPhoneNumber.text.toString().trim(),
-//        )
-//            .enqueue(object : Callback<ModelUserSignUp> {
-//                @SuppressLint("SetTextI18n")
-//                override fun onResponse(
-//                    call: Call<ModelUserSignUp>, response: Response<ModelUserSignUp>
-//                ) {
-//                    try {
-//                        if (response.code() == 500) {
-//                            myToast(context, "Server Error")
-//                            AppProgressBar.hideLoaderDialog()
-//
-//
-//                        } else if (response.code() == 404) {
-//                            myToast(context, "Something went wrong")
-//                            AppProgressBar.hideLoaderDialog()
-//                        } else if (response.body()!!.data.email.isNotEmpty()) {
-//                            myToast(context, "Successfully Registered")
-//                                val intent = Intent(applicationContext, Login::class.java)
-//                                    intent.flags =
-//                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                                    finish()
-//                                    startActivity(intent)
-//                            AppProgressBar.hideLoaderDialog()
-//                        } else {
-//                            myToast(context, response.body()!!.data.toString())
-//                            AppProgressBar.hideLoaderDialog()
-//                        }
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//                        myToast(context, "Something went wrong")
-//                        AppProgressBar.hideLoaderDialog()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<ModelUserSignUp>, t: Throwable) {
-//                    count++
-//                    if (count <= 2) {
-//                        apiCallCartRegisterUser()
-//                    } else {
-//                        myToast(context, "Something went wrong")
-//                        AppProgressBar.hideLoaderDialog()
-//
-//                    }
-//                    AppProgressBar.hideLoaderDialog()
-//
-//
-//                }
-//
-//            })
-//    }
+    private fun apiCallSendOTP() {
+        AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.sendOTP(
+            binding.edtEmail.text.toString().trim(),
+
+            )
+            .enqueue(object : Callback<ModelOTP> {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelOTP>, response: Response<ModelOTP>
+                ) {
+                    try {
+                        if (response.code() == 500) {
+                            myToast(context, "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+
+
+                        } else if (response.code() == 404) {
+                            myToast(context, "Something went wrong")
+                            AppProgressBar.hideLoaderDialog()
+
+                        } else {
+                            myToast(context, response.body()!!.message)
+
+                            otp = response.body()!!.result.otp
+                            if (otp.toString().isNotEmpty()) {
+                                binding.layoutSendOTP.visibility = View.GONE
+                                binding.cardOTP.visibility = View.VISIBLE
+                            }
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelOTP>, t: Throwable) {
+                    count++
+                    if (count <= 2) {
+                        apiCallSendOTP()
+                    } else {
+                        myToast(context, t.message.toString())
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+                    AppProgressBar.hideLoaderDialog()
+
+
+                }
+
+            })
+    }
+
+    private fun apiCallSignUp() {
+        AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.signUp(
+            binding.edtFullName.text.toString().trim(),
+            binding.edtEmail.text.toString().trim(),
+            binding.edtPhoneNumber.text.toString().trim(),
+            binding.edtPassword.text.toString().trim(),
+
+            )
+            .enqueue(object : Callback<ModelSignUp> {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelSignUp>, response: Response<ModelSignUp>
+                ) {
+                    try {
+                        if (response.code() == 500) {
+                            myToast(context, "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+
+
+                        } else if (response.code() == 404) {
+                            myToast(context, "Something went wrong")
+                            AppProgressBar.hideLoaderDialog()
+
+                        } else {
+                            myToast(context, response.body()!!.message)
+                            val intent = Intent(applicationContext, Login::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            finish()
+                            startActivity(intent)
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelSignUp>, t: Throwable) {
+                    count++
+                    if (count <= 2) {
+                        apiCallSignUp()
+                    } else {
+                        myToast(context, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+                    AppProgressBar.hideLoaderDialog()
+
+
+                }
+
+            })
+    }
 
 
 }

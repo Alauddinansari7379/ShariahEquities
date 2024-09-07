@@ -1,6 +1,10 @@
 package com.amtech.shariahEquities.retrofit
 
+import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.login.model.ModelSignUp
+import com.amtech.shariahEquities.login.modelLogin.ModelLogin
+import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
+import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -15,17 +19,35 @@ interface ApiInterface {
          @Query("mobile_number") mobile_number: String,
         @Query("password") password: String,
     ): Call<ModelSignUp>
-//Alauddin Ansari
+
     @POST("login")
     fun login(
     @Query("mobile_number") mobile_number: String,
     @Query("password") password: String,
-    ): Call<ModelSignUp>
-///somenath mahata
+    ): Call<ModelLogin>
+
     @GET("get_profile")
     fun getProfile(
     @Query("id") id: String,
      ): Call<ModelSignUp>
+
+    @POST("SendOTP")
+    fun sendOTP(
+    @Query("email") email: String,
+     ): Call<ModelOTP>
+
+
+    @POST("reset_password")
+    fun resetPass(
+    @Query("id") id: String,
+    @Query("password") password: String,
+     ): Call<ModelResetPass>
+
+
+    @POST("get_company_list")
+    fun getCompanyList(
+     ): Call<ModelCompanyList>
+
 //
 //    @POST("login-user")
 //    fun loginUser(

@@ -30,6 +30,7 @@ class SessionManager(context: Context?) {
         private const val DEVICEID = "deviceId"
         private const val SELECTED_DATE = "selected_date"
         private const val RANDOM_KEY = "random_key"
+        private const val STATUS = "status"
 
     }
 
@@ -66,6 +67,11 @@ class SessionManager(context: Context?) {
         get() = prefs.getString(USER_EMAIL, "")
         set(userEmail) {
             prefs.edit().putString(USER_EMAIL, userEmail).apply()
+        }
+    var status: String?
+        get() = prefs.getString(USER_EMAIL, "")
+        set(status) {
+            prefs.edit().putString(USER_EMAIL, status).apply()
         }
 
     var userName: String?

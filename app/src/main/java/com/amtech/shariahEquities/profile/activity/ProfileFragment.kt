@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sellacha.tlismiherbs.R
@@ -53,6 +54,14 @@ class ProfileFragment : Fragment() {
             }
             login.setOnClickListener {
                // startActivity(Intent(activity, Login::class.java))
+            }
+
+            btnSignOut.setOnClickListener {
+                sessionManager.logout()
+                val intent = Intent(requireContext(), Login::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                requireActivity().finish()
             }
 
 
