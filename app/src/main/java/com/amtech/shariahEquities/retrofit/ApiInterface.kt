@@ -17,13 +17,13 @@ interface ApiInterface {
     fun signUp(
         @Query("name") name: String,
         @Query("email") email: String,
-         @Query("mobile_number") mobile_number: String,
+        @Query("mobile_number") mobile_number: String,
         @Query("password") password: String,
     ): Call<ModelSignUp>
 
     @POST("login")
     fun login(
-    @Query("mobile_number") mobile_number: String,
+    @Query("email") email: String,
     @Query("password") password: String,
     ): Call<ModelLogin>
 
@@ -41,12 +41,13 @@ interface ApiInterface {
     @POST("SendOTP")
     fun sendOTP(
     @Query("email") email: String,
+    @Query("type") type: String,
      ): Call<ModelOTP>
 
 
     @POST("reset_password")
     fun resetPass(
-    @Query("id") id: String,
+    @Query("email") id: String,
     @Query("password") password: String,
      ): Call<ModelResetPass>
 

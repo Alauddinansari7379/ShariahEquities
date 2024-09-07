@@ -145,7 +145,7 @@ class SignUp : AppCompatActivity() {
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.sendOTP(
             binding.edtEmail.text.toString().trim(),
-
+            "register",
             )
             .enqueue(object : Callback<ModelOTP> {
                 @SuppressLint("SetTextI18n")

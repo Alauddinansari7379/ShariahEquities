@@ -123,17 +123,20 @@ class Login : AppCompatActivity() {
                         AppProgressBar.hideLoaderDialog()
 //                    }else if (response.body()!!.data.token!!.isNotEmpty()) {
                     } else {
-                        myToast(context, "Login Successfully")
+                        myToast(context, response.body()!!.message)
 //                        sessionManager.authTokenUser = "Bearer " + response.body()!!.data.token
-                        sessionManager.userEmail = response.body()!!.result.email
-                        sessionManager.userName = response.body()!!.result.name
-                        sessionManager.status = response.body()!!.result.status.toString()
-                        sessionManager.isLogin = true
-                        val intent = Intent(applicationContext, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        finish()
-                        startActivity(intent)
+
+                        if (response.body()!!.result.status==1) {
+                            sessionManager.userEmail = response.body()!!.result.email
+                            sessionManager.userName = response.body()!!.result.name
+                            sessionManager.status = response.body()!!.result.status.toString()
+                            sessionManager.isLogin = true
+                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            finish()
+                            startActivity(intent)
+                        }
                         AppProgressBar.hideLoaderDialog()
 
 //                    } else {

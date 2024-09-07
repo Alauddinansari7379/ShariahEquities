@@ -128,43 +128,46 @@ class OTPVerification : AppCompatActivity() {
             binding.tvResend.setTextColor(Color.parseColor("#858284"))
             progressDialog!!.show()
 
-            ApiClient.apiService.sendOTP(binding.edtEmail.text.toString().trim()).enqueue(object :Callback<ModelOTP>{
+            ApiClient.apiService.sendOTP(binding.edtEmail.text.toString().trim(), "forgetpassword")
+                .enqueue(object : Callback<ModelOTP> {
 
-                override fun onResponse(
-                    call: Call<ModelOTP>, response: Response<ModelOTP>
-                ) {
-                    // Log.e("Ala","${response.body()!!.result}")
-                    Log.e("Ala","${response.body()!!.message}")
-                    Log.e("Ala","${response.body()!!.status}")
-                    if (response.body()!!.status==1){
-                        myToast(this@OTPVerification,response.body()!!.message)
-                        progressDialog!!.dismiss()
-                         otp = response.body()!!.result.otp.toString().toInt()
+                    override fun onResponse(
+                        call: Call<ModelOTP>, response: Response<ModelOTP>
+                    ) {
+                        // Log.e("Ala","${response.body()!!.result}")
+                        Log.e("Ala", "${response.body()!!.message}")
+                        Log.e("Ala", "${response.body()!!.status}")
+                        if (response.body()!!.status == 1) {
+                            myToast(this@OTPVerification, response.body()!!.message)
+                            progressDialog!!.dismiss()
+                            otp = response.body()!!.result.otp.toString().toInt()
 //                        val id = response.body()!!.result.id
-                        this@OTPVerification.otp =otp
-                       // otpPopup(otp)
-                        timeCounter()
+                            this@OTPVerification.otp = otp
+                            // otpPopup(otp)
+                            timeCounter()
+                        } else {
+                            myToast(this@OTPVerification, "${response.body()!!.message}")
+                            progressDialog!!.dismiss()
+                        }
                     }
-                    else{
-                        myToast(this@OTPVerification,"${response.body()!!.message}")
+
+                    override fun onFailure(call: Call<ModelOTP>, t: Throwable) {
+                        myToast(this@OTPVerification, "Something went wrong")
                         progressDialog!!.dismiss()
+
                     }
-                }
-                override fun onFailure(call: Call<ModelOTP>, t: Throwable) {
-                    myToast(this@OTPVerification,"Something went wrong")
-                    progressDialog!!.dismiss()
 
-                }
-
-            })
+                })
         }
 
 
     }
+
     private fun isEmailValid(email: String?): Boolean {
         return !(email == null || TextUtils.isEmpty(email)) && Patterns.EMAIL_ADDRESS.matcher(email)
             .matches()
     }
+
     private fun changePassDialog(s: String) {
         val view = layoutInflater.inflate(R.layout.dialog_password_change, null)
         dialog = context?.let { Dialog(it) }
@@ -210,7 +213,7 @@ class OTPVerification : AppCompatActivity() {
 
             // apiCallUpdateSetting(name, mobile, currentPass, password)
             dialog?.dismiss()
-            apiCallResetPass(currentPass,"3")
+            apiCallResetPass(binding.edtEmail.text.toString().trim(), currentPass)
         }
     }
 
@@ -231,9 +234,9 @@ class OTPVerification : AppCompatActivity() {
     private fun apiCallSendOTP() {
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.sendOTP(
-            binding.edtEmail.text.toString().trim(),
+            binding.edtEmail.text.toString().trim(), "forgetpassword"
 
-            )
+        )
             .enqueue(object : Callback<ModelOTP> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
@@ -282,12 +285,12 @@ class OTPVerification : AppCompatActivity() {
 
             })
     }
-    private fun apiCallResetPass(password:String,id:String) {
+
+    private fun apiCallResetPass(email: String, pass: String) {
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.resetPass(
-            binding.edtEmail.text.toString().trim(),
-            binding.edtEmail.text.toString().trim(),
-
+            email,
+            pass,
             )
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("SetTextI18n")
@@ -306,11 +309,13 @@ class OTPVerification : AppCompatActivity() {
 
                         } else {
                             myToast(context, response.body()!!.message)
-                            val intent = Intent(applicationContext, Login::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            finish()
-                            startActivity(intent)
+                            if (response.body()!!.status==1) {
+                                val intent = Intent(applicationContext, Login::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                finish()
+                                startActivity(intent)
+                            }
                             AppProgressBar.hideLoaderDialog()
                         }
                     } catch (e: Exception) {
