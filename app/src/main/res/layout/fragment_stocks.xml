@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -34,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatEditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -45,8 +46,8 @@
                         android:fontFamily="@font/poppins_regular"
                         android:hint="Enter the name..."
                         android:inputType="text"
-                        android:visibility="gone"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
 
                     <androidx.cardview.widget.CardView
@@ -64,16 +65,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:visibility="gone"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="5dp"
-                                android:text="@string/name"
                                 android:fontFamily="@font/poppins_semi_bold"
+                                android:text="@string/name"
                                 android:textColor="@color/gray_text"
                                 android:textSize="12sp">
 
@@ -85,9 +86,9 @@
                                 android:layout_height="30dp"
                                 android:layout_marginStart="10dp"
                                 android:background="@null"
+                                android:fontFamily="@font/poppins_regular"
                                 android:hint="Enter the name..."
                                 android:imeOptions="actionNext"
-                                android:fontFamily="@font/poppins_regular"
                                 android:inputType="textEmailAddress"
                                 android:textSize="11sp"
                                 android:textStyle="bold">
@@ -174,8 +175,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCompanyList"
                 android:layout_width="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <!-- <androidx.cardview.widget.CardView
                  android:layout_width="match_parent"
@@ -1563,24 +1564,24 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/main_color"
             android:text="Save"
-            android:visibility="gone"
             android:textAllCaps="false"
+            android:visibility="gone"
             app:cornerRadius="8dp">
 
         </com.google.android.material.button.MaterialButton>

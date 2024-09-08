@@ -6,6 +6,7 @@ import com.amtech.shariahEquities.login.model.ModelSignUp
 import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
+import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.ModuleDeleteWatchList
 import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import retrofit2.Call
 import retrofit2.http.DELETE
@@ -62,6 +63,20 @@ interface ApiInterface {
     fun createWatchlist(
         @Query("user_id") user_id:String,
         @Query("company_id") company_id:String,
+     ): Call<ModelAddWatchList>
+
+
+    @DELETE("delete_watchlist")
+    fun deleteWatchList(
+        @Query("id") id:String,
+        @Query("user_id") user_id:String,
+     ): Call<ModuleDeleteWatchList>
+
+    @POST("add_basket")
+    fun addBasket(
+        @Query("user_id") user_id:String,
+        @Query("basketname") basketname:String,
+        @Query("companyid[]") companyid:String,
      ): Call<ModelAddWatchList>
 
     @DELETE("delete_user")
