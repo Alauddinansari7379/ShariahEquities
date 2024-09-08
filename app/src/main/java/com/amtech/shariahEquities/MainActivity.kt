@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            tvUserName.text=sessionManager.userName
             btnUpgrade.setOnClickListener {
                 if (sessionManager.authTokenUser!!.isEmpty()){
                     try {

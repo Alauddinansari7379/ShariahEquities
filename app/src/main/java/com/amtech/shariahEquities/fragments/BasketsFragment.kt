@@ -93,7 +93,7 @@ class BasketsFragment : Fragment() {
         })
 
         binding.rvCompanyList.visibility = View.GONE
-        apiCallgetCompanyList()
+        apiCallGetCompanyList()
     }
     private fun performSearch(query: String) {
         val trimmedQuery = query.trim()
@@ -118,7 +118,7 @@ class BasketsFragment : Fragment() {
         binding.btnSave.visibility = if (hasSelectedItems) View.VISIBLE else View.GONE
     }
 
-    private fun apiCallgetCompanyList() {
+    private fun apiCallGetCompanyList() {
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
             .enqueue(object : Callback<ModelCompanyList> {
@@ -150,7 +150,7 @@ class BasketsFragment : Fragment() {
                 override fun onFailure(call: Call<ModelCompanyList>, t: Throwable) {
                     count++
                     if (count <= 2) {
-                        apiCallgetCompanyList()
+                        apiCallGetCompanyList()
                     } else {
                         myToast(context as Activity, "Something went wrong")
                     }

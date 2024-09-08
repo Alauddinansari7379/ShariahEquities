@@ -30,6 +30,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/layoutItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -80,39 +81,31 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="2.5"
-                    android:gravity="end"
+                    android:gravity="center"
                     android:orientation="vertical"
 
                     >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="end"
-                        android:orientation="horizontal">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:text="$417.14"
-                            android:gravity="end"
-                            android:layout_marginEnd="10dp"
-                            android:textColor="@color/black"
-                            android:textSize="14sp">
-
-                        </androidx.appcompat.widget.AppCompatTextView>
-
-
-                    </LinearLayout>
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAddWatchList"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:text="+0.97%"
-                        android:textColor="@color/main_green_color"
-                        android:textSize="12sp">
+                        android:layout_height="30dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                         android:layout_marginBottom="5dp"
+                        android:background="@drawable/gradient_button"
+                        android:drawableStart="@drawable/baseline_add_24"
+                        android:drawableTint="@color/white"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Watchlist"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="11sp">
 
-                    </androidx.appcompat.widget.AppCompatTextView>
+                    </androidx.appcompat.widget.AppCompatButton>
+
 
                     <LinearLayout
                         android:layout_width="25dp"

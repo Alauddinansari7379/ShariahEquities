@@ -1,16 +1,30 @@
 package com.amtech.shariahEquities.Search
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amtech.shariahEquities.Helper.AppProgressBar
+import com.amtech.shariahEquities.fragments.adapter.StocksAdapter
+import com.amtech.shariahEquities.modelCompany.ModelCompanyList
+import com.amtech.shariahEquities.modelCompany.Result
+import com.amtech.shariahEquities.retrofit.ApiClient
 import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.FragmentCartBinding
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.myToast
 
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -18,9 +32,11 @@ class SearchFragment : Fragment() {
     var shimmerFrameLayout: ShimmerFrameLayout? = null
     val finalTotal=ArrayList<Int>()
 
-    // private var mainData = ArrayList<Items>()
-    var count = 0
-    var countRe = 0
+    private lateinit var stocksAdapter: StocksAdapter
+    private var count = 0
+    private var companyList = mutableListOf<Result>()
+    private val selectedCompanies = mutableListOf<Result>()
+     var countRe = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,278 +48,95 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCartBinding.bind(view)
-      //  shimmerFrameLayout = view.findViewById(R.id.shimmer)
+        //  shimmerFrameLayout = view.findViewById(R.id.shimmer)
 //        shimmerFrameLayout!!.startShimmer()
         sessionManager = SessionManager(requireContext())
+        stocksAdapter = StocksAdapter { _, _ -> updateSaveButtonVisibility() }
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
-//        if (parentView.parent != null) {
-//            (parentView.parent as ViewGroup).removeView(parentView) // <- fix
-//        }
-     //   apiCallCartProduct()
 
-        // MainActivity
+         binding.rvCompanyList.apply {
+             adapter = stocksAdapter
+        }
 
 
-            //priceUndrline.paintFlags = priceUndrline.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.rvCompanyList.visibility = View.VISIBLE
+                performSearch(s.toString())
+            }
 
-//        val dialog = BottomSheetDialog(requireContext())
-//        val bottomSheet = layoutInflater.inflate(R.layout.bottom_sheet, null)
-//
-//        bottomSheet.buttonSubmit.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//        dialog.setContentView(bottomSheet)
-//        dialog.show()
+            override fun afterTextChanged(s: Editable?) {}
 
+        })
+
+        binding.rvCompanyList.visibility = View.GONE
+        apiCallGetCompanyList()
     }
-    //     override fun onDestroy() {
-//        super.onDestroy()
-//        if (bottomSheetDialog != null && pDialog.isShowing()) {
-//            pDialog.dismiss()
-//        }
-//    }
-/*    private fun apiCallCartProduct() {
-        // AppProgressBar.showLoaderDialog(requireContext())
-        ApiClient.apiService.getCart(sessionManager.authToken!!, sessionManager.deviceId,sessionManager.randomKey,"cart")
-            .enqueue(object : Callback<ModelAddtoCart> {
+    private fun updateSaveButtonVisibility() {
+        val hasSelectedItems = stocksAdapter.getSelectedItems().isNotEmpty()
+     }
+    private fun performSearch(query: String) {
+        val trimmedQuery = query.trim()
+
+        if (trimmedQuery.isEmpty()) {
+            binding.rvCompanyList.visibility = View.GONE
+        } else {
+            val filteredList = companyList.filter { result ->
+                result.name_of_company.contains(trimmedQuery, ignoreCase = true) ||
+                        result.symbol.contains(trimmedQuery, ignoreCase = true)
+            }
+            if (stocksAdapter.currentList != filteredList) {
+                stocksAdapter.submitList(filteredList)
+            }
+            binding.rvCompanyList.visibility = if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun apiCallGetCompanyList() {
+        AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.getCompanyList()
+            .enqueue(object : Callback<ModelCompanyList> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
-                    call: Call<ModelAddtoCart>, response: Response<ModelAddtoCart>
+                    call: Call<ModelCompanyList>, response: Response<ModelCompanyList>
                 ) {
-                    try {
-
-                        if (response.code() == 500) {
-                            activity?.let { myToast(it, "Server Error") }
-                            binding.shimmer.visibility = View.GONE
-                            AppProgressBar.hideLoaderDialog()
-
-
-                        } else if (response.body()!!.data.items.size == 0) {
-                            binding!!.recyclerView.adapter =
-                                activity?.let {
-                                    AdapterCart(
-                                        it,
-                                        response.body()!!.data.items,
-                                        this@CartFragment
-                                    )
-                                }
-                            activity?.let { myToast(it, "No Item Found") }
-                            binding.shimmer.visibility = View.GONE
-                            binding.layoutMain.visibility = View.GONE
-                            binding.tvNoDtaFound.visibility = View.VISIBLE
-                            CartItem ="0"
-                            binding.totalPrice.text=""
-                            //   binding.appCompatTextView.text="0 items"
-                            AppProgressBar.hideLoaderDialog()
-
-                        } else {
-                            binding!!.recyclerView.adapter =
-                                activity?.let {
-                                    AdapterCart(
-                                        it,
-                                        response.body()!!.data.items!!,
-
-                                        this@CartFragment
-                                    )
-                                }
-                            CartItem =""
-                            finalTotal.clear()
-                            // binding.shimmer.visibility = View.GONE
-                            for (i in response.body()!!.data.items) {
-
-                                finalTotal.add(i.qty.toInt()*i.price.toInt())
-                                if (i.tax!=null){
-                                    tax =i.tax
-                                }
-
-                            }
-                            totalAmt = finalTotal.sum().toString()
-
-                            binding.totalPrice.text = "₹" + finalTotal.sum()
-                            // binding.appCompatTextView.text = response.body()!!.data.items.size.toString() + " items"
-                            binding.shimmer.visibility = View.GONE
-
-                            try {
-                                if (tax.isEmpty()) {
-                                    tax = "0"
-                                }
-                                binding.totalAmt.text = "₹$totalAmt"
-//            binding.deliveryFee.text = "₹00"
-                                binding.tvGSTRate.text = "GST Rate $tax%"
-                                val gST = totalAmt.toInt() * (tax.toDouble() / 100)
-                                binding.tvgst.text = "₹${gST.toFloat()}"
-                                val subTotal = totalAmt.toInt() - gST
-                                binding.subTotal.text = subTotal.toString()
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                            AppProgressBar.hideLoaderDialog()
-
-
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        activity?.let { myToast(it, "Something went wrong") }
-                        binding.shimmer.visibility = View.GONE
-                    }
-                }
-
-                override fun onFailure(call: Call<ModelAddtoCart>, t: Throwable) {
-                    count++
-                    if (count <= 3) {
-                        apiCallCartProduct()
-                    } else {
-                        activity?.let { myToast(it, "Something went wrong") }
-                        AppProgressBar.hideLoaderDialog()
-                        binding.shimmer.visibility = View.GONE
-
-
-                    }
                     AppProgressBar.hideLoaderDialog()
-                    binding.shimmer.visibility = View.GONE
-
-
-
-                }
-
-            })
-    }
-
-    override fun addToCart(productId: String, variationId: String, optionId: String) {
-        AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.addToCart(
-            sessionManager.authToken,
-            productId,
-            "1",
-            sessionManager.deviceId.toString(),sessionManager.randomKey,"cart",optionId,variationId
-        )
-            .enqueue(object : Callback<ModelCart> {
-                override fun onResponse(
-                    call: Call<ModelCart>, response: Response<ModelCart>
-                ) {
                     try {
-//                        if (response.code() == 200) {
-//                            mainData = response.body()!!.data.info.categories
-//                            AppProgressBar.hideLoaderDialog()
-//
-//                        }
-                        if (response.code() == 500) {
-                            activity?.let { myToast(it, "Server Error") }
-                            AppProgressBar.hideLoaderDialog()
-                        } else if (response.code() == 404) {
-                            activity?.let { myToast(it, "Something went wrong") }
-                            AppProgressBar.hideLoaderDialog()
-
-                        } else if (response.code() == 200) {
-                            activity?.let { myToast(it, "item Added in Cart") }
-                            apiCallCartProduct()
-                            AppProgressBar.hideLoaderDialog()
-                        } else {
-                            AppProgressBar.hideLoaderDialog()
-
+                        when {
+                            response.code() == 500 -> myToast(context as Activity, "Server Error")
+                            response.code() == 404 -> myToast(
+                                context as Activity,
+                                "Something went wrong"
+                            )
+                            response.isSuccessful && response.body() != null -> {
+                                companyList =
+                                    response.body()!!.result.toMutableList()
+                                stocksAdapter.submitList(companyList)
+                            }
+                            else -> myToast(context as Activity, "Unexpected error")
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        activity?.let { myToast(it, "Something went wrong") }
-                        AppProgressBar.hideLoaderDialog()
-
-
+                        myToast(context as Activity, "Something went wrong")
                     }
                 }
 
-                override fun onFailure(call: Call<ModelCart>, t: Throwable) {
-                    //myToast(activity, "Something went wrong")
+                override fun onFailure(call: Call<ModelCompanyList>, t: Throwable) {
                     count++
                     if (count <= 2) {
-                        Log.e("count", count.toString())
-                        addToCart(productId, variationId, optionId)
+                        apiCallGetCompanyList()
                     } else {
-                        activity?.let { myToast(it, t.message.toString()) }
-                        AppProgressBar.hideLoaderDialog()
-
+                        myToast(context as Activity, "Something went wrong")
                     }
-                    // AppProgressBar.hideLoaderDialog()
-
-
+                    AppProgressBar.hideLoaderDialog()
                 }
-
             })
     }
-
-    override fun removeToCart(id: String) {
-        AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.removeToCart(
-            sessionManager.authToken,
-            id,
-            sessionManager.deviceId.toString(),sessionManager.randomKey,"cart"
-        )
-            .enqueue(object : Callback<ModelAddtoCart> {
-                override fun onResponse(
-                    call: Call<ModelAddtoCart>, response: Response<ModelAddtoCart>
-                ) {
-                    try {
-//                        if (response.code() == 200) {
-//                            mainData = response.body()!!.data.info.categories
-//                            AppProgressBar.hideLoaderDialog()
-//
-//                        }
-                        if (response.code() == 500) {
-                            activity?.let { myToast(it, "Server Error") }
-                            AppProgressBar.hideLoaderDialog()
-                        } else if (response.code() == 404) {
-                            activity?.let { myToast(it, "Something went wrong") }
-                            AppProgressBar.hideLoaderDialog()
-
-                        } else if (response.code() == 200) {
-                            activity?.let { myToast(it, "item Removed from Cart") }
-                            apiCallCartProduct()
-                            countRe=0
-                            AppProgressBar.hideLoaderDialog()
-                        } else {
-                            AppProgressBar.hideLoaderDialog()
-
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        activity?.let { myToast(it, "Something went wrong") }
-                        AppProgressBar.hideLoaderDialog()
-
-
-                    }
-                }
-
-                override fun onFailure(call: Call<ModelAddtoCart>, t: Throwable) {
-                    //myToast(activity, "Something went wrong")
-                    countRe++
-                    if (countRe <= 3) {
-                        Log.e("count", countRe.toString())
-                        removeToCart(id)
-
-                    } else {
-                        activity?.let { myToast(it, t.message.toString()) }
-                        AppProgressBar.hideLoaderDialog()
-                        countRe=0
-
-                    }
-                    // AppProgressBar.hideLoaderDialog()
-
-
-                }
-
-            })
-
-    }*/
-    companion object{
-        var CartItem=""
-        var totalAmt = ""
-        var tax = ""
-    }
-
 
 
 }

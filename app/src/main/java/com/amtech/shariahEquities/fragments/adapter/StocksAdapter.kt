@@ -21,12 +21,14 @@ class StocksAdapter(
             binding.apply {
                 companyName.text = result.name_of_company
                 companySymbol.text = result.symbol
-                complianceTag.setBackgroundColor(
-                    when (result.symbol) {
-                        "1" -> Color.GREEN
-                        else -> Color.YELLOW
-                    }
-                )
+             if (result.complaint_type==1){
+                 complianceTag.visibility=View.VISIBLE
+                 nonComplianceTag.visibility=View.GONE
+             }else{
+                 nonComplianceTag.visibility=View.VISIBLE
+                 complianceTag.visibility=View.GONE
+
+             }
                 checkbox.setOnCheckedChangeListener(null)
                 checkbox.isChecked = selectedItems[result.id.toLong()] ?: false
                 checkbox.visibility = if (showCheckboxes) View.VISIBLE else View.GONE

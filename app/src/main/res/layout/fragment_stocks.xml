@@ -163,7 +163,7 @@
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/gray_text"
                     android:fontFamily="@font/poppins_regular"
-                    android:hint="Search by name..."
+                    android:hint="Search by name or symbol"
                     android:inputType="text"
                     android:textSize="14sp">
 
@@ -174,6 +174,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCompanyList"
                 android:layout_width="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_height="wrap_content" />
 
             <!-- <androidx.cardview.widget.CardView

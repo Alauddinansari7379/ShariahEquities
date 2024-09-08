@@ -1,12 +1,14 @@
 package com.amtech.shariahEquities.retrofit
 
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
+import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.login.model.ModelSignUp
 import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import retrofit2.Call
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -35,7 +37,7 @@ interface ApiInterface {
 
     @GET("get_watch_list")
     fun getWatchList(
-    @Query("id") id: String,
+    @Query("user_id") id: String,
      ): Call<ModelWatchList>
 
     @POST("SendOTP")
@@ -55,6 +57,17 @@ interface ApiInterface {
     @POST("get_company_list")
     fun getCompanyList(
      ): Call<ModelCompanyList>
+
+    @POST("create_watchlist")
+    fun createWatchlist(
+        @Query("user_id") user_id:String,
+        @Query("company_id") company_id:String,
+     ): Call<ModelAddWatchList>
+
+    @DELETE("delete_user")
+    fun deleteUser(
+        @Query("id") id:String,
+      ): Call<ModelResetPass>
 
 //
 //    @POST("login-user")

@@ -127,9 +127,12 @@ class Login : AppCompatActivity() {
 //                        sessionManager.authTokenUser = "Bearer " + response.body()!!.data.token
 
                         if (response.body()!!.result.status==1) {
-                            sessionManager.userEmail = response.body()!!.result.email
+                             sessionManager.email = response.body()!!.result.email
+                            Log.e("response.body()!!.result.email",response.body()!!.result.email)
                             sessionManager.userName = response.body()!!.result.name
+                            sessionManager.id = response.body()!!.result.Id
                             sessionManager.status = response.body()!!.result.status.toString()
+                            sessionManager.userMobile = response.body()!!.result.mobile_number.toString()
                             sessionManager.isLogin = true
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             intent.flags =

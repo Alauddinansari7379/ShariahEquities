@@ -59,7 +59,7 @@ class OTPVerification : AppCompatActivity() {
 
 
 
-        binding.tvMobileNumber.text = "+${binding.edtEmail.text}"
+        binding.tvMobileNumber.text = "${binding.edtEmail.text}"
         // otpPopup(otp)
 
         Log.e(ContentValues.TAG, "Mobilenumber-----:---$phoneNumber")
@@ -69,9 +69,11 @@ class OTPVerification : AppCompatActivity() {
             val otp2 = binding.otpBox2.text.toString()
             val otp3 = binding.otpBox3.text.toString()
             val otp4 = binding.otpBox4.text.toString()
+            val otp5 = binding.otpBox5.text.toString()
+            val otp6 = binding.otpBox6.text.toString()
             Log.e("otp1", otp1)
 
-            finalOTP = "$otp1$otp2$otp3$otp4"
+            finalOTP = "$otp1$otp2$otp3$otp4$otp5$otp6"
 
             Log.e("finalOTP", finalOTP.toString())
             Log.e("otp", otp.toString())

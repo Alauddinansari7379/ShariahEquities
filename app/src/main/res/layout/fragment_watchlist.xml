@@ -27,7 +27,7 @@
             android:drawablePadding="5dp"
             android:drawableTint="@color/gray_text"
             android:fontFamily="@font/poppins_regular"
-            android:hint="Search by name..."
+            android:hint="Search by name or Symbol"
             android:inputType="text"
             android:textSize="14sp">
 
@@ -38,7 +38,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatchlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <!--    <androidx.cardview.widget.CardView-->
     <!--        android:layout_width="match_parent"-->

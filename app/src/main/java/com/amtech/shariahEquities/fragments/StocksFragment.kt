@@ -44,8 +44,7 @@ class StocksFragment : Fragment() {
 
         stocksAdapter = StocksAdapter { _, _ -> updateSaveButtonVisibility() }
         binding.rvCompanyList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = stocksAdapter
+             adapter = stocksAdapter
         }
 
         binding.addSelectedButton.setOnClickListener {
