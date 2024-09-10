@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -50,6 +52,7 @@ class WatchlistFragment : Fragment() {
         apiCallGetWatchList()
         initRecyclerView()
         setupSwipeToDelete()
+        setupSpinner()
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -60,6 +63,33 @@ class WatchlistFragment : Fragment() {
         })
 
         return binding.root
+    }
+    private fun setupSpinner() {
+        val filterOptions = resources.getStringArray(R.array.filter_options)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, filterOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerFilter.adapter = adapter
+        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedFilter = filterOptions[position]
+                filterListByCompliance(selectedFilter)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        binding.spinnerFilter.setSelection(0)
+    }
+
+    private fun filterListByCompliance(selectedFilter: String) {
+        val filteredList = when (selectedFilter) {
+            "All" -> watchList
+            "Compliant" -> watchList.filter { it.complaint_type == 1 }
+            "Non-Compliant" -> watchList.filter { it.complaint_type == 0 }
+            else -> watchList
+        }
+        setRecyclerViewAdapter(ArrayList(filteredList))
     }
 
     private fun initRecyclerView() {
@@ -83,6 +113,7 @@ class WatchlistFragment : Fragment() {
                             watchList.clear()
                             watchList.addAll(responseBody.result)
                             watchListAdapter.notifyDataSetChanged()
+                            filterListByCompliance("All")
                             //  myToast(context as Activity, responseBody.message)
                         } else {
                             myToast(context as Activity, "Unexpected error")
