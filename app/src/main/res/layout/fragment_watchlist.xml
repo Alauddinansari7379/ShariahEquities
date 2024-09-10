@@ -41,16 +41,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:gravity="center"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:background="@drawable/filter" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_marginStart="20dp"
             android:background="@drawable/corner"
             android:orientation="horizontal">
@@ -59,8 +60,8 @@
             <Spinner
                 android:id="@+id/spinnerFilter"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:entries="@array/filter_options" />
+                android:layout_height="30dp"
+                 />
         </LinearLayout>
     </LinearLayout>
 

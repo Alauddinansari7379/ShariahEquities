@@ -1,4 +1,4 @@
-package com.amtech.shariahEquities.fragments.adapter
+package com.amtech.shariahEquities.Search.adapter
 
 import android.content.Context
 import android.graphics.Color
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.fragments.adapter.FundsAdapter.AddWatchList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
-class StocksAdapter(
+class AdapterSearch(
     val context: Context, private val onItemChecked: (Result, Boolean) -> Unit, val addWatchList: AddWatchList
-) : ListAdapter<Result, StocksAdapter.StockViewHolder>(DiffCallback()) {
+) : ListAdapter<Result, AdapterSearch.StockViewHolder>(DiffCallback()) {
 
     private var showCheckboxes = false
     private val selectedItems: MutableMap<Long, Boolean> = mutableMapOf()
@@ -39,11 +39,10 @@ class StocksAdapter(
                     selectedItems[result.id.toLong()] = isChecked
                     onItemChecked(result, isChecked)
                 }
-                btnAddWatchList.visibility=View.GONE
 
-//                btnAddWatchList.setOnClickListener {
-//                    addWatchList.addWatchList(result.id.toString())
-//                }
+                btnAddWatchList.setOnClickListener {
+                    addWatchList.addWatchList(result.id.toString())
+                }
             }
         }
     }

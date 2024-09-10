@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/companySymbol"
+                android:id="@+id/tvBasketName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AAPL"
@@ -32,7 +32,7 @@
                 android:id="@+id/companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apple Inc"
+                android:text="Basket Qty : "
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
@@ -99,15 +99,14 @@
             android:layout_height="25dp"
              android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/gradient_button"
+             android:background="@drawable/gradient_button"
             android:drawableTint="@color/white"
             android:fontFamily="@font/poppins_semi_bold"
             android:paddingStart="10dp"
-            android:drawableStart="@drawable/baseline_add_24"
+            android:layout_marginBottom="5dp"
+            android:drawableStart="@drawable/baseline_remove_red_eye_24"
             android:paddingEnd="10dp"
-            android:text="Watchlist"
+            android:text="View"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="10sp">

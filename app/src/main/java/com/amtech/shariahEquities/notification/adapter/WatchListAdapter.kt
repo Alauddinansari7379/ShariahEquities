@@ -4,13 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.notification.modelwatchlist.Result
 import com.sellacha.tlismiherbs.databinding.WatchlistItemBinding
 
 class WatchListAdapter(
-    private val context: Context,
-    private val watchList: ArrayList<Result>
+     private val watchList: ArrayList<Result>
 ) : RecyclerView.Adapter<WatchListAdapter.MyViewHolder>() {
     class MyViewHolder(val binding: WatchlistItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -43,6 +43,15 @@ class WatchListAdapter(
 
                 }
             }
+        }
+    }
+    private class DiffCallback : DiffUtil.ItemCallback<com.amtech.shariahEquities.modelCompany.Result>() {
+        override fun areItemsTheSame(oldItem: com.amtech.shariahEquities.modelCompany.Result, newItem: com.amtech.shariahEquities.modelCompany.Result): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: com.amtech.shariahEquities.modelCompany.Result, newItem: com.amtech.shariahEquities.modelCompany.Result): Boolean {
+            return oldItem == newItem
         }
     }
 

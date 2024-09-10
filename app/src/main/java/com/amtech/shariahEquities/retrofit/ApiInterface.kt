@@ -2,6 +2,7 @@ package com.amtech.shariahEquities.retrofit
 
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
+import com.amtech.shariahEquities.fragments.model.modelGetBasket.ModelGetBasket
 import com.amtech.shariahEquities.login.model.ModelSignUp
 import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
@@ -78,6 +79,11 @@ interface ApiInterface {
         @Query("basketname") basketname:String,
         @Query("companyid[]") companyid:String,
      ): Call<ModelAddWatchList>
+
+    @GET("all_basket_list")
+    fun allBasketList(
+        @Query("user_id") user_id:String,
+     ): Call<ModelGetBasket>
 
     @DELETE("delete_user")
     fun deleteUser(

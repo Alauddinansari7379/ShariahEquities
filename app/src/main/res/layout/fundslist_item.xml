@@ -94,7 +94,6 @@
                         android:layout_marginEnd="5dp"
                          android:layout_marginBottom="5dp"
                         android:background="@drawable/gradient_button"
-
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/poppins_semi_bold"
                         android:paddingStart="10dp"

@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                         appCompatTextView2.text = "Search"
                     }
                     R.id.fragment_watchlist -> {
-                        appCompatTextView2.text = "WatchList"
+                        appCompatTextView2.text = "Watchlist"
                         if (sessionManager.authTokenUser!!.isEmpty()){
                             try {
                                 bottomSheetDialog.show()

@@ -39,6 +39,8 @@ class WatchlistFragment : Fragment() {
     private val binding get() = _binding!!
     private var watchList = ArrayList<Result>()
     private var count = 0
+    private var countRe = 0
+    private var countDe = 0
     lateinit var sessionManager: SessionManager
     private lateinit var watchListAdapter: WatchListAdapter
     private var companyList = mutableListOf<Result>()
@@ -64,13 +66,22 @@ class WatchlistFragment : Fragment() {
 
         return binding.root
     }
+
     private fun setupSpinner() {
-        val filterOptions = resources.getStringArray(R.array.filter_options)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, filterOptions)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val filterOptions = ArrayList<String>()
+        filterOptions.add("All")
+        filterOptions.add("Compliant")
+        filterOptions.add("Non-Compliant")
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
         binding.spinnerFilter.adapter = adapter
         binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedFilter = filterOptions[position]
                 filterListByCompliance(selectedFilter)
             }
@@ -93,7 +104,7 @@ class WatchlistFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        watchListAdapter = WatchListAdapter(requireContext(), watchList)
+        watchListAdapter = WatchListAdapter(watchList)
         binding.rvWatchlist.apply {
             adapter = watchListAdapter
         }
@@ -136,6 +147,43 @@ class WatchlistFragment : Fragment() {
             })
     }
 
+    private fun apiCallGetWatchListRe() {
+        //  AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.getWatchList(sessionManager.id.toString())
+            .enqueue(object : Callback<ModelWatchList> {
+                override fun onResponse(
+                    call: Call<ModelWatchList>, response: Response<ModelWatchList>
+                ) {
+                    AppProgressBar.hideLoaderDialog()
+                    try {
+                        if (response.isSuccessful && response.body() != null) {
+                            val responseBody = response.body()!!
+                            watchList.clear()
+                            watchList.addAll(responseBody.result)
+                            watchListAdapter.notifyDataSetChanged()
+                            filterListByCompliance("All")
+                            //  myToast(context as Activity, responseBody.message)
+                        } else {
+                            myToast(context as Activity, "Unexpected error")
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context as Activity, "Something went wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelWatchList>, t: Throwable) {
+                    countRe++
+                    if (countRe <= 3) {
+                        apiCallGetWatchListRe()
+                    } else {
+                        myToast(context as Activity, "Something went wrong")
+                    }
+                    AppProgressBar.hideLoaderDialog()
+                }
+            })
+    }
+
     private fun performSearch(query: String) {
         val trimmedQuery = query.trim()
 
@@ -155,7 +203,7 @@ class WatchlistFragment : Fragment() {
 
     private fun setRecyclerViewAdapter(filteredList: ArrayList<Result>) {
         watchListAdapter =
-            WatchListAdapter(requireContext(), filteredList) // Update the adapter's data
+            WatchListAdapter(filteredList) // Update the adapter's data
         binding.rvWatchlist.adapter = watchListAdapter // Set the new adapter
         watchListAdapter.notifyDataSetChanged() // Notify the adapter about the data change
     }
@@ -173,9 +221,11 @@ class WatchlistFragment : Fragment() {
                     call: Call<ModuleDeleteWatchList>,
                     response: Response<ModuleDeleteWatchList>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.body()!!.status == 1) {
                         watchList.removeAt(position)
-                        watchListAdapter.notifyItemRemoved(position)
+                        apiCallGetWatchListRe()
+//                        watchListAdapter.notifyItemRemoved(position)
+//                        watchListAdapter.notifyDataSetChanged()
                         myToast(context as Activity, "Item deleted successfully")
                     } else {
                         when (response.code()) {
@@ -190,22 +240,30 @@ class WatchlistFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ModuleDeleteWatchList>, t: Throwable) {
-                    myToast(context as Activity, "Network Error: ${t.message}")
                     handleDeletionError(position)
+                    countDe++
+                    if (count <= 2) {
+                        apiCallGetWatchList()
+                    } else {
+                        myToast(context as Activity, "Network Error: ${t.message}")
+                    }
                 }
             })
     }
 
     private fun handleDeletionError(position: Int) {
         watchListAdapter.notifyItemChanged(position)
-        Snackbar.make(binding.root, "Failed to delete item. Please try again.", Snackbar.LENGTH_LONG)
+        Snackbar.make(
+            binding.root,
+            "Failed to delete item. Please try again.",
+            Snackbar.LENGTH_LONG
+        )
             .setAction("Retry") {
                 val itemToRetry = watchList[position]
                 deleteWatchListItem(itemToRetry, position)
             }
             .show()
     }
-
 
 
     private fun setupSwipeToDelete() {
@@ -221,9 +279,13 @@ class WatchlistFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val itemToDelete = watchList[position]
-                showDeleteConfirmationDialog(itemToDelete, position)
+                if (position >= 0 && position < watchList.size) {
+                    val itemToDelete = watchList[position]
+                    showDeleteConfirmationDialog(itemToDelete, position)
+                }
+                watchListAdapter.notifyDataSetChanged()
             }
+
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
@@ -240,6 +302,8 @@ class WatchlistFragment : Fragment() {
             .setConfirmClickListener { sDialog ->
                 sDialog.dismissWithAnimation()
                 deleteWatchListItem(item, position)
+                watchListAdapter.notifyItemChanged(position)
+
             }
             .setCancelClickListener { sDialog ->
                 sDialog.dismissWithAnimation()

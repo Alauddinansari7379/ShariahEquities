@@ -129,11 +129,6 @@
     <string name="shariah_equities">Shariah Equities</string>
 
 
-    <string-array name="filter_options">
-        <item>All</item>
-        <item>Compliant</item>
-        <item>Non-Compliant</item>
-    </string-array>
 
 
 </resources>

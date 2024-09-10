@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.fragments.adapter.FundsAdapter.AddWatchList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
-class StocksAdapter(
+import com.sellacha.tlismiherbs.databinding.SingleRowBasketBinding
+
+class AdapterBasketAllList(
     val context: Context, private val onItemChecked: (Result, Boolean) -> Unit, val addWatchList: AddWatchList
-) : ListAdapter<Result, StocksAdapter.StockViewHolder>(DiffCallback()) {
+) : ListAdapter<Result, AdapterBasketAllList.StockViewHolder>(DiffCallback()) {
 
     private var showCheckboxes = false
     private val selectedItems: MutableMap<Long, Boolean> = mutableMapOf()
 
-    inner class StockViewHolder(val binding: ItemStockBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class StockViewHolder(val binding: SingleRowBasketBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(result: Result) {
             binding.apply {
                 companyName.text = result.name_of_company
@@ -31,7 +33,6 @@ class StocksAdapter(
                  complianceTag.visibility=View.GONE
 
              }
-
                 checkbox.setOnCheckedChangeListener(null)
                 checkbox.isChecked = selectedItems[result.id.toLong()] ?: false
                 checkbox.visibility = if (showCheckboxes) View.VISIBLE else View.GONE
@@ -41,15 +42,15 @@ class StocksAdapter(
                 }
                 btnAddWatchList.visibility=View.GONE
 
-//                btnAddWatchList.setOnClickListener {
-//                    addWatchList.addWatchList(result.id.toString())
-//                }
+                btnAddWatchList.setOnClickListener {
+                    addWatchList.addWatchList(result.id.toString())
+                }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
-        val binding = ItemStockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = SingleRowBasketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StockViewHolder(binding)
     }
 
