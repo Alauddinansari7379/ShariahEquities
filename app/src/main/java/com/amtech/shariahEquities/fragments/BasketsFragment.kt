@@ -12,9 +12,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.fragments.adapter.StocksAdapter
+import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
+import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.databinding.FragmentStocksBinding
 import retrofit2.Call
@@ -31,6 +33,7 @@ class BasketsFragment : Fragment() {
     private var count = 0
     private var companyList = mutableListOf<Result>()
     private val selectedCompanies = mutableListOf<Result>()
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,7 @@ class BasketsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        sessionManager = SessionManager(requireContext())
         stocksAdapter = StocksAdapter { _, _ -> updateSaveButtonVisibility() }
         binding.rvCompanyList.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -70,13 +73,16 @@ class BasketsFragment : Fragment() {
                 selectedCompanies.size > 10 -> {
                     myToast(context as Activity, "You can't save more than 10 items")
                 }
+
                 selectedCompanies.isEmpty() -> {
                     myToast(context as Activity, "Please select any items")
                 }
+
                 else -> {
-                    myToast(context as Activity, "${selectedCompanies.size} items saved")
-                    stocksAdapter.setShowCheckboxes(false)
-                    binding.btnSave.visibility = View.GONE
+                    addBasketList()
+//                    myToast(context as Activity, "${selectedCompanies.size} items saved")
+//                    stocksAdapter.setShowCheckboxes(false)
+//                    binding.btnSave.visibility = View.GONE
                 }
             }
         }
@@ -95,6 +101,7 @@ class BasketsFragment : Fragment() {
         binding.rvCompanyList.visibility = View.GONE
         apiCallGetCompanyList()
     }
+
     private fun performSearch(query: String) {
         val trimmedQuery = query.trim()
 
@@ -108,7 +115,8 @@ class BasketsFragment : Fragment() {
             if (stocksAdapter.currentList != filteredList) {
                 stocksAdapter.submitList(filteredList)
             }
-            binding.rvCompanyList.visibility = if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
+            binding.rvCompanyList.visibility =
+                if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
 
@@ -134,11 +142,13 @@ class BasketsFragment : Fragment() {
                                 context as Activity,
                                 "Something went wrong"
                             )
+
                             response.isSuccessful && response.body() != null -> {
                                 companyList =
                                     response.body()!!.result.toMutableList()
                                 stocksAdapter.submitList(companyList)
                             }
+
                             else -> myToast(context as Activity, "Unexpected error")
                         }
                     } catch (e: Exception) {
@@ -153,6 +163,70 @@ class BasketsFragment : Fragment() {
                         apiCallGetCompanyList()
                     } else {
                         myToast(context as Activity, "Something went wrong")
+                    }
+                    AppProgressBar.hideLoaderDialog()
+                }
+            })
+    }
+
+    fun addBasketList() {
+        AppProgressBar.showLoaderDialog(context)
+        val companyIdsArray = selectedCompanies.map { it.id.toString() }
+        val formattedString = companyIdsArray.joinToString(prefix = "[\"", postfix = "\"]", separator = "\", \"")
+//        val formattedString = companyIdsArray.joinToString(prefix = "[", postfix = "]", separator = ",")
+//        val companyIdsArray = selectedCompanies.map { it.id.toString() }
+//        val formattedString = companyIdsArray.joinToString(prefix = "[", postfix = "]", separator = ",")
+
+
+        ApiClient.apiService.addBasket(
+            sessionManager.id.toString(),
+            binding.edOwnName.text!!.toString(),
+//            companyIdsArray.joinToString(",")
+            formattedString
+        )
+            .enqueue(object : Callback<ModelAddWatchList> {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelAddWatchList>, response: Response<ModelAddWatchList>
+                ) {
+                    AppProgressBar.hideLoaderDialog()
+                    try {
+                        when {
+                            response.code() == 500 -> myToast(context as Activity, "Server Error")
+                            response.code() == 404 -> myToast(
+                                context as Activity,
+                                "Something went wrong"
+                            )
+
+                            response.isSuccessful && response.body()?.status == 1 != null -> {
+                                myToast(
+                                    context as Activity,
+                                    "${selectedCompanies.size} items saved"
+                                )
+                                stocksAdapter.setShowCheckboxes(false)
+                                binding.btnSave.visibility = View.GONE
+                                binding.edtOwnName.visibility = View.GONE
+                                binding.edOwnName.setText("")
+                                selectedCompanies.clear()
+                                stocksAdapter.clearSelectedItems()
+
+                            }
+
+                            else -> myToast(context as Activity, "Unexpected error")
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context as Activity, "Something went wrong")
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
+                    count++
+                    if (count <= 2) {
+
+                    } else {
+                        myToast(context as Activity, "Something went wrong")
+                        addBasketList()
                     }
                     AppProgressBar.hideLoaderDialog()
                 }

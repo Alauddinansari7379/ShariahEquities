@@ -29,6 +29,7 @@ class SignUp : AppCompatActivity() {
     lateinit var sessionManager: SessionManager
     var count = 0
     var otp = 0
+    var isOtpVerified = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -51,6 +52,11 @@ class SignUp : AppCompatActivity() {
                 //binding.passwordToggle.sw
             }
             btnSignUp.setOnClickListener {
+
+                if (!isOtpVerified) {
+                    myToast(context, "Please verify your OTP before signing up.")
+                    return@setOnClickListener
+                }
 
                 if (edtFullName.text!!.isEmpty()) {
                     edtFullName.error = "Enter Full Name"
@@ -99,6 +105,7 @@ class SignUp : AppCompatActivity() {
                 if (otp == edtOTP.text.toString().toInt()) {
                     cardOTP.visibility = View.GONE
                     imgVerified.visibility = View.VISIBLE
+                    isOtpVerified = true
 
                 } else {
                     myToast(context, "Wrong OTP entered.")

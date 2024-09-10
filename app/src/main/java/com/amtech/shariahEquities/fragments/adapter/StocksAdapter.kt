@@ -57,6 +57,10 @@ class StocksAdapter(
     fun getSelectedItems(): List<Result> {
         return currentList.filter { selectedItems[it.id.toLong()] == true }
     }
+    fun clearSelectedItems() {
+        selectedItems.clear()
+        notifyDataSetChanged()
+    }
 
     private class DiffCallback : DiffUtil.ItemCallback<Result>() {//refresh the changed data
         override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {

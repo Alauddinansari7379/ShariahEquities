@@ -1,6 +1,5 @@
 package com.amtech.shariahEquities.fragments.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.modelCompany.Result
-import com.amtech.shariahEquities.profile.activity.PrivacyPolicy
 import com.sellacha.tlismiherbs.databinding.FundslistItemBinding
+
 class FundsAdapter(
   val context: Context, private val onItemChecked: (Result, Boolean) -> Unit,val addWatchList: AddWatchList
 ) : ListAdapter<Result, FundsAdapter.StockViewHolder>(DiffCallback()) {
