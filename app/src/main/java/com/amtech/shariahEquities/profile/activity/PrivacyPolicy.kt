@@ -14,12 +14,13 @@ class PrivacyPolicy : AppCompatActivity() {
         super.onCreate(savedInstanceState)
          setContentView(binding.root)
         title=intent.getStringExtra("title").toString()
+        link=intent.getStringExtra("link").toString()
         binding.appCompatTextView2.text=title
-        link = if(title=="Privacy Policy"){
-            "https://shariahsecurities.com/privacy-policy/"
-        }else{
-            "https://shariahsecurities.com/contact-us-2/"
-        }
+//        if(title=="Privacy Policy"){
+//            link =  "http://ehcf.in/api/users/get_pdf?type=privacy"
+//        }else{
+//            link =  "https://shariahsecurities.com/contact-us-2/"
+//        }
         with(binding){
             imgBack.setOnClickListener {
                 onBackPressed()

@@ -25,6 +25,7 @@ import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.rajat.pdfviewer.PdfViewerActivity
 import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.FragmentProfileBinding
 import retrofit2.Call
@@ -62,7 +63,7 @@ class ProfileFragment : Fragment() {
             tvMobile.text=sessionManager.userMobile
             Log.e("Email",sessionManager.userEmail.toString())
             val imgClose = parentView.findViewById<ImageView>(R.id.imgBackDil)
-            val login = parentView.findViewById<Button>(R.id.btnLoginDil)
+            val login = parentView.findViewById<Button>(R.id.btnSubscribe)
 
             imgClose.setOnClickListener {
 
@@ -112,19 +113,62 @@ class ProfileFragment : Fragment() {
 
 
             cardPrivacyPolicy.setOnClickListener {
-                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
-                    .putExtra("title", "Privacy Policy")
-                (context as Activity).startActivity(intent)
+                startActivity(
+                     PdfViewerActivity.launchPdfFromUrl(
+                        context,
+                        "http://ehcf.in/public/Privacy_policy.pdf",
+                        "Privacy Policy",
+                        "",
+                        enableDownload = true
+                    )
+                )
+//
+//                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+//                    .putExtra("title", "Privacy Policy")
+//                (context as Activity).startActivity(intent)
             }
-            cardContactUs.setOnClickListener {
-                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
-                    .putExtra("title", "Contact Us")
-                (context as Activity).startActivity(intent)
+            cardReturnPolicy.setOnClickListener {
+                startActivity(
+                    PdfViewerActivity.launchPdfFromUrl(
+                        context,
+                        "http://ehcf.in/public/Return_&_Refund_Policy.pdf",
+                        "Return & Refund Policy",
+                        "",
+                        enableDownload = true
+                    )
+                )
+            }
+            cardScreening.setOnClickListener {
+                startActivity(
+                    PdfViewerActivity.launchPdfFromUrl(
+                        context,
+                        "http://ehcf.in/public/Shariah_Equities_Screening_Methodology.pdf",
+                        "Screening Methodology",
+                        "",
+                        enableDownload = true
+                    )
+                )
+            }
+            cardTrems.setOnClickListener {
+                startActivity(
+                    PdfViewerActivity.launchPdfFromUrl(
+                        context,
+                        "http://ehcf.in/public/Shariah_Equities_Terms_and_Conditions.pdf",
+                        "Terms and Conditions",
+                        "",
+                        enableDownload = true
+                    )
+                )
             }
 
             cardOpenDemat.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc"))
-                    requireContext().startActivity(Intent.createChooser(intent, "Choose browser"))
+                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+                    .putExtra("title", "Open Demat Account")
+                    .putExtra("link", "https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc")
+                (context as Activity).startActivity(intent)
+
+//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc"))
+//                    requireContext().startActivity(Intent.createChooser(intent, "Choose browser"))
 
             }
 

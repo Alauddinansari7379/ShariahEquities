@@ -10,7 +10,12 @@ pluginManagement {
         }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
-    }
+        maven
+                {
+
+                    url = "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-snapshots"
+                    url = "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
+                }    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -24,7 +29,12 @@ dependencyResolutionManagement {
         }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
-    }
+        maven
+                {
+
+                    url = "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-snapshots"
+                    url = "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
+                }    }
 }
 rootProject.name = "Shariah Equities"
 include ':app'

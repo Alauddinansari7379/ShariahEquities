@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.android.shariahsecurities">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,6 +20,10 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.GadgetZone"
         tools:targetApi="31">
+        <activity
+            android:name="com.amtech.shariahEquities.payment.Payment"
+            android:exported="false" />
+
         <activity
             android:name="com.amtech.shariahEquities.profile.activity.PrivacyPolicy"
             android:exported="false" />
@@ -50,10 +55,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_JqT9zUGJcRJws1" />   <!--key_secret- QiWjBMYaIKkSGr8nqOvksCNQ -->
-                                                         <!--key_id- rzp_live_JqT9zUGJcRJws1 -->
+<!--        <meta-data-->
+<!--            android:name="com.razorpay.ApiKey"-->
+<!--            android:value="rzp_live_JqT9zUGJcRJws1" />   &lt;!&ndash;key_secret- QiWjBMYaIKkSGr8nqOvksCNQ &ndash;&gt;-->
+<!--                                                         &lt;!&ndash;key_id- rzp_live_JqT9zUGJcRJws1 &ndash;&gt;-->
+
+        <meta-data android:name="com.phonepe.android.sdk.isUAT" android:value="true"/>
+        <meta-data android:name="com.phonepe.android.sdk.isSimulator" android:value="true"/>
+        <meta-data android:name="com.phonepe.android.sdk.MerchantId" android:value="M22NH1V8TQ8WX"/>
+        <meta-data android:name="com.phonepe.android.sdk.AppId" android:value="appId"/>
+
         <meta-data
             android:name="com.google.gms.wallet.api.enabled"
             android:value="true" />

@@ -5,6 +5,7 @@ package com.amtech.shariahEquities
 //import com.google.android.play.core.install.model.UpdateAvailability
 //import com.google.android.play.core.tasks.Task
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
@@ -26,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var bottomNav: BottomNavigationView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -62,18 +65,18 @@ class MainActivity : AppCompatActivity() {
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
         val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
-        val login = parentView.findViewById<Button>(R.id.btnLoginDil)
+        val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
 
         imgCloseNew.setOnClickListener {
             bottomSheetDialog.dismiss()
 
         }
-        login.setOnClickListener {
-           // startActivity(Intent(context, Login::class.java))
+        btnSubscribe.setOnClickListener {
+            startActivity(Intent(context, Payment::class.java))
         }
 
         Log.e("DeviceId", sessionManager.deviceId.toString())
-        requestNotificationPermission()
+      //  requestNotificationPermission()
         Log.e("authTokenUser", sessionManager.authTokenUser.toString())
         Log.e("userEmail", sessionManager.userEmail.toString())
         Log.e("userName", sessionManager.userName.toString())
