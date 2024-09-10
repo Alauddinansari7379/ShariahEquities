@@ -117,8 +117,13 @@ class StocksFragment : Fragment() {
                                 "Something went wrong"
                             )
                             response.isSuccessful && response.body() != null -> {
-                                companyList =
-                                    response.body()!!.result.toMutableList()
+//                                companyList =
+//                                    response.body()!!.result.toMutableList()
+
+
+                                companyList = response.body()!!.result
+                                    .sortedBy { it.name_of_company?.toLowerCase() }
+                                    .toMutableList()
                                 stocksAdapter.submitList(companyList)
                             }
                             else -> myToast(context as Activity, "Unexpected error")

@@ -108,7 +108,8 @@ class FundsFragment : Fragment(),FundsAdapter.AddWatchList {
                             response.isSuccessful && response.body() != null -> {
                                 companyList =
                                     response.body()!!.result.toMutableList()
-                                fundsAdapter.submitList(companyList)
+                                val singleItemList = companyList.take(1)
+                                fundsAdapter.submitList(singleItemList)
                             }
 
                             else -> myToast(context as Activity, "Unexpected error")

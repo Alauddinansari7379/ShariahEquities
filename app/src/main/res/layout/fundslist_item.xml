@@ -94,12 +94,12 @@
                         android:layout_marginEnd="5dp"
                          android:layout_marginBottom="5dp"
                         android:background="@drawable/gradient_button"
-                        android:drawableStart="@drawable/baseline_add_24"
+
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/poppins_semi_bold"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:text="Watchlist"
+                        android:text="Invest Now"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="11sp">

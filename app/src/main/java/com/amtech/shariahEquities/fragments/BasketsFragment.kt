@@ -172,10 +172,17 @@ class BasketsFragment : Fragment() {
     fun addBasketList() {
         AppProgressBar.showLoaderDialog(context)
         val companyIdsArray = selectedCompanies.map { it.id.toString() }
+        val formattedString = companyIdsArray.joinToString(prefix = "[\"", postfix = "\"]", separator = "\", \"")
+//        val formattedString = companyIdsArray.joinToString(prefix = "[", postfix = "]", separator = ",")
+//        val companyIdsArray = selectedCompanies.map { it.id.toString() }
+//        val formattedString = companyIdsArray.joinToString(prefix = "[", postfix = "]", separator = ",")
+
+
         ApiClient.apiService.addBasket(
             sessionManager.id.toString(),
             binding.edOwnName.text!!.toString(),
-            companyIdsArray.joinToString(",")
+//            companyIdsArray.joinToString(",")
+            formattedString
         )
             .enqueue(object : Callback<ModelAddWatchList> {
                 @SuppressLint("SetTextI18n")
