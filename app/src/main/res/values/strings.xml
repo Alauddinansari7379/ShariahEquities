@@ -126,4 +126,14 @@
     <string name="_5_0">5.0</string>
     <string name="send">Send</string>
     <string name="name">Name</string>
+    <string name="shariah_equities">Shariah Equities</string>
+
+
+    <string-array name="filter_options">
+        <item>All</item>
+        <item>Compliant</item>
+        <item>Non-Compliant</item>
+    </string-array>
+
+
 </resources>
