@@ -66,6 +66,12 @@ class FundsFragment : Fragment() {
             binding.rvCompanyList.apply {
                 adapter = FundsAdapter(requireContext(), userList)
             }
+//            if (userList.isEmpty()){
+//                val firstItem = listOf(companyList[0])
+//                binding.rvCompanyList.apply {
+//                    adapter = FundsAdapter(requireContext(),firstItem)
+//                }
+//            }
         }
     }
 //    private fun performSearch(query: String) {
@@ -115,11 +121,11 @@ class FundsFragment : Fragment() {
                                 companyList = response.body()!!.result
 
                                 count=0
-                              //  val firstItem = listOf(companyList[0])
+                                val firstItem = listOf(companyList[0])
 
                                 // Set up the RecyclerView with the single item
                                 binding.rvCompanyList.apply {
-                                    adapter = FundsAdapter(requireContext(),companyList)
+                                    adapter = FundsAdapter(requireContext(),firstItem)
                                 }
 
                              }

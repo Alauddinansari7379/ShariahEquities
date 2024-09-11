@@ -172,6 +172,27 @@ class ProfileFragment : Fragment() {
 
             }
 
+            cardContactUs.setOnClickListener {
+                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+                    .putExtra("title", "Contact Us")
+                    .putExtra("link", "https://shariahequities.in/")
+                (context as Activity).startActivity(intent)
+            }
+
+            cardFAQ.setOnClickListener {
+                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+                    .putExtra("title", "FAQs")
+                    .putExtra("link", "https://shariahequities.in/faq/")
+                (context as Activity).startActivity(intent)
+            }
+
+            cardFeedback.setOnClickListener {
+                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+                    .putExtra("title", "Feedback")
+                    .putExtra("link", "https://forms.gle/atZmhwAk8EL5PZY18")
+                (context as Activity).startActivity(intent)
+            }
+
             cardChangePass.setOnClickListener {
                 changePassDialog("Change Password")
             }

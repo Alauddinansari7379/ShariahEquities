@@ -20,7 +20,7 @@ import com.sellacha.tlismiherbs.databinding.ItemStockBinding
 
 class FundsAdapter(
     val context: Context,
-    var list: ArrayList<Result>,
+    var list: List<Result>,
 ) : RecyclerView.Adapter<FundsAdapter.ViewHolder>() {
     lateinit var sessionManager: SessionManager
 
@@ -48,12 +48,20 @@ class FundsAdapter(
                     binding.apply {
                         companyName.text = name_of_company
                         tvSymbol.text = symbol
-                        btnAddWatchList.setOnClickListener {
+                        btnInvestNow.setOnClickListener {
                             val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                                 .putExtra("title", "Contact Us")
                                 .putExtra("link", "https://forms.gle/6gGfyb4WiLTqZg686")
                             (context as Activity).startActivity(intent)
 
+
+                        }
+                        if (complaint_type == 1) {
+                            complianceTag.visibility = View.VISIBLE
+                            binding.nonComplianceTag.visibility = View.GONE
+                        } else {
+                            binding.nonComplianceTag.visibility = View.VISIBLE
+                            binding.complianceTag.visibility = View.GONE
 
                         }
                     }

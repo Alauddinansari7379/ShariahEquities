@@ -74,59 +74,84 @@
 
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="10dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="2.5"
-                    android:gravity="center"
-                    android:orientation="vertical"
+                    android:orientation="vertical">
 
-                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:id="@+id/complianceTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/corner_new"
+                            android:backgroundTint="#4CAF50"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:orientation="horizontal"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="COMPLIANT"
+                                android:textColor="@color/white"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/nonComplianceTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/corner_new"
+                            android:backgroundTint="#F44336"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:orientation="horizontal"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NON-COMPLIANT"
+                                android:textColor="@color/white"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <CheckBox
+                            android:id="@+id/checkbox"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="5dp"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnAddWatchList"
+                        android:id="@+id/btnInvestNow"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
-                         android:layout_marginBottom="5dp"
+
+                        android:layout_marginBottom="5dp"
                         android:background="@drawable/gradient_button"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/poppins_semi_bold"
                         android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
+                         android:paddingEnd="10dp"
                         android:text="Invest Now"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="11sp">
+                        android:textSize="10sp">
 
                     </androidx.appcompat.widget.AppCompatButton>
 
-
-                    <LinearLayout
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/dot_main_c"
-                        android:backgroundTint="#F6F6F6"
-                        android:visibility="gone"
-                        android:gravity="center">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:background="@drawable/delete"
-                            android:elevation="5dp">
-
-                        </androidx.appcompat.widget.AppCompatImageView>
-
-                    </LinearLayout>
-
-
-
                 </LinearLayout>
+
 
             </LinearLayout>
 
