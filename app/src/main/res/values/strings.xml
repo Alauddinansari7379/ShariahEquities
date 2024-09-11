@@ -127,8 +127,10 @@
     <string name="send">Send</string>
     <string name="name">Name</string>
     <string name="shariah_equities">Shariah Equities</string>
-
-
+    <string name="create_basket">Create basket</string>
+    <string name="select_companies_stocks">Select Companies Stocks</string>
+    <string name="search_by_name_or_symbol">Search by name or symbol</string>
+    <string name="enter_the_name">Enter the name...</string>
 
 
 </resources>

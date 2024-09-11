@@ -29,9 +29,6 @@ class FundsAdapter(
                     (context as Activity).startActivity(intent)
 
                  }
-
-
-
             }
         }
     }

@@ -9,11 +9,9 @@ import com.amtech.shariahEquities.fragments.model.modelGetBasket.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.SingleRowBasketListBinding
 
-import com.squareup.picasso.Picasso
-
 class AdapterBasket(
     val context: Context,
-    var list: ArrayList<Result>,
+    var list: MutableList<Result>,
  ) : RecyclerView.Adapter<AdapterBasket.ViewHolder>() {
     lateinit var sessionManager: SessionManager
 
@@ -40,6 +38,11 @@ class AdapterBasket(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+    fun updateList(newList: List<Result>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
     }
 
 }
