@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.fragments.adapter.AdapterBasket
-import com.amtech.shariahEquities.fragments.adapter.AdapterBasketAllList
 import com.amtech.shariahEquities.fragments.adapter.AdapterPopupBasket
 import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.fragments.model.modelGetBasket.ModelGetBasket
@@ -27,24 +27,23 @@ import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.R
-import com.sellacha.tlismiherbs.databinding.FragmentStocksBinding
+import com.sellacha.tlismiherbs.databinding.FragmentBasketBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
-    AdapterPopupBasket.AddWatchList {
+class BasketsFragment : Fragment(){
 
     private lateinit var dialogAdapter: AdapterPopupBasket
-    private var _binding: FragmentStocksBinding? = null
+    private var _binding: FragmentBasketBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapterBasketAllList: AdapterBasketAllList
-    private var count = 0
+     private var count = 0
+     private var countL = 0
+     private var countAdd = 0
     private var companyList = mutableListOf<Result>()
-    private var allbasketList =
-        mutableListOf<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>()
+    private var allbasketList = ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>()
     private val selectedCompanies = mutableListOf<Result>()
     private lateinit var sessionManager: SessionManager
 
@@ -52,69 +51,37 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentStocksBinding.inflate(inflater, container, false)
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
-        adapterBasketAllList =
-            AdapterBasketAllList(requireContext(), { _, _ -> updateSaveButtonVisibility() }, this)
 
-        binding.rvCompanyList.apply {
-            adapter = adapterBasketAllList
-        }
 
         binding.addSelectedButton.setOnClickListener {
             showCompanySelectionDialog()
         }
-        binding.edtSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                performSearch(s.toString())
-                binding.rvBasketList.visibility = View.GONE
-                binding.rvCompanyList.visibility = View.VISIBLE
-            }
+        binding.edtSearch.addTextChangedListener { str ->
+            setRecyclerViewAdapter(allbasketList.filter {
+                it.basketname!=null && it.basketname.contains(str.toString(), ignoreCase = true)
+            } as ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>)
+        }
 
-            override fun afterTextChanged(s: Editable?) {}
-
-        })
-
-        binding.rvCompanyList.visibility = View.GONE
         apiCallGetCompanyList()
         apiCallGetBasketList()
     }
 
-    private fun performSearch(query: String) {
-        val trimmedQuery = query.trim()
-
-        if (trimmedQuery.isEmpty()) {
-            // Hide RecyclerView if search query is empty
-            binding.rvCompanyList.visibility = View.GONE
-        } else {
-            val filteredList = allbasketList.filter { result ->
-                result.basketname.contains(trimmedQuery, ignoreCase = true) ||
-                        result.companyid.contains(trimmedQuery, ignoreCase = true)
-            }
-
-
-            (binding.rvCompanyList.adapter as? AdapterBasket)?.updateList(filteredList.toMutableList())
-            binding.rvCompanyList.visibility = if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
+@SuppressLint("SetTextI18n")
+private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>) {
+    if (binding.rvBasketList != null) {
+        binding.rvBasketList.apply {
+            adapter = AdapterBasket(requireContext(), userList)
         }
     }
-
-
-
-
-
-
-    private fun updateSaveButtonVisibility() {
-        val hasSelectedItems = adapterBasketAllList.getSelectedItems().isNotEmpty()
-        binding.btnSave.visibility = if (hasSelectedItems) View.VISIBLE else View.GONE
-    }
-
+}
     private fun apiCallGetCompanyList() {
         // AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
@@ -126,32 +93,34 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
                     AppProgressBar.hideLoaderDialog()
                     try {
                         when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
+                            response.code() == 500 -> activity?.let { myToast(it, "Server Error") }
+                            response.code() == 404 -> activity?.let {
+                                myToast(
+                                    it,
+                                    "Something went wrong"
+                                )
+                            }
 
                             response.isSuccessful && response.body() != null -> {
-                                companyList =
-                                    response.body()!!.result.toMutableList()
+                                count=0
+                                companyList = response.body()!!.result.toMutableList()
                                 dialogAdapter.submitList(companyList)
                             }
 
-                            else -> myToast(context as Activity, "Unexpected error")
+                            else -> activity?.let { myToast(it, "Unexpected error") }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        myToast(context as Activity, "Something went wrong")
+                       // activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
                 override fun onFailure(call: Call<ModelCompanyList>, t: Throwable) {
                     count++
-                    if (count <= 2) {
+                    if (count <= 3) {
                         apiCallGetCompanyList()
                     } else {
-                        myToast(context as Activity, "Something went wrong")
+                        activity?.let { myToast(it, "Something went wrong") }
                     }
                     AppProgressBar.hideLoaderDialog()
                 }
@@ -182,43 +151,43 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
                     AppProgressBar.hideLoaderDialog()
                     try {
                         when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
+                            response.code() == 500 -> activity?.let { myToast(it, "Server Error") }
+                            response.code() == 404 -> activity?.let {
+                                myToast(
+                                    it,
+                                    "Something went wrong"
+                                )
+                            }
 
                             response.isSuccessful && response.body()?.status == 1 != null -> {
-                                count = 0
+                                countL = 0
                                 myToast(
                                     context as Activity,
                                     "${selectedCompanies.size} Stocks Added"
                                 )
-                                adapterBasketAllList.setShowCheckboxes(false)
-                                binding.btnSave.visibility = View.GONE
+                                 binding.btnSave.visibility = View.GONE
                                 binding.edtOwnName.visibility = View.GONE
                                 binding.edOwnName.setText("")
                                 selectedCompanies.clear()
-                                adapterBasketAllList.clearSelectedItems()
-                                apiCallGetBasketList()
+                                 apiCallGetBasketList()
 
 
                             }
 
-                            else -> myToast(context as Activity, "Unexpected error")
+                            else -> activity?.let { myToast(it, "Unexpected error") }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        myToast(context as Activity, "Something went wrong")
+                       // activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
                 override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
-                    count++
-                    if (count <= 3) {
+                    countL++
+                    if (countL <= 3) {
                         addBasketList(basket)
                     } else {
-                        myToast(context as Activity, "Something went wrong")
+                        activity?.let { myToast(it, t.message.toString()) }
                     }
                     AppProgressBar.hideLoaderDialog()
                 }
@@ -230,48 +199,6 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
         _binding = null
     }
 
-    override fun addWatchList(compenyId: String) {
-        AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.createWatchlist(sessionManager.id.toString(), compenyId)
-            .enqueue(object : Callback<ModelAddWatchList> {
-                @SuppressLint("SetTextI18n")
-                override fun onResponse(
-                    call: Call<ModelAddWatchList>, response: Response<ModelAddWatchList>
-                ) {
-                    AppProgressBar.hideLoaderDialog()
-                    try {
-                        when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
-
-                            response.isSuccessful && response.body()?.status == 1 != null -> {
-                                myToast(context as Activity, "Added in Watchlist")
-
-
-                            }
-
-                            else -> myToast(context as Activity, "Unexpected error")
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        myToast(context as Activity, "Something went wrong")
-                    }
-                }
-
-                override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
-                    count++
-                    if (count <= 2) {
-                        addWatchList(compenyId)
-                    } else {
-                        myToast(context as Activity, "Something went wrong")
-                    }
-                    AppProgressBar.hideLoaderDialog()
-                }
-            })
-    }
 
     private fun apiCallGetBasketList() {
         AppProgressBar.showLoaderDialog(context)
@@ -284,35 +211,36 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
                     AppProgressBar.hideLoaderDialog()
                     try {
                         when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
+                            response.code() == 500 -> activity?.let { myToast(it, "Server Error") }
+                            response.code() == 404 -> activity?.let {
+                                myToast(
+                                    it,
+                                    "Something went wrong"
+                                )
+                            }
 
                             response.isSuccessful && response.body() != null -> {
-                                allbasketList =
-                                    response.body()!!.result.toMutableList()
+                                countAdd=0
+                                allbasketList = response.body()!!.result
                                 binding.rvBasketList.apply {
-                                    adapter =
-                                        AdapterBasket(requireContext(), allbasketList)
+                                    adapter = AdapterBasket(requireContext(), allbasketList)
                                 }
                             }
 
-                            else -> myToast(context as Activity, "Unexpected error")
+                            else -> activity?.let { myToast(it, "Unexpected error") }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        myToast(context as Activity, "Something went wrong")
+                      //  activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
                 override fun onFailure(call: Call<ModelGetBasket>, t: Throwable) {
-                    count++
-                    if (count <= 2) {
+                    countAdd++
+                    if (countAdd <= 2) {
                         apiCallGetCompanyList()
                     } else {
-                        myToast(context as Activity, "Something went wrong")
+                        activity?.let { myToast(it, t.message.toString()) }
                     }
                     AppProgressBar.hideLoaderDialog()
                 }
@@ -329,12 +257,7 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
         val edtSearch = dialogView.findViewById<EditText>(R.id.edtSearch)
         val close = dialogView.findViewById<ImageView>(R.id.imgClose)
 
-        dialogAdapter = AdapterPopupBasket(
-            requireContext(),
-            { result, isChecked ->
-            },
-            this
-        )
+        dialogAdapter = AdapterPopupBasket(requireContext(), { result, isChecked -> },)
 
 
         recyclerView.adapter = dialogAdapter
@@ -343,6 +266,9 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s!!.isNotEmpty()){
+                    recyclerView.scrollToPosition(0)
+                }
                 val filteredList = companyList.filter {
                     it.name_of_company.contains(s.toString(), ignoreCase = true) ||
                             it.symbol.contains(s.toString(), ignoreCase = true)
@@ -369,11 +295,12 @@ class BasketsFragment : Fragment(), AdapterBasketAllList.AddWatchList,
                 return@setOnClickListener
             }
             if (selectedCompanies.size > 10) {
-                myToast(context as Activity, "You can't save more than 10 items")
+                activity?.let { it1 -> myToast(it1, "You can't save more than 10 items") }
             } else if (selectedCompanies.isEmpty()) {
-                myToast(context as Activity, "Please select any items")
+                activity?.let { it1 -> myToast(it1, "Please select any items") }
             } else {
                 addBasketList(etOwnName.text!!.toString())
+                
                 dialog.dismiss()
 
             }

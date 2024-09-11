@@ -28,24 +28,16 @@ class Login : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     lateinit var sessionManager: SessionManager
     var count = 0
-    private val PREF_NAME = "MyPrefs"
-    private val PREF_USERNAME = "username"
-    private val PREF_PASSWORD = "password"
-    private val FCM_TOKEN = "fcmtoken"
-    private var fcmTokenNew = ""
-    private lateinit var sharedPreferences: SharedPreferences
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sessionManager = SessionManager(context)
 
-        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
         Log.e("sessionManager.fcmToken", sessionManager.fcmToken.toString())
 
-        if (sharedPreferences.getBoolean("islogin", false)) {
+        if (sessionManager.isLogin) {
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.flags =
                 Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -172,9 +164,4 @@ class Login : AppCompatActivity() {
         })
     }
 
-    private fun saveFCM(fcmToken: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(FCM_TOKEN, fcmToken)
-        editor.apply()
-    }
 }

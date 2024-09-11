@@ -11,7 +11,7 @@ import com.amtech.shariahEquities.modelCompany.Result
 import com.sellacha.tlismiherbs.databinding.SingleRowPopupBasketBinding
 
 class AdapterPopupBasket (
-    val context: Context, private val onItemChecked: (Result, Boolean) -> Unit, val addWatchList: AddWatchList
+    val context: Context, private val onItemChecked: (Result, Boolean) -> Unit,
 ) : ListAdapter<Result, AdapterPopupBasket.StockViewHolder>(DiffCallback()) {
 
     private var showCheckboxes = false
@@ -20,7 +20,7 @@ class AdapterPopupBasket (
     inner class StockViewHolder(val binding: SingleRowPopupBasketBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(result: Result) {
             binding.apply {
-                companyName.text = result.name_of_company
+                 companyName.text = result.name_of_company
                 companySymbol.text = result.symbol
                 if (result.complaint_type==1){
                     complianceTag.visibility= View.VISIBLE
@@ -37,7 +37,7 @@ class AdapterPopupBasket (
                     selectedItems[result.id.toLong()] = isChecked
                     onItemChecked(result, isChecked)
                 }
-                btnAddWatchList.visibility= View.GONE
+
 
             }
         }
@@ -74,8 +74,6 @@ class AdapterPopupBasket (
             return oldItem == newItem
         }
     }
-    interface AddWatchList{
-        fun addWatchList(compenyId:String)
-    }
+
 }
 

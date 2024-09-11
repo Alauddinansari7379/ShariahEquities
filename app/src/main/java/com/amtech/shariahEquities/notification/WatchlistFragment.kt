@@ -72,6 +72,7 @@ class WatchlistFragment : Fragment() {
         filterOptions.add("All")
         filterOptions.add("Compliant")
         filterOptions.add("Non-Compliant")
+
         val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
         adapter.setDropDownViewResource(R.layout.simple_list_item_1)
         binding.spinnerFilter.adapter = adapter

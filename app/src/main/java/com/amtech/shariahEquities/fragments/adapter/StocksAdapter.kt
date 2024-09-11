@@ -1,86 +1,51 @@
 package com.amtech.shariahEquities.fragments.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.amtech.shariahEquities.fragments.adapter.FundsAdapter.AddWatchList
 import com.amtech.shariahEquities.modelCompany.Result
+import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
+
 class StocksAdapter(
-    val context: Context, private val onItemChecked: (Result, Boolean) -> Unit, val addWatchList: AddWatchList
-) : ListAdapter<Result, StocksAdapter.StockViewHolder>(DiffCallback()) {
+    val context: Context,
+    var list: ArrayList<Result>,
+) : RecyclerView.Adapter<StocksAdapter.ViewHolder>() {
+    lateinit var sessionManager: SessionManager
 
-    private var showCheckboxes = false
-    private val selectedItems: MutableMap<Long, Boolean> = mutableMapOf()
+    inner class ViewHolder(val binding: ItemStockBinding) : RecyclerView.ViewHolder(binding.root)
 
-    inner class StockViewHolder(val binding: ItemStockBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: Result) {
-            binding.apply {
-                companyName.text = result.name_of_company
-                companySymbol.text = result.symbol
-             if (result.complaint_type==1){
-                 complianceTag.visibility=View.VISIBLE
-                 nonComplianceTag.visibility=View.GONE
-             }else{
-                 nonComplianceTag.visibility=View.VISIBLE
-                 complianceTag.visibility=View.GONE
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemStockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-             }
+        return ViewHolder(binding)
+    }
 
-                checkbox.setOnCheckedChangeListener(null)
-                checkbox.isChecked = selectedItems[result.id.toLong()] ?: false
-                checkbox.visibility = if (showCheckboxes) View.VISIBLE else View.GONE
-                checkbox.setOnCheckedChangeListener { _, isChecked ->
-                    selectedItems[result.id.toLong()] = isChecked
-                    onItemChecked(result, isChecked)
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        sessionManager = SessionManager(context)
+
+        with(holder) {
+            with(list[position]) {
+                binding.btnAddWatchList.visibility=View.GONE
+                binding.companyName.text = name_of_company
+                binding.companySymbol.text = symbol
+                if (complaint_type == 1) {
+                    binding.complianceTag.visibility = View.VISIBLE
+                    binding.nonComplianceTag.visibility = View.GONE
+                } else {
+                    binding.nonComplianceTag.visibility = View.VISIBLE
+                    binding.complianceTag.visibility = View.GONE
+
                 }
-                btnAddWatchList.visibility=View.GONE
-
-//                btnAddWatchList.setOnClickListener {
-//                    addWatchList.addWatchList(result.id.toString())
-//                }
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
-        val binding = ItemStockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return StockViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    fun setShowCheckboxes(show: Boolean) {
-        showCheckboxes = show
-        notifyDataSetChanged()
-    }
-
-    fun getSelectedItems(): List<Result> {
-        return currentList.filter { selectedItems[it.id.toLong()] == true }
-    }
-    fun clearSelectedItems() {
-        selectedItems.clear()
-        notifyDataSetChanged()
-    }
-
-    private class DiffCallback : DiffUtil.ItemCallback<Result>() {//refresh the changed data
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
-            return oldItem == newItem
-        }
-    }
-    interface AddWatchList{
-        fun addWatchList(compenyId:String)
-    }
 }
-

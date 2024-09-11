@@ -1,16 +1,15 @@
 package com.amtech.shariahEquities.Search.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.amtech.shariahEquities.fragments.adapter.FundsAdapter.AddWatchList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
+
 class AdapterSearch(
     val context: Context, private val onItemChecked: (Result, Boolean) -> Unit, val addWatchList: AddWatchList
 ) : ListAdapter<Result, AdapterSearch.StockViewHolder>(DiffCallback()) {

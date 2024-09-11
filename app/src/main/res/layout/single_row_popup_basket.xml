@@ -2,19 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:orientation="vertical">
 
             <TextView
@@ -25,6 +26,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:ellipsize="end"
                 android:textStyle="bold" />
 
 
@@ -33,21 +35,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Apple Inc"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
         </LinearLayout>
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                 android:orientation="horizontal">
                 <LinearLayout
                     android:id="@+id/complianceTag"
                     android:layout_width="wrap_content"
@@ -93,25 +95,6 @@
                     />
 
             </LinearLayout>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAddWatchList"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/gradient_button"
-                android:drawableTint="@color/white"
-                android:fontFamily="@font/poppins_semi_bold"
-                android:paddingStart="10dp"
-                android:drawableStart="@drawable/baseline_add_24"
-                android:paddingEnd="10dp"
-                android:text="Watchlist"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="10sp">
-
-            </androidx.appcompat.widget.AppCompatButton>
 
         </LinearLayout>
 

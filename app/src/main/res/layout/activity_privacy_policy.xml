@@ -6,31 +6,27 @@
     android:orientation="vertical"
     android:layout_height="wrap_content"
     tools:context="com.amtech.shariahEquities.profile.activity.PrivacyPolicy">
-    <LinearLayout
-        android:id="@+id/constraintLayout2"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-
         android:layout_gravity="center"
         android:background="@drawable/gradient_reffer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_height="50dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
             android:background="?actionBarItemBackground"
             android:padding="5dp"
-            android:src="@drawable/back"
             android:tint="@color/white"
+            android:layout_marginStart="10dp"
+
+            android:src="@drawable/ic_baseline_arrow_back_24"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/appCompatTextView2">
+            app:layout_constraintTop_toTopOf="parent">
 
         </androidx.appcompat.widget.AppCompatImageView>
 
@@ -38,22 +34,19 @@
             android:id="@+id/appCompatTextView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semi_bold"
             android:gravity="center"
-            android:layout_marginEnd="15dp"
-            android:text="Privacy Policy"
-            android:layout_gravity="center"
+            android:text="Privacy policy"
+            android:fontFamily="@font/poppins_semi_bold"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textStyle="bold"
+            android:textSize="14sp"
+             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         </androidx.appcompat.widget.AppCompatTextView>
 
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <WebView
         android:id="@+id/webView"
