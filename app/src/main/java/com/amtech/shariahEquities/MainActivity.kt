@@ -133,23 +133,23 @@ class MainActivity : AppCompatActivity() {
                     }
                     R.id.fragment_watchlist -> {
                         appCompatTextView2.text = "Watchlist"
-                        if (sessionManager.authTokenUser!!.isEmpty()){
-                            try {
-                                bottomSheetDialog.show()
-                            }catch (e:Exception){
-                                e.printStackTrace()
-                            }
-                        }
+//                        if (sessionManager.authTokenUser!!.isEmpty()){
+//                            try {
+//                                bottomSheetDialog.show()
+//                            }catch (e:Exception){
+//                                e.printStackTrace()
+//                            }
+//                        }
                     }
                     R.id.fragment_portfolio -> {
                         appCompatTextView2.text = "Profile"
-                        if (sessionManager.authTokenUser!!.isEmpty()){
-                            try {
-                                bottomSheetDialog.show()
-                            }catch (e:Exception){
-                                e.printStackTrace()
-                            }
-                        }
+//                        if (sessionManager.authTokenUser!!.isEmpty()){
+//                            try {
+//                                bottomSheetDialog.show()
+//                            }catch (e:Exception){
+//                                e.printStackTrace()
+//                            }
+//                        }
                     }
                 }
             }
