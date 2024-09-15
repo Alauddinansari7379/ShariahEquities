@@ -1,21 +1,14 @@
 package com.amtech.shariahEquities.fragments
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.amtech.shariahEquities.Helper.AppProgressBar
-import com.amtech.shariahEquities.fragments.adapter.AdapterBasket
 import com.amtech.shariahEquities.fragments.adapter.StocksAdapter
-import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
@@ -46,6 +39,12 @@ class StocksFragment : Fragment() {
         binding.llCreateWon.visibility = View.GONE
         sessionManager = SessionManager(requireContext())
 
+//        if (sessionManager.subscribed.toString()=="0"){
+//            binding.edtSearch.setEnabled(false)
+//            binding.edtSearch.isFocusable = false
+//            binding.edtSearch.setCursorVisible(false)
+//            binding.imgLock.visibility=View.VISIBLE
+//        }
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(companyList.filter {
                 it.name_of_company!=null && it.name_of_company.contains(str.toString(), ignoreCase = true)||it.symbol!=null && it.symbol.contains(str.toString(), ignoreCase = true)
@@ -85,12 +84,20 @@ class StocksFragment : Fragment() {
                             }
 
                             response.isSuccessful && response.body() != null -> {
-//
                                 companyList = response.body()!!.result
-                                binding.rvCompanyList.apply {
-                                    adapter = StocksAdapter(requireContext(),response.body()!!.result)
+//                                if (sessionManager.subscribed.toString()=="0"){
+//                                    val firstItem = listOf(companyList[0],companyList[1],companyList[2])
+//                                    binding.rvCompanyList.apply {
+//                                        adapter = StocksAdapter(requireContext(),firstItem)
 //
+//                                    }
+//                                }else{
+                                    binding.rvCompanyList.apply {
+                                        adapter = StocksAdapter(requireContext(),companyList)
+//
+                                   // }
                                 }
+
 
                              }
 

@@ -12,10 +12,11 @@ import com.amtech.shariahEquities.fragments.model.modelGetBasket.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.SingleRowBasketListBinding
 import org.json.JSONArray
+import retrofit2.http.DELETE
 
 class AdapterBasket(
     val context: Context,
-    var list: ArrayList<Result>,
+    var list: ArrayList<Result>, val delete: Delete
 ) : RecyclerView.Adapter<AdapterBasket.ViewHolder>() {
     lateinit var sessionManager: SessionManager
 
@@ -54,16 +55,19 @@ class AdapterBasket(
                             .putExtra("basketId", id.toString())
                         context.startActivity(intent)
                     }
+
+                    binding.imgDelete.setOnClickListener {
+                        delete.delete(id.toString())
+                    }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-//    fun updateList(newList: List<Result>) {
-//        list.clear()
-//        list.addAll(newList)
-//        notifyDataSetChanged()
-//    }
+
+    interface Delete {
+        fun delete(id: String)
+    }
 
 }

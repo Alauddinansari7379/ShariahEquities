@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="2dp"
-        app:cardCornerRadius="10dp">
+         android:layout_marginTop="1dp"
+         app:cardCornerRadius="10dp">
 
 
         <LinearLayout
@@ -41,8 +42,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:gravity="center_vertical"
+                         android:gravity="center_vertical"
                         android:orientation="horizontal">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvSymbol"
@@ -72,25 +72,17 @@
 
                     </androidx.appcompat.widget.AppCompatTextView>
 
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="22dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:id="@+id/complianceTag"
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/corner_new"
-                            android:backgroundTint="#4CAF50"
+                            android:backgroundTint="#437C90"
                             android:gravity="center"
                             android:visibility="gone"
                             android:orientation="horizontal"
@@ -105,10 +97,10 @@
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/nonComplianceTag"
-                            android:layout_width="wrap_content"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/corner_new"
-                            android:backgroundTint="#F44336"
+                            android:backgroundTint="#413F3F"
                             android:gravity="center"
                             android:visibility="gone"
                             android:orientation="horizontal"
@@ -122,14 +114,17 @@
                                 android:textSize="10sp" />
                         </LinearLayout>
 
-                        <CheckBox
-                            android:id="@+id/checkbox"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="5dp"
-                            android:visibility="gone"/>
 
                     </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnInvestNow"
                         android:layout_width="wrap_content"

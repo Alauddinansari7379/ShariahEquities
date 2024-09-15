@@ -91,6 +91,19 @@ interface ApiInterface {
         @Query("id") id:String,
       ): Call<ModelResetPass>
 
+    @DELETE("delete_basket")
+    fun deleteBasket(
+        @Query("user_id") user_id:String,
+        @Query("basketId") basketId:String,
+        ): Call<ModuleDeleteWatchList>
+
+    @DELETE("delete_basket_single")
+    fun deleteBasketSingle(
+        @Query("user_id") user_id:String,
+        @Query("basketId") basketId:String,
+        @Query("companyid") companyid:String,
+        ): Call<ModuleDeleteWatchList>
+
     @GET("get_basket_company_list")
     fun getBasketById(
         @Query("user_id") user_id:String,

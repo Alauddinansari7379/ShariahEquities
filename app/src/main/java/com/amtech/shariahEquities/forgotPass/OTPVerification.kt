@@ -128,8 +128,7 @@ class OTPVerification : AppCompatActivity() {
         }
         binding.tvResend.setOnClickListener {
             binding.tvResend.setTextColor(Color.parseColor("#858284"))
-            progressDialog!!.show()
-
+            AppProgressBar.showLoaderDialog(context)
             ApiClient.apiService.sendOTP(binding.edtEmail.text.toString().trim(), "forgetpassword")
                 .enqueue(object : Callback<ModelOTP> {
 
@@ -141,7 +140,7 @@ class OTPVerification : AppCompatActivity() {
                         Log.e("Ala", "${response.body()!!.status}")
                         if (response.body()!!.status == 1) {
                             myToast(this@OTPVerification, response.body()!!.message)
-                            progressDialog!!.dismiss()
+                            AppProgressBar.hideLoaderDialog()
                             otp = response.body()!!.result.otp.toString().toInt()
 //                        val id = response.body()!!.result.id
                             this@OTPVerification.otp = otp
@@ -149,13 +148,13 @@ class OTPVerification : AppCompatActivity() {
                             timeCounter()
                         } else {
                             myToast(this@OTPVerification, "${response.body()!!.message}")
-                            progressDialog!!.dismiss()
+                            AppProgressBar.hideLoaderDialog()
                         }
                     }
 
                     override fun onFailure(call: Call<ModelOTP>, t: Throwable) {
                         myToast(this@OTPVerification, "Something went wrong")
-                        progressDialog!!.dismiss()
+                        AppProgressBar.hideLoaderDialog()
 
                     }
 
@@ -293,7 +292,7 @@ class OTPVerification : AppCompatActivity() {
         ApiClient.apiService.resetPass(
             email,
             pass,
-            )
+        )
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("SetTextI18n")
                 override fun onResponse(
@@ -311,7 +310,7 @@ class OTPVerification : AppCompatActivity() {
 
                         } else {
                             myToast(context, response.body()!!.message)
-                            if (response.body()!!.status==1) {
+                            if (response.body()!!.status == 1) {
                                 val intent = Intent(applicationContext, Login::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

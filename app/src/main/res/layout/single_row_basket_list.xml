@@ -41,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+         android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -53,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#679468"
+                android:backgroundTint="#437C90"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -71,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#D4C11B"
+                android:backgroundTint="#413F3F"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -97,14 +98,12 @@
             android:id="@+id/btnView"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
+             android:layout_marginEnd="5dp"
              android:background="@drawable/gradient_button"
             android:drawableTint="@color/white"
             android:fontFamily="@font/poppins_semi_bold"
             android:paddingStart="10dp"
-            android:layout_marginBottom="5dp"
-            android:drawableStart="@drawable/baseline_remove_red_eye_24"
+             android:drawableStart="@drawable/baseline_remove_red_eye_24"
             android:paddingEnd="10dp"
             android:text="View"
             android:textAllCaps="false"
@@ -114,6 +113,17 @@
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="23dp"
+            android:layout_height="26dp"
+            android:src="@drawable/delete"
+            android:background="?actionBarItemBackground"
+            android:tint="@color/red_btn_bg_color"
+            android:backgroundTint="@color/red_btn_bg_color"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            />
 
     </LinearLayout>
 

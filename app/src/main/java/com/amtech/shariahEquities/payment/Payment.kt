@@ -69,7 +69,7 @@ class Payment : AppCompatActivity() {
                 val data = JSONObject().apply {
                     put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
                     put("merchantId", MERCHANT_ID)  // Your merchant ID
-                    put("amount", 1 * 100)  // Amount in paisa (1 INR = 100 paisa)
+                    put("amount", 5000 * 100)  // Amount in paisa (1 INR = 100 paisa)
                     put("mobileNumber", "7908834635")  // Optional: Customer's mobile number
                     put("callbackUrl", "https://webhook.site/21c2fcdd-bd23-425a-a9b4-0896da91d82d")  // Change to your actual callback URL in production
 

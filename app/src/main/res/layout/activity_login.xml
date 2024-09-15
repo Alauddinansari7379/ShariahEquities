@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
      android:orientation="vertical"
+    android:background="@color/main_background"
     >
 
 
@@ -53,7 +54,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="125dp"
-                android:layout_height="100dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:background="@drawable/logo">
@@ -197,27 +198,10 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:background="@null"
-                android:gravity="end"
+                 android:gravity="center"
                 android:fontFamily="@font/poppins_semi_bold"
                 android:text="@string/forgot_password"
-                android:textColor="@color/main_color"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="parent">
-
-            </androidx.appcompat.widget.AppCompatTextView>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvSignup"
-                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:background="@null"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_semi_bold"
-                android:text="Don't have an account? Sign up"
-                android:textColor="@color/main_color"
+                android:textColor="@color/text_color"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="parent">
@@ -227,8 +211,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp"
+                 android:orientation="vertical">
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnLogIn"
                     android:layout_width="match_parent"
@@ -244,6 +228,23 @@
                     android:textSize="14sp">
 
                 </androidx.appcompat.widget.AppCompatButton>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSignup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="Don't have an account? Sign up"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="parent">
+
+                </androidx.appcompat.widget.AppCompatTextView>
 
              </LinearLayout>
 

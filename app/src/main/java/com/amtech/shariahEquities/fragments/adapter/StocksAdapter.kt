@@ -12,7 +12,7 @@ import com.sellacha.tlismiherbs.databinding.ItemStockBinding
 
 class StocksAdapter(
     val context: Context,
-    var list: ArrayList<Result>,
+    var list: List<Result>,
 ) : RecyclerView.Adapter<StocksAdapter.ViewHolder>() {
     lateinit var sessionManager: SessionManager
 
@@ -35,6 +35,7 @@ class StocksAdapter(
         with(holder) {
             with(list[position]) {
                 binding.btnAddWatchList.visibility=View.GONE
+                binding.imgDelete.visibility=View.GONE
                 binding.companyName.text = name_of_company
                 binding.companySymbol.text = symbol
                 if (complaint_type == 1) {
@@ -44,6 +45,11 @@ class StocksAdapter(
                     binding.nonComplianceTag.visibility = View.VISIBLE
                     binding.complianceTag.visibility = View.GONE
 
+                }
+                if (sessionManager.subscribed == "0") {
+                     binding.nonComplianceTagBluer.visibility = View.VISIBLE
+                    binding.nonComplianceTag.visibility = View.GONE
+                    binding.complianceTag.visibility = View.GONE
                 }
             }
         }

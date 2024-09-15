@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/appCompatImageView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="180dp"
         android:text="@string/shariah_equities"
         android:layout_margin="50dp"
         android:textSize="38sp"

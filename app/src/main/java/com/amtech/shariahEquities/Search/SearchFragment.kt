@@ -113,6 +113,7 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
                                 "Something went wrong"
                             )
                             response.isSuccessful && response.body() != null -> {
+                                count=0
                                 companyList =
                                     response.body()!!.result.toMutableList()
                                 adapterSearch.submitList(companyList)
@@ -127,7 +128,7 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
 
                 override fun onFailure(call: Call<ModelCompanyList>, t: Throwable) {
                     count++
-                    if (count <= 2) {
+                    if (count <= 3) {
                         apiCallGetCompanyList()
                     } else {
                         myToast(context as Activity, "Something went wrong")

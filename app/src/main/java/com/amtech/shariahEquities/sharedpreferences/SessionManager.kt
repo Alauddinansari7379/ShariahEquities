@@ -30,7 +30,8 @@ class SessionManager(context: Context?) {
         private const val DEVICEID = "deviceId"
         private const val SELECTED_DATE = "selected_date"
         private const val RANDOM_KEY = "random_key"
-        private const val STATUS = "status"
+        private const val SUBSCRIBED = "Subscribed"
+         private const val STATUS = "status"
 
     }
 
@@ -95,6 +96,12 @@ class SessionManager(context: Context?) {
         get() = prefs.getString(RANDOM_KEY, "")
         set(randomKey) {
             prefs.edit().putString(RANDOM_KEY, randomKey).apply()
+        }
+
+    var subscribed: String?
+        get() = prefs.getString(SUBSCRIBED, "")
+        set(subscribed) {
+            prefs.edit().putString(SUBSCRIBED, subscribed).apply()
         }
     var latitude: String?
         get() = prefs.getString(LATITUDE, "")

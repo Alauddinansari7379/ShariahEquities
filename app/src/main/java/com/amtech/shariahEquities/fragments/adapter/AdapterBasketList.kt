@@ -12,10 +12,11 @@ import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
 import com.sellacha.tlismiherbs.databinding.SingleRowBasketListBinding
 import org.json.JSONArray
+import retrofit2.http.DELETE
 
 class AdapterBasketList(
     val context: Context,
-    var list: ArrayList<Company>,
+    var list: ArrayList<Company>,val delete: Delete
  ) : RecyclerView.Adapter<AdapterBasketList.ViewHolder>() {
     lateinit var sessionManager: SessionManager
 
@@ -45,16 +46,17 @@ class AdapterBasketList(
                         binding.complianceTag.visibility = View.GONE
 
                     }
+                    binding.imgDelete.setOnClickListener {
+                        delete.delete(id.toString())
+                    }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-//    fun updateList(newList: List<Result>) {
-//        list.clear()
-//        list.addAll(newList)
-//        notifyDataSetChanged()
-//    }
+interface Delete {
+    fun delete(id:String)
+}
 
 }

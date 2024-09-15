@@ -2,8 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="1dp"
+     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,13 +45,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/complianceTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#679468"
+                android:backgroundTint="#437C90"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -66,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#D4C11B"
+                android:backgroundTint="#413F3F"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -80,14 +85,19 @@
                     android:textSize="10sp" />
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:visibility="gone"/>
 
         </LinearLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="23dp"
+            android:layout_height="26dp"
+            android:src="@drawable/delete"
+            android:background="?actionBarItemBackground"
+            android:tint="@color/red_btn_bg_color"
+            android:backgroundTint="@color/red_btn_bg_color"
+            android:layout_gravity="center_vertical"
+             android:layout_marginStart="5dp"
+            />
 
     </LinearLayout>
 

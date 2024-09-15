@@ -125,6 +125,7 @@ class Login : AppCompatActivity() {
                             sessionManager.id = response.body()!!.result.Id
                             sessionManager.status = response.body()!!.result.status.toString()
                             sessionManager.userMobile = response.body()!!.result.mobile_number.toString()
+                            sessionManager.subscribed = response.body()!!.result.IsSubscribed.toString()
                             sessionManager.isLogin = true
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             intent.flags =

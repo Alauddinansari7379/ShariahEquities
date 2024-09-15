@@ -2,7 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+     android:layout_marginStart="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="10dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -41,6 +43,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -50,10 +54,10 @@
              android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/complianceTag"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#437C90"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -68,10 +72,10 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/nonComplianceTag"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_new"
-                android:backgroundTint="#F44336"
+                android:backgroundTint="#413F3F"
                 android:gravity="center"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -81,6 +85,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="NON-COMPLIANT"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/nonComplianceTagBluer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corner_new"
+                android:backgroundTint="#413F3F"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/lock"
+                    android:background="?actionBarItemBackground"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-------------------------"
+                    android:layout_marginStart="2dp"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -115,7 +146,17 @@
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="23dp"
+            android:layout_height="26dp"
+            android:src="@drawable/delete"
+            android:background="?actionBarItemBackground"
+            android:tint="@color/red_btn_bg_color"
+            android:backgroundTint="@color/red_btn_bg_color"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

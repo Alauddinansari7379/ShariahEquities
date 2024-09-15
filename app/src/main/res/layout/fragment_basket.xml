@@ -67,8 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:orientation="vertical"
-                           >
+                            android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
@@ -99,26 +98,43 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/addSelectedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/gradient_button"
-                        android:drawableStart="@drawable/baseline_add_24"
-                        android:drawableTint="@color/white"
-                        android:fontFamily="@font/poppins_semi_bold"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="Create your own"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="12sp">
+                        android:layout_marginTop="10dp"
 
-                    </androidx.appcompat.widget.AppCompatButton>
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/addSelectedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/gradient_button"
+                            android:drawableStart="@drawable/baseline_add_24"
+                            android:drawableTint="@color/white"
+                            android:fontFamily="@font/poppins_semi_bold"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="Create your own"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="12sp">
+
+                        </androidx.appcompat.widget.AppCompatButton>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgLock"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:src="@drawable/lock"
+                            android:visibility="gone"
+                            android:background="?actionBarItemBackground"
+                            android:layout_gravity="center_vertical"
+                            />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -174,11 +190,11 @@
 
             </androidx.cardview.widget.CardView>
 
-             <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBasketList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 android:layout_margin="5dp"
+                android:layout_margin="5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <!-- <androidx.cardview.widget.CardView

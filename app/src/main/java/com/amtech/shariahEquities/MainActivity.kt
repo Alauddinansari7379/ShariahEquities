@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.hostFragment)
         val navController = navHostFragment!!.findNavController()
         val popupMenu = PopupMenu(this, null)
+
+        if (sessionManager.subscribed.toString()!="0"){
+           binding.btnUpgrade.visibility=View.GONE
+        }
         popupMenu.inflate(R.menu.bootom_nav_menu)
         binding.bottomNavigationView.setupWithNavController(navController)
         if (sessionManager.deviceId!!.isEmpty()) {

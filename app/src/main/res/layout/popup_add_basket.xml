@@ -11,14 +11,12 @@
         android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDialogTitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/poppins_regular"
-
             android:layout_height="wrap_content"
             android:text="@string/select_companies_stocks"
             android:textSize="14sp"
-
             android:textStyle="bold"
             android:layout_gravity="center"/>
         <androidx.appcompat.widget.AppCompatImageView
@@ -30,7 +28,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
@@ -56,12 +54,18 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDialogCompanyList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_marginTop="16dp"/>
+        android:layout_height="400dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDialogCompanyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/edtOwnName"

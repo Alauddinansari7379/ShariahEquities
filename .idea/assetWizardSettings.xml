@@ -33,8 +33,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_remove_red_eye_24" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../Gadget Zone Image/line.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="person" />
+                            <entry key="sourceFile" value="$USER_HOME$/Desktop/Android Icons/person.svg" />
                           </map>
                         </option>
                       </PersistentState>

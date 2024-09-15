@@ -39,6 +39,12 @@ class FundsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
          sessionManager = SessionManager(requireContext())
 
+        if (sessionManager.subscribed.toString()=="0"){
+            binding.edtSearch.setEnabled(false)
+            binding.edtSearch.isFocusable = false
+            binding.edtSearch.setCursorVisible(false);
+            binding.imgLock.visibility=View.VISIBLE
+        }
 
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(companyList.filter {
@@ -119,7 +125,17 @@ class FundsFragment : Fragment() {
 
                             response.isSuccessful && response.body() != null -> {
                                 companyList = response.body()!!.result
-
+                                    // Add static data at the 0th index when the adapter is created
+                                    val staticData = Result(
+                                        complaint_type = 1,
+                                        id = -1,
+                                        name_of_company = "TATA ETHICAL FUND",
+                                        status = 1,
+                                        symbol = "TATA ETHICAL FUND",
+                                        // Add other fields as per your `Result` model
+                                    )
+                                    companyList =
+                                        companyList.toMutableList().apply { add(0, staticData) } as ArrayList<Result>
                                 count=0
                                 val firstItem = listOf(companyList[0])
 

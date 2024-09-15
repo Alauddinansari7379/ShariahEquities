@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.fragments.adapter.AdapterBasket
 import com.amtech.shariahEquities.fragments.adapter.AdapterPopupBasket
@@ -23,6 +24,7 @@ import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.fragments.model.modelGetBasket.ModelGetBasket
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
+import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.ModuleDeleteWatchList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
@@ -33,7 +35,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class BasketsFragment : Fragment(){
+class BasketsFragment : Fragment(),AdapterBasket.Delete{
 
     private lateinit var dialogAdapter: AdapterPopupBasket
     private var _binding: FragmentBasketBinding? = null
@@ -42,6 +44,7 @@ class BasketsFragment : Fragment(){
      private var count = 0
      private var countL = 0
      private var countAdd = 0
+     private var countDe = 0
     private var companyList = mutableListOf<Result>()
     private var allbasketList = ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>()
     private val selectedCompanies = mutableListOf<Result>()
@@ -59,9 +62,23 @@ class BasketsFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
-
+        if (sessionManager.subscribed=="0"){
+            binding.imgLock.visibility=View.VISIBLE
+        }
         binding.addSelectedButton.setOnClickListener {
-            showCompanySelectionDialog()
+            if (sessionManager.subscribed=="0"){
+                SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Please upgrade the plan.")
+                    .setConfirmText("ok")
+                    .showCancelButton(true)
+                    .setConfirmClickListener { sDialog ->
+                        sDialog.cancel()
+                    }
+                    .show()
+            }else{
+                showCompanySelectionDialog()
+
+            }
         }
 
         binding.edtSearch.addTextChangedListener { str ->
@@ -78,7 +95,7 @@ class BasketsFragment : Fragment(){
 private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>) {
     if (binding.rvBasketList != null) {
         binding.rvBasketList.apply {
-            adapter = AdapterBasket(requireContext(), userList)
+            adapter = AdapterBasket(requireContext(), userList,this@BasketsFragment)
         }
     }
 }
@@ -223,7 +240,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                                 countAdd=0
                                 allbasketList = response.body()!!.result
                                 binding.rvBasketList.apply {
-                                    adapter = AdapterBasket(requireContext(), allbasketList)
+                                    adapter = AdapterBasket(requireContext(), allbasketList,this@BasketsFragment)
                                 }
                             }
 
@@ -309,4 +326,64 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
         dialog.show()
     }
 
+
+    private fun showDeleteConfirmationDialog(id:String) {
+        val sweetAlertDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Are you sure you want to delete this item?")
+            .setConfirmText("Yes")
+            .setCancelText("No")
+            .showCancelButton(true)
+            .setConfirmClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
+                apiDeleteWatchList(id)
+
+            }
+            .setCancelClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
+            }
+
+        sweetAlertDialog.setCanceledOnTouchOutside(false)
+        sweetAlertDialog.setCancelable(false)
+        sweetAlertDialog.show()
+    }
+
+    override fun delete(id:String) {
+        showDeleteConfirmationDialog(id)
+    }
+    private fun apiDeleteWatchList(id:String){
+        ApiClient.apiService.deleteBasket(sessionManager.id.toString(),id)
+            .enqueue(object : Callback<ModuleDeleteWatchList> {
+                override fun onResponse(
+                    call: Call<ModuleDeleteWatchList>,
+                    response: Response<ModuleDeleteWatchList>
+                ) {
+                    if (response.body()!!.status == 1) {
+                        //  watchList.removeAt(position)
+                        apiCallGetBasketList()
+//                        watchListAdapter.notifyItemRemoved(position)
+//                        watchListAdapter.notifyDataSetChanged()
+                        myToast(context as Activity, "Item deleted successfully")
+                    } else {
+                        when (response.code()) {
+                            400 -> myToast(context as Activity, "Bad Request: Invalid data")
+                            401 -> myToast(context as Activity, "Unauthorized: Please login again")
+                            404 -> myToast(context as Activity, "Not Found: Item not found")
+                            500 -> myToast(context as Activity, "Server Error: Try again later")
+                            else -> myToast(context as Activity, "Unexpected error occurred")
+                        }
+                        //  handleDeletionError(position)
+                    }
+                }
+
+                override fun onFailure(call: Call<ModuleDeleteWatchList>, t: Throwable) {
+                    // handleDeletionError(position)
+                    countDe++
+                    if (countDe <= 3) {
+                        apiDeleteWatchList(id)
+                    } else {
+                        myToast(context as Activity, "Network Error: ${t.message}")
+                    }
+                }
+            })
+    }
 }

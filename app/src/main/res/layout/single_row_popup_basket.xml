@@ -1,103 +1,114 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="10dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/companySymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AAPL"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:ellipsize="end"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/companyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Apple Inc"
-                android:ellipsize="end"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/complianceTag"
+                android:layout_weight="1.5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/companySymbol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/corner_new"
-                    android:backgroundTint="#679468"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:layout_marginBottom="10dp"
+                    android:ellipsize="end"
+                    android:text="AAPL"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="COMPLIANT"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/nonComplianceTag"
+
+                <TextView
+                    android:id="@+id/companyName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/corner_new"
-                    android:backgroundTint="#F44336"
-                    android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:ellipsize="end"
+                    android:text="Apple Inc"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
-                    <TextView
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/complianceTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="NON-COMPLIANT"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                        android:background="@drawable/corner_new"
+                        android:backgroundTint="#437C90"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:visibility="gone">
 
-                <CheckBox
-                    android:id="@+id/checkbox"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="5dp"
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="COMPLIANT"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/nonComplianceTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/corner_new"
+                        android:backgroundTint="#413F3F"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NON-COMPLIANT"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:layout_marginStart="5dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</androidx.appcompat.widget.LinearLayoutCompat>
