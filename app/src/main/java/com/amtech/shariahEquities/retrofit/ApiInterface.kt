@@ -2,6 +2,7 @@ package com.amtech.shariahEquities.retrofit
 
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
+import com.amtech.shariahEquities.fragments.model.ModelCompanyDetails
 import com.amtech.shariahEquities.fragments.model.modelBasketList.ModelBasketListId
 import com.amtech.shariahEquities.fragments.model.modelGetBasket.ModelGetBasket
 import com.amtech.shariahEquities.login.model.ModelSignUp
@@ -109,6 +110,11 @@ interface ApiInterface {
         @Query("user_id") user_id:String,
         @Query("basketId") basketId:String,
       ): Call<ModelBasketListId>
+
+    @POST("get_company_details")
+    fun getCompanyDetails(
+        @Query("companyid") companyid:String,
+      ): Call<ModelCompanyDetails>
 
 //
 //    @POST("login-user")

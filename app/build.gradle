@@ -48,6 +48,7 @@ android {
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:24.0.0'
     implementation 'androidx.activity:activity:1.9.0'
+    implementation 'com.google.ar.sceneform:filament-android:1.17.1'
     def nav_version = "2.5.2"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -124,5 +125,7 @@ dependencies {
    // implementation'phonepe.intentsdk.android.release:IntentSDK:2.4.3'
    // implementation 'com.phonepe.android.sdk:payment-sdk:1.0.0'
     implementation 'phonepe.intentsdk.android.release:IntentSDK:2.4.1'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }

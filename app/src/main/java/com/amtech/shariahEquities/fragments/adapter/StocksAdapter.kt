@@ -2,10 +2,12 @@ package com.amtech.shariahEquities.fragments.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.amtech.shariahEquities.fragments.ComplianceReportActivity
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.ItemStockBinding
@@ -50,6 +52,11 @@ class StocksAdapter(
                      binding.nonComplianceTagBluer.visibility = View.VISIBLE
                     binding.nonComplianceTag.visibility = View.GONE
                     binding.complianceTag.visibility = View.GONE
+                }
+                binding.root.setOnClickListener {
+                    val intent = Intent(context, ComplianceReportActivity::class.java)
+                    intent.putExtra("id", id)
+                    context.startActivity(intent)
                 }
             }
         }

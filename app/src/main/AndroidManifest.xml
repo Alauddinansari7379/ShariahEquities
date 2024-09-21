@@ -17,29 +17,27 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.GadgetZone"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name="com.amtech.shariahEquities.fragments.ComplianceReportActivity"
+            android:exported="false" />
         <activity
             android:name="com.amtech.shariahEquities.payment.Payment"
             android:exported="false" />
         <activity
             android:name="com.amtech.shariahEquities.fragments.BasketsList"
             android:exported="false" />
-
         <activity
             android:name="com.amtech.shariahEquities.profile.activity.PrivacyPolicy"
             android:exported="false" />
-
         <activity
             android:name="com.amtech.shariahEquities.forgotPass.OTPVerification"
             android:exported="false" />
-
         <activity
             android:name="com.amtech.shariahEquities.login.Login"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name="com.amtech.shariahEquities.login.SignUp"
             android:exported="false" />
@@ -47,7 +45,6 @@
             android:name="com.amtech.shariahEquities.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name="com.amtech.shariahEquities.SplashScreen"
             android:exported="true"
@@ -57,17 +54,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <meta-data-->
-<!--            android:name="com.razorpay.ApiKey"-->
-<!--            android:value="rzp_live_JqT9zUGJcRJws1" />   &lt;!&ndash;key_secret- QiWjBMYaIKkSGr8nqOvksCNQ &ndash;&gt;-->
-<!--                                                         &lt;!&ndash;key_id- rzp_live_JqT9zUGJcRJws1 &ndash;&gt;-->
-
-        <meta-data android:name="com.phonepe.android.sdk.isUAT" android:value="true"/>
-        <meta-data android:name="com.phonepe.android.sdk.isSimulator" android:value="true"/>
-        <meta-data android:name="com.phonepe.android.sdk.MerchantId" android:value="M22NH1V8TQ8WX"/>
-        <meta-data android:name="com.phonepe.android.sdk.AppId" android:value="appId"/>
-
+        </activity> <!-- <meta-data -->
+        <!-- android:name="com.razorpay.ApiKey" -->
+        <!-- android:value="rzp_live_JqT9zUGJcRJws1" />   &lt;!&ndash;key_secret- QiWjBMYaIKkSGr8nqOvksCNQ &ndash;&gt; -->
+        <!-- &lt;!&ndash;key_id- rzp_live_JqT9zUGJcRJws1 &ndash;&gt; -->
+        <meta-data
+            android:name="com.phonepe.android.sdk.isUAT"
+            android:value="true" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.isSimulator"
+            android:value="true" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.MerchantId"
+            android:value="M22NH1V8TQ8WX" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.AppId"
+            android:value="appId" />
         <meta-data
             android:name="com.google.gms.wallet.api.enabled"
             android:value="true" />
@@ -77,6 +79,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel"
             android:value="@string/channel_id" />
+
         <service
             android:name="com.amtech.shariahEquities.notification.MyFirebaseMessagingService"
             android:exported="false">
