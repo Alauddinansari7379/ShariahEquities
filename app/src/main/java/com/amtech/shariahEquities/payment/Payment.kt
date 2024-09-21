@@ -24,9 +24,10 @@ import java.security.MessageDigest
 class Payment : AppCompatActivity() {
     val binding by lazy { ActivityPaymentBinding.inflate(layoutInflater) }
     val context = this@Payment
-    var MERCHANT_TID=""
+    var MERCHANT_TID = ""
     var apiEndPoint = "/pg/v1/pay"
-  //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
+
+    //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
     val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
     val MERCHANT_ID = "M22NH1V8TQ8WX"  // Merhcant id
 
@@ -49,7 +50,7 @@ class Payment : AppCompatActivity() {
             ""
         )
 
-         try {
+        try {
             val upiApps = PhonePe.getUpiApps()
             Log.e("UPIAPPS", upiApps.toString())
         } catch (exception: PhonePeInitException) {
@@ -61,66 +62,77 @@ class Payment : AppCompatActivity() {
             }
 
 
-            binding.btnPayNow.setOnClickListener {
-                // Generate a unique transaction ID for each payment.
-                val MERCHANT_TID = System.currentTimeMillis().toString()
+            binding.btnPayNowYear.setOnClickListener {
+                payment(5999)
+            }
+            binding.btnPayNowMonth.setOnClickListener {
+                payment(599)
+            }
+        }
+    }//Shariah Equities
 
-                // Prepare the data to be sent to PhonePe
-                val data = JSONObject().apply {
-                    put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
-                    put("merchantId", MERCHANT_ID)  // Your merchant ID
-                    put("amount", 5000 * 100)  // Amount in paisa (1 INR = 100 paisa)
-                    put("mobileNumber", "7908834635")  // Optional: Customer's mobile number
-                    put("callbackUrl", "https://webhook.site/21c2fcdd-bd23-425a-a9b4-0896da91d82d")  // Change to your actual callback URL in production
+    private fun payment(amount:Int) {
+        // Generate a unique transaction ID for each payment.
+        val MERCHANT_TID = System.currentTimeMillis().toString()
 
-                    val paymentInstrument = JSONObject().apply {
-                        put("type", "PAY_PAGE")
+        // Prepare the data to be sent to PhonePe
+        val data = JSONObject().apply {
+            put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
+            put("merchantId", MERCHANT_ID)  // Your merchant ID
+            put("amount", amount * 100)  // Amount in paisa (1 INR = 100 paisa)
+            put("mobileNumber", "7908834635")  // Optional: Customer's mobile number
+            put(
+                "callbackUrl",
+                "https://webhook.site/21c2fcdd-bd23-425a-a9b4-0896da91d82d"
+            )  // Change to your actual callback URL in production
+
+            val paymentInstrument = JSONObject().apply {
+                put("type", "PAY_PAGE")
 //                        put("targetApp", "com.phonepe.app")
 
-                    // Payment instrument type, should be PAY_PAGE for redirection
-                    }
-
-                    put("paymentInstrument", paymentInstrument)  // Add payment instrument object
-
-                    val deviceContext = JSONObject().apply {
-                        put("deviceOS", "ANDROID")  // Device OS context
-                    }
-                    put("deviceContext", deviceContext)  // Add device context object
-                }
-
-                // Convert the data to base64 encoding
-                val payloadBase64 = Base64.encodeToString(data.toString().toByteArray(Charset.defaultCharset()), Base64.NO_WRAP)
-
-                // Generate the checksum: SHA256(base64 encoded payload + apiEndPoint + salt key) + ### + salt index
-                val checksum = sha256(payloadBase64 + apiEndPoint + salt) + "###1"
-
-                // Log the values for debugging purposes (optional, can be removed later)
-                Log.e("payloadBase64", "$payloadBase64")
-                Log.e("checksum", "$checksum")
-
-                // Create the payment request using the B2BPGRequestBuilder
-                val b2BPGRequest = B2BPGRequestBuilder()
-                    .setData(payloadBase64)
-                    .setChecksum(checksum)
-                    .setUrl(apiEndPoint)
-                    .build()
-
-                // Try to launch the PhonePe payment activity
-                try {
-                    PhonePe.getImplicitIntent(context, b2BPGRequest, "")?.let {
-                        startActivityForResult(it, 1)  // Start the PhonePe payment activity
-                    }
-                } catch (e: PhonePeInitException) {
-                    Log.e("PhonePayException", "${e.printStackTrace()}")  // Log any exception encountered
-                    Toast.makeText(context, "Error initializing PhonePe", Toast.LENGTH_SHORT).show()  // Notify the user
-                }
+                // Payment instrument type, should be PAY_PAGE for redirection
             }
 
+            put("paymentInstrument", paymentInstrument)  // Add payment instrument object
 
+            val deviceContext = JSONObject().apply {
+                put("deviceOS", "ANDROID")  // Device OS context
+            }
+            put("deviceContext", deviceContext)  // Add device context object
+        }
+
+        // Convert the data to base64 encoding
+        val payloadBase64 = Base64.encodeToString(
+            data.toString().toByteArray(Charset.defaultCharset()),
+            Base64.NO_WRAP
+        )
+
+        // Generate the checksum: SHA256(base64 encoded payload + apiEndPoint + salt key) + ### + salt index
+        val checksum = sha256(payloadBase64 + apiEndPoint + salt) + "###1"
+
+        // Log the values for debugging purposes (optional, can be removed later)
+        Log.e("payloadBase64", "$payloadBase64")
+        Log.e("checksum", "$checksum")
+
+        // Create the payment request using the B2BPGRequestBuilder
+        val b2BPGRequest = B2BPGRequestBuilder()
+            .setData(payloadBase64)
+            .setChecksum(checksum)
+            .setUrl(apiEndPoint)
+            .build()
+
+        // Try to launch the PhonePe payment activity
+        try {
+            PhonePe.getImplicitIntent(context, b2BPGRequest, "")?.let {
+                startActivityForResult(it, 1)  // Start the PhonePe payment activity
+            }
+        } catch (e: PhonePeInitException) {
+            Log.e("PhonePayException", "${e.printStackTrace()}")  // Log any exception encountered
+            Toast.makeText(context, "Error initializing PhonePe", Toast.LENGTH_SHORT)
+                .show()  // Notify the user
         }
 
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -156,8 +168,10 @@ class Payment : AppCompatActivity() {
         )
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val res = ApiUtilities.getApiInterface().checkStatus(MERCHANT_ID,
-                MERCHANT_TID.toString(), headers)
+            val res = ApiUtilities.getApiInterface().checkStatus(
+                MERCHANT_ID,
+                MERCHANT_TID.toString(), headers
+            )
             withContext(Dispatchers.Main) {
                 Log.d("phonepe", "APIResponse${res.body()}")
 

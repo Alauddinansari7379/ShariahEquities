@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiClient {
-       private const val BASE_URL = "http://ehcf.in/api/users/"
+       private const val BASE_URL = "https://ehcf.in/api/users/"
      private var retrofit: Retrofit? = null
     private val client: Retrofit?
         get() {

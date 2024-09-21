@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/gradient_reffer"
+        android:background="@color/main_color"
         android:layout_height="50dp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -49,7 +49,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,6 +146,108 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Get Unlimeted access to in-depth shariah compliance reports for over 10000 stocks."
                                 android:textColor="@color/text_color"
+                                android:textSize="12sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#D8E6F1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                app:cardCornerRadius="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1.4"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Stock Baskets"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp">
+
+                                </androidx.appcompat.widget.AppCompatTextView>
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:gravity="end">
+
+                                    <LinearLayout
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:gravity="center"
+                                        android:layout_marginEnd="10dp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <androidx.appcompat.widget.AppCompatImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:background="@drawable/checked"
+                                            android:elevation="5dp">
+
+                                        </androidx.appcompat.widget.AppCompatImageView>
+
+                                    </LinearLayout>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </LinearLayout>
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                android:text="Create you Stock Baskets with selected stocks."
                                 android:textSize="12sp">
 
                             </androidx.appcompat.widget.AppCompatTextView>
@@ -407,9 +510,255 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Just ₹5000/Year"
+                                    android:text="Shariah Compliance"
                                     android:textColor="@color/black"
                                     android:textSize="14sp">
+
+                                </androidx.appcompat.widget.AppCompatTextView>
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:gravity="end">
+
+                                    <LinearLayout
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:gravity="center"
+                                        android:layout_marginEnd="10dp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <androidx.appcompat.widget.AppCompatImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:background="@drawable/checked"
+                                            android:elevation="5dp">
+
+                                        </androidx.appcompat.widget.AppCompatImageView>
+
+                                    </LinearLayout>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </LinearLayout>
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                android:text="Get all Shariah Compliance information."
+                                android:textSize="12sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#D8E6F1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                app:cardCornerRadius="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1.4"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Just ₹5999/Year"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp">
+
+                                </androidx.appcompat.widget.AppCompatTextView>
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="exclusive of GST"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp">
+
+                                </androidx.appcompat.widget.AppCompatTextView>
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:gravity="end">
+
+                                    <LinearLayout
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:gravity="center"
+                                        android:layout_marginEnd="10dp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <androidx.appcompat.widget.AppCompatImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:background="@drawable/checked"
+                                            android:elevation="5dp">
+
+                                        </androidx.appcompat.widget.AppCompatImageView>
+
+                                    </LinearLayout>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </LinearLayout>
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textColor="@color/text_color"
+                                android:text="Shariah Equities Pro Membership"
+                                android:textSize="12sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="end"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnPayNowYear"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="25dp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:background="@drawable/corner_login"
+                                    android:backgroundTint="@color/main_color"
+                                    android:text="Pay Now"
+                                    android:layout_marginBottom="2dp"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp">
+
+                                </androidx.appcompat.widget.AppCompatButton>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#D8E6F1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1.4"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Just ₹599/month"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp">
+
+                                </androidx.appcompat.widget.AppCompatTextView>
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="exclusive of GST"
+                                    android:layout_marginStart="5dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp">
 
                                 </androidx.appcompat.widget.AppCompatTextView>
                                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -455,6 +804,29 @@
 
                             </androidx.appcompat.widget.AppCompatTextView>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:gravity="end"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnPayNowMonth"
+                                    android:layout_width="wrap_content"
+                                     android:layout_height="25dp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="2dp"
+                                    android:background="@drawable/corner_login"
+                                    android:backgroundTint="@color/main_color"
+                                    android:text="Pay Now"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="11sp">
+
+                                </androidx.appcompat.widget.AppCompatButton>
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -466,26 +838,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnPayNow"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="45dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/corner_login"
-            android:backgroundTint="@color/main_color"
-            android:text="Pay Now"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp">
-
-        </androidx.appcompat.widget.AppCompatButton>
-    </LinearLayout></androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>
