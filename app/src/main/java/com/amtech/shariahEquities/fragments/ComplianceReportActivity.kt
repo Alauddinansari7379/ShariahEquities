@@ -49,8 +49,8 @@ class ComplianceReportActivity : AppCompatActivity() {
                 binding.showdetailsbutton1.text = "Hide Details"
             }
         }
-        binding.backButton.setOnClickListener {
-            finish()
+        binding.imgBack.setOnClickListener {
+            onBackPressed()
         }
 
         setContentView(binding.root)
@@ -59,9 +59,71 @@ class ComplianceReportActivity : AppCompatActivity() {
         apiCallGetCompanyDetails(id)
     }
 
+    private fun setupPieChart(interestIncome: String, fl: Float) {
+        val entries = listOf(
+            PieEntry(interestIncome.toFloat(), "interestIncome"),
+            PieEntry(fl, "Interest Bearing Securities Market Cap")
+//            PieEntry(0.97f, "Not Halal")
+        )
+
+        val dataSet = PieDataSet(entries, "Compliance Report").apply {
+            colors = listOf(Color.GREEN, Color.YELLOW, Color.RED)
+            valueTextColor = Color.BLACK
+            valueTextSize = 12f
+        }
+
+        val pieData = PieData(dataSet)
+        binding.pieChartView.data = pieData
+        binding.pieChartView.invalidate()
+    }
+
+    private fun setupGaugeChart(chart1: String, chart: GaugeChartWithPointer) {
+        val entries = ArrayList<PieEntry>()
+        val percentage = chart1.toFloat()
+        val remaining = 100f - percentage
+
+        entries.add(PieEntry(percentage, "Shariah Compliant"))
+        entries.add(PieEntry(remaining, ""))
+
+        // Setup colors
+        val colors = ArrayList<Int>()
+        colors.add(Color.rgb(255, 77, 77))  // Red for the gauge
+        colors.add(Color.rgb(245, 245, 245)) // Light gray for the remaining part
+
+        // Create dataset and configure its appearance
+        val dataSet = PieDataSet(entries, "")
+        dataSet.colors = colors
+        dataSet.setDrawValues(false)  // Don't show value labels
+
+        val data = PieData(dataSet)
+
+        // Customize the pie chart for a gauge appearance
+        chart.data = data
+        chart.description.isEnabled = false
+        chart.isDrawHoleEnabled = true
+        chart.setHoleColor(Color.TRANSPARENT)
+        chart.setTransparentCircleAlpha(0)
+        chart.holeRadius = 80f
+        chart.setDrawEntryLabels(false)
+        chart.legend.isEnabled = false
+        chart.rotationAngle = 180f  // Start at the top
+        chart.setUsePercentValues(true)
+        chart.setPercentage(percentage)
+        chart.isRotationEnabled=false
+        chart.setTouchEnabled(false)
+
+        // Clip to show only half of the pie chart (make it a gauge)
+        chart.post {
+            chart.setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
+            chart.clipBounds = Rect(0, 0, chart.width, chart.height / 2)
+            chart.invalidate() // Refresh the chart
+        }
+    }
+
     private fun apiCallGetCompanyDetails(id: String) {
         AppProgressBar.showLoaderDialog(context)
-        binding.progressBar.progress = 0
+        binding.progressBarDebt.progress = 0
+        binding.securitiesProgressBar.progress = 0
 
         ApiClient.apiService.getCompanyDetails(id).enqueue(object : Callback<ModelCompanyDetails> {
             @SuppressLint("LogNotTimber", "SetTextI18n")
@@ -82,34 +144,43 @@ class ComplianceReportActivity : AppCompatActivity() {
 
                         if (response.body()!!.result.status == 1) {
                             with(binding) {
+                                updateDate.text ="Updated on "+ response.body()!!.result.created_at.substringBefore("T")
                                 companyName.text = response.body()!!.result.name_of_company
-                                tvDebtCapture.text = response.body()!!.result.debts_market_cap
+                                tvDebtCapture.text = response.body()!!.result.debts_market_cap+"%"
+                                tvSecuritiesCapture.text = response.body()!!.result.interest_income+"%"
                                 tvMarketCap.text =
                                     "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() }
                                         ?: "0.00")
                                 tvTotalDebt.text =
                                     "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() }
                                         ?: "0.00")
-                                if (response.body()!!.result.final== "PASS") {
-                                    llBusinessStatusPass.visibility = View.VISIBLE
-                                    llBusinessStatusFail.visibility = View.GONE
-
-                                }else
-                                {
-                                    llBusinessStatusFail.visibility = View.VISIBLE
-                                    llBusinessStatusPass.visibility = View.GONE
+                                if (response.body()!!.result.final.contentEquals("PASS")) {
+                                    binding.llBusiness.visibility = View.VISIBLE
+                                } else {
+                                    binding.llBusinessFail.visibility = View.VISIBLE
+                                    binding.layoutFinancial.visibility = View.GONE
 
                                 }
+                                 if (response.body()!!.result.financial_screening.contentEquals("PASS")){
+                                    binding.financialActivityStatus.visibility=View.VISIBLE
 
+                                }else{
+                                    binding.financialActivityStatusFail.visibility=View.VISIBLE
 
-                                financialActivityStatus.text =
-                                    response.body()!!.result.financial_screening
-                                val marketCap =
-                                    response.body()?.result?.debts_market_cap?.toDoubleOrNull()
-                                        ?: 0.0
+                                }
+                                if (response.body()!!.result.financial_screening.isNullOrEmpty()){
+                                    binding.layoutFinancialSub.visibility=View.GONE
+                                }
+                                val marketCap = response.body()?.result?.debts_market_cap?.toDoubleOrNull() ?: 0.0
                                 val maxValue = 100.0
                                 val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
-                                progressBar.progress = progress
+                                progressBarDebt.progress = progress
+
+                                val marketCap1 = response.body()?.result?.interest_income?.toDoubleOrNull() ?: 0.0
+                                val maxValue1 = 100.0
+                                val progress1 = (marketCap1 / maxValue1 * 100).toInt().coerceIn(0, 100)
+                                securitiesProgressBar.progress = progress1
+
                                 setupPieChart(
                                     response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() }
                                         ?: "0",
@@ -142,69 +213,11 @@ class ComplianceReportActivity : AppCompatActivity() {
                 } else {
                     myToast(
                         this@ComplianceReportActivity,
-                        "Failed after multiple attempts. Please try again later."
+                        t.message.toString()
                     )
                 }
             }
         })
     }
 
-    private fun setupPieChart(interestIncome: String, fl: Float) {
-        val entries = listOf(
-            PieEntry(interestIncome.toFloat(), "interestIncome"),
-            PieEntry(fl, "interest_bearing_securities_market_cap")
-//            PieEntry(0.97f, "Not Halal")
-        )
-
-        val dataSet = PieDataSet(entries, "Compliance Report").apply {
-            colors = listOf(Color.GREEN, Color.YELLOW, Color.RED)
-            valueTextColor = Color.BLACK
-            valueTextSize = 12f
-        }
-
-        val pieData = PieData(dataSet)
-        binding.pieChartView.data = pieData
-        binding.pieChartView.invalidate()
-    }
-
-    private fun setupGaugeChart(chart1: String, chart: GaugeChartWithPointer) {
-        val entries = ArrayList<PieEntry>()
-        val percentage = chart1.toFloat()
-        val remaining = 100f - percentage
-
-        entries.add(PieEntry(percentage, "Shariah-compliant"))
-        entries.add(PieEntry(remaining, ""))
-
-        // Setup colors
-        val colors = ArrayList<Int>()
-        colors.add(Color.rgb(255, 77, 77))  // Red for the gauge
-        colors.add(Color.rgb(245, 245, 245)) // Light gray for the remaining part
-
-        // Create dataset and configure its appearance
-        val dataSet = PieDataSet(entries, "")
-        dataSet.colors = colors
-        dataSet.setDrawValues(false)  // Don't show value labels
-
-        val data = PieData(dataSet)
-
-        // Customize the pie chart for a gauge appearance
-        chart.data = data
-        chart.description.isEnabled = false
-        chart.isDrawHoleEnabled = true
-        chart.setHoleColor(Color.TRANSPARENT)
-        chart.setTransparentCircleAlpha(0)
-        chart.holeRadius = 80f
-        chart.setDrawEntryLabels(false)
-        chart.legend.isEnabled = false
-        chart.rotationAngle = 270f  // Start at the top
-        chart.setUsePercentValues(true)
-        chart.setPercentage(percentage)
-
-        // Clip to show only half of the pie chart (make it a gauge)
-        chart.post {
-            chart.setLayerType(android.view.View.LAYER_TYPE_SOFTWARE, null)
-            chart.clipBounds = Rect(0, 0, chart.width, chart.height / 2)
-            chart.invalidate() // Refresh the chart
-        }
-    }
 }

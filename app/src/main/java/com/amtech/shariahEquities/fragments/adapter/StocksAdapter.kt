@@ -40,6 +40,7 @@ class StocksAdapter(
                 binding.imgDelete.visibility=View.GONE
                 binding.companyName.text = name_of_company
                 binding.companySymbol.text = nse_symbol_bse_script_id
+                binding.tvExchange.text = exchange
                 if (complaint_type == 1) {
                     binding.complianceTag.visibility = View.VISIBLE
                     binding.nonComplianceTag.visibility = View.GONE

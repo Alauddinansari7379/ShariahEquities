@@ -34,7 +34,8 @@ class WatchListAdapter(
                     delete.delete(item.id.toString())
                 }
                 companyName.text = item.name_of_company
-                companySymbol.text = item.symbol
+                companySymbol.text = item.nse_symbol_bse_script_id
+
                 if (item.complaint_type == 1) {
                     complianceTag.visibility = View.VISIBLE
                     nonComplianceTag.visibility = View.GONE

@@ -47,7 +47,7 @@ class StocksFragment : Fragment() {
 //        }
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(companyList.filter {
-                it.name_of_company!=null && it.name_of_company.contains(str.toString(), ignoreCase = true)||it.symbol!=null && it.symbol.contains(str.toString(), ignoreCase = true)
+                it.name_of_company!=null && it.name_of_company.contains(str.toString(), ignoreCase = true)||it.nse_symbol_bse_script_id!=null && it.nse_symbol_bse_script_id.contains(str.toString(), ignoreCase = true)
             } as ArrayList<Result>)
         }
 

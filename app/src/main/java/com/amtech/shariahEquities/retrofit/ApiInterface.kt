@@ -80,6 +80,7 @@ interface ApiInterface {
         @Query("user_id") user_id:String,
         @Query("basketname") basketname:String,
         @Query("companyid[]") companyid:String,
+        @Query("description") description:String,
      ): Call<ModelAddWatchList>
 
     @GET("all_basket_list")

@@ -58,6 +58,16 @@ class ProfileFragment : Fragment() {
             tvFullName.text=sessionManager.userName
             tvEmail.text=sessionManager.email
             tvMobile.text=sessionManager.userMobile
+
+            if (sessionManager.subscribed.toString()!="0"){
+                binding.upgradeBtn.visibility=View.GONE
+            }
+            val fullName = sessionManager.userName
+            val nameParts = fullName!!.split(" ")
+            if (nameParts.size >= 2) {
+                 val initials = "${nameParts[0].first()}${nameParts[1].first()}"
+                tvNameTag.text = initials
+            }
             Log.e("Email",sessionManager.userEmail.toString())
             val imgClose = parentView.findViewById<ImageView>(R.id.imgBackDil)
             val login = parentView.findViewById<Button>(R.id.btnSubscribe)
