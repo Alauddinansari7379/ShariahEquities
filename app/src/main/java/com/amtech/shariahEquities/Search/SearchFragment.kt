@@ -86,8 +86,8 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
             binding.rvCompanyList.visibility = View.GONE
         } else {
             val filteredList = companyList.filter { result ->
-                result.name_of_company.contains(trimmedQuery, ignoreCase = true) ||
-                        result.symbol.contains(trimmedQuery, ignoreCase = true)
+                result.nse_symbol_bse_script_id.contains(trimmedQuery, ignoreCase = true) ||
+                        result.name_of_company.contains(trimmedQuery, ignoreCase = true)
             }
             if (adapterSearch.currentList != filteredList) {
                 adapterSearch.submitList(filteredList)

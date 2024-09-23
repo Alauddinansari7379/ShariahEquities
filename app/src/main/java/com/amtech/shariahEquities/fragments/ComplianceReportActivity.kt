@@ -49,8 +49,8 @@ class ComplianceReportActivity : AppCompatActivity() {
                 binding.showdetailsbutton1.text = "Hide Details"
             }
         }
-        binding.backButton.setOnClickListener {
-            finish()
+        binding.imgBack.setOnClickListener {
+            onBackPressed()
         }
 
         setContentView(binding.root)
@@ -62,7 +62,7 @@ class ComplianceReportActivity : AppCompatActivity() {
     private fun setupPieChart(interestIncome: String, fl: Float) {
         val entries = listOf(
             PieEntry(interestIncome.toFloat(), "interestIncome"),
-            PieEntry(fl, "interest_bearing_securities_market_cap")
+            PieEntry(fl, "Interest Bearing Securities Market Cap")
 //            PieEntry(0.97f, "Not Halal")
         )
 
@@ -82,7 +82,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         val percentage = chart1.toFloat()
         val remaining = 100f - percentage
 
-        entries.add(PieEntry(percentage, "Shariah-compliant"))
+        entries.add(PieEntry(percentage, "Shariah Compliant"))
         entries.add(PieEntry(remaining, ""))
 
         // Setup colors
@@ -106,9 +106,11 @@ class ComplianceReportActivity : AppCompatActivity() {
         chart.holeRadius = 80f
         chart.setDrawEntryLabels(false)
         chart.legend.isEnabled = false
-        chart.rotationAngle = 270f  // Start at the top
+        chart.rotationAngle = 180f  // Start at the top
         chart.setUsePercentValues(true)
         chart.setPercentage(percentage)
+        chart.isRotationEnabled=false
+        chart.setTouchEnabled(false)
 
         // Clip to show only half of the pie chart (make it a gauge)
         chart.post {
@@ -120,7 +122,8 @@ class ComplianceReportActivity : AppCompatActivity() {
 
     private fun apiCallGetCompanyDetails(id: String) {
         AppProgressBar.showLoaderDialog(context)
-        binding.progressBar.progress = 0
+        binding.progressBarDebt.progress = 0
+        binding.securitiesProgressBar.progress = 0
 
         ApiClient.apiService.getCompanyDetails(id).enqueue(object : Callback<ModelCompanyDetails> {
             @SuppressLint("LogNotTimber", "SetTextI18n")
@@ -141,19 +144,48 @@ class ComplianceReportActivity : AppCompatActivity() {
 
                         if (response.body()!!.result.status == 1) {
                             with(binding) {
+                                updateDate.text ="Updated on "+ response.body()!!.result.created_at.substringBefore("T")
                                 companyName.text = response.body()!!.result.name_of_company
-                                tvDebtCapture.text = response.body()!!.result.debts_market_cap
-                                tvMarketCap.text = "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() } ?: "0.00")
-                                tvTotalDebt.text = "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() } ?: "0.00")
-                                tvBusinessScreen.text = response.body()!!.result.final
-                                financialActivityStatus.text = response.body()!!.result.financial_screening
+                                tvDebtCapture.text = response.body()!!.result.debts_market_cap+"%"
+                                tvSecuritiesCapture.text = response.body()!!.result.interest_income+"%"
+                                tvMarketCap.text =
+                                    "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() }
+                                        ?: "0.00")
+                                tvTotalDebt.text =
+                                    "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() }
+                                        ?: "0.00")
+                                if (response.body()!!.result.final.contentEquals("PASS")) {
+                                    binding.llBusiness.visibility = View.VISIBLE
+                                } else {
+                                    binding.llBusinessFail.visibility = View.VISIBLE
+                                    binding.layoutFinancial.visibility = View.GONE
+
+                                }
+                                 if (response.body()!!.result.financial_screening.contentEquals("PASS")){
+                                    binding.financialActivityStatus.visibility=View.VISIBLE
+
+                                }else{
+                                    binding.financialActivityStatusFail.visibility=View.VISIBLE
+
+                                }
+                                if (response.body()!!.result.financial_screening.isNullOrEmpty()){
+                                    binding.layoutFinancialSub.visibility=View.GONE
+                                }
                                 val marketCap = response.body()?.result?.debts_market_cap?.toDoubleOrNull() ?: 0.0
                                 val maxValue = 100.0
                                 val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
-                                progressBar.progress = progress
+                                progressBarDebt.progress = progress
+
+                                val marketCap1 = response.body()?.result?.interest_income?.toDoubleOrNull() ?: 0.0
+                                val maxValue1 = 100.0
+                                val progress1 = (marketCap1 / maxValue1 * 100).toInt().coerceIn(0, 100)
+                                securitiesProgressBar.progress = progress1
+
                                 setupPieChart(
-                                    response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() } ?: "0",
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull() ?: 0f
+                                    response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() }
+                                        ?: "0",
+                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
+                                        ?: 0f
                                 )
                                 setupGaugeChart(
                                     (response.body()!!.result.interest_bearing_securities_market_cap?.toFloatOrNull()
@@ -181,7 +213,7 @@ class ComplianceReportActivity : AppCompatActivity() {
                 } else {
                     myToast(
                         this@ComplianceReportActivity,
-                        "Failed after multiple attempts. Please try again later."
+                        t.message.toString()
                     )
                 }
             }

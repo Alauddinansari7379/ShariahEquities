@@ -32,7 +32,8 @@ class AdapterSearch(
             sessionManager = SessionManager(context)
             binding.apply {
                 companyName.text = result.name_of_company
-                companySymbol.text = result.symbol
+                companySymbol.text = result.nse_symbol_bse_script_id
+
                 if (result.complaint_type == 1) {
                     complianceTag.visibility = View.VISIBLE
                     nonComplianceTag.visibility = View.GONE

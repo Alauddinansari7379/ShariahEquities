@@ -48,7 +48,8 @@ class FundsAdapter(
                     binding.apply {
                         binding.companyName.visibility = View.GONE
                         companyName.text = name_of_company
-                        tvSymbol.text = symbol
+                        tvSymbol.text = nse_symbol_bse_script_id
+
                         btnInvestNow.setOnClickListener {
                             val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                                 .putExtra("title", "Contact Us")

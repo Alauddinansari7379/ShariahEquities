@@ -40,6 +40,7 @@ class AdapterBasket(
             with(holder) {
                 with(list[position]) {
                     binding.tvBasketName.text = basketname
+                    binding.tvDescription.text = description
                     val companyidString = companyid
                     val outerArray = JSONArray(companyidString)
                     val innerJsonString = outerArray.getString(0)

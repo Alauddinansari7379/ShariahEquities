@@ -144,7 +144,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             })
     }
 
-    fun addBasketList(basket: String) {
+    fun addBasketList(basket: String,description:String) {
         AppProgressBar.showLoaderDialog(context)
         val companyIdsArray = selectedCompanies.map { it.id.toString() }
         val formattedString =
@@ -158,7 +158,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             sessionManager.id.toString(),
             basket,
 //            companyIdsArray.joinToString(",")
-            formattedString
+            formattedString,description
         )
             .enqueue(object : Callback<ModelAddWatchList> {
                 @SuppressLint("SetTextI18n")
@@ -202,7 +202,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                 override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
                     countL++
                     if (countL <= 3) {
-                        addBasketList(basket)
+                        addBasketList(basket,description)
                     } else {
                         activity?.let { myToast(it, t.message.toString()) }
                     }
@@ -272,6 +272,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
         val btnSave = dialogView.findViewById<Button>(R.id.btnDialogSave)
         val etOwnName = dialogView.findViewById<TextView>(R.id.edOwnName)
         val edtSearch = dialogView.findViewById<EditText>(R.id.edtSearch)
+        val edtDescription = dialogView.findViewById<EditText>(R.id.edtDescription)
         val close = dialogView.findViewById<ImageView>(R.id.imgClose)
 
         dialogAdapter = AdapterPopupBasket(requireContext(), { result, isChecked -> },)
@@ -311,12 +312,17 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                 etOwnName.requestFocus()
                 return@setOnClickListener
             }
+            if (edtDescription.text!!.isEmpty()) {
+                edtDescription.error = "Enter Description"
+                edtDescription.requestFocus()
+                return@setOnClickListener
+            }
             if (selectedCompanies.size > 10) {
                 activity?.let { it1 -> myToast(it1, "You can't save more than 10 items") }
             } else if (selectedCompanies.isEmpty()) {
                 activity?.let { it1 -> myToast(it1, "Please select any items") }
             } else {
-                addBasketList(etOwnName.text!!.toString())
+                addBasketList(etOwnName.text!!.toString(),edtDescription.text!!.toString())
                 
                 dialog.dismiss()
 
