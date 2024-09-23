@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,21 +18,19 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.login.Login
-import com.amtech.shariahEquities.modelCompany.ModelCompanyList
-import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rajat.pdfviewer.PdfViewerActivity
 import com.sellacha.tlismiherbs.R
-import com.sellacha.tlismiherbs.databinding.FragmentProfileBinding
+ import com.sellacha.tlismiherbs.databinding.FragmentProfileNewBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentProfileNewBinding
       lateinit var sessionManager: SessionManager
     var dialog: Dialog? = null
     var count = 0
@@ -44,14 +41,14 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        return inflater.inflate(R.layout.fragment_profile_new, container, false)
     }
 
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentProfileBinding.bind(view)
+        binding = FragmentProfileNewBinding.bind(view)
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
@@ -161,16 +158,16 @@ class ProfileFragment : Fragment() {
                 )
             }
 
-            cardOpenDemat.setOnClickListener {
-                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
-                    .putExtra("title", "Open Demat Account")
-                    .putExtra("link", "https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc")
-                (context as Activity).startActivity(intent)
-
-//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc"))
-//                    requireContext().startActivity(Intent.createChooser(intent, "Choose browser"))
-
-            }
+//            cardOpenDemat.setOnClickListener {
+//                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+//                    .putExtra("title", "Open Demat Account")
+//                    .putExtra("link", "https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc")
+//                (context as Activity).startActivity(intent)
+//
+////                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://ekyc.motilaloswal.com/Partner/?diyid=429a5fc3-4983-4443-b1fa-4c5a6a6ceacc"))
+////                    requireContext().startActivity(Intent.createChooser(intent, "Choose browser"))
+//
+//            }
 
             cardContactUs.setOnClickListener {
                 val intent = Intent(context as Activity, PrivacyPolicy::class.java)

@@ -39,7 +39,7 @@ class StocksAdapter(
                 binding.btnAddWatchList.visibility=View.GONE
                 binding.imgDelete.visibility=View.GONE
                 binding.companyName.text = name_of_company
-                binding.companySymbol.text = symbol
+                binding.companySymbol.text = nse_symbol_bse_script_id
                 if (complaint_type == 1) {
                     binding.complianceTag.visibility = View.VISIBLE
                     binding.nonComplianceTag.visibility = View.GONE
@@ -48,11 +48,11 @@ class StocksAdapter(
                     binding.complianceTag.visibility = View.GONE
 
                 }
-                if (sessionManager.subscribed == "0") {
-                     binding.nonComplianceTagBluer.visibility = View.VISIBLE
-                    binding.nonComplianceTag.visibility = View.GONE
-                    binding.complianceTag.visibility = View.GONE
-                }
+//                if (sessionManager.subscribed == "0") {
+//                     binding.nonComplianceTagBluer.visibility = View.VISIBLE
+//                    binding.nonComplianceTag.visibility = View.GONE
+//                    binding.complianceTag.visibility = View.GONE
+//                }
                 binding.root.setOnClickListener {
                     val intent = Intent(context, ComplianceReportActivity::class.java)
                     intent.putExtra("id", id)
