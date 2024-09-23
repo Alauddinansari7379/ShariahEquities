@@ -8,7 +8,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.android.shariahEquities" />
+                  <option name="appId" value="com.shariah.shariahEquities" />
                   <option name="mobileSdkAppId" value="1:12841086081:android:a6fa2acde384809443f180" />
                   <option name="projectId" value="notificationmsg-574c6" />
                   <option name="projectNumber" value="12841086081" />

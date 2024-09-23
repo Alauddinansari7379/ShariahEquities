@@ -59,6 +59,96 @@ class ComplianceReportActivity : AppCompatActivity() {
         apiCallGetCompanyDetails(id)
     }
 
+    private fun apiCallGetCompanyDetails(id: String) {
+        AppProgressBar.showLoaderDialog(context)
+        binding.progressBar.progress = 0
+
+        ApiClient.apiService.getCompanyDetails(id).enqueue(object : Callback<ModelCompanyDetails> {
+            @SuppressLint("LogNotTimber", "SetTextI18n")
+            override fun onResponse(
+                call: Call<ModelCompanyDetails>,
+                response: Response<ModelCompanyDetails>
+            ) {
+                AppProgressBar.hideLoaderDialog()
+
+                try {
+                    if (response.code() == 500) {
+                        myToast(this@ComplianceReportActivity, "Server Error")
+                        AppProgressBar.hideLoaderDialog()
+                    } else if (response.code() == 404) {
+                        myToast(this@ComplianceReportActivity, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+                    } else {
+
+                        if (response.body()!!.result.status == 1) {
+                            with(binding) {
+                                companyName.text = response.body()!!.result.name_of_company
+                                tvDebtCapture.text = response.body()!!.result.debts_market_cap
+                                tvMarketCap.text =
+                                    "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() }
+                                        ?: "0.00")
+                                tvTotalDebt.text =
+                                    "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() }
+                                        ?: "0.00")
+                                if (response.body()!!.result.final== "PASS") {
+                                    llBusinessStatusPass.visibility = View.VISIBLE
+                                    llBusinessStatusFail.visibility = View.GONE
+
+                                }else
+                                {
+                                    llBusinessStatusFail.visibility = View.VISIBLE
+                                    llBusinessStatusPass.visibility = View.GONE
+
+                                }
+
+
+                                financialActivityStatus.text =
+                                    response.body()!!.result.financial_screening
+                                val marketCap =
+                                    response.body()?.result?.debts_market_cap?.toDoubleOrNull()
+                                        ?: 0.0
+                                val maxValue = 100.0
+                                val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
+                                progressBar.progress = progress
+                                setupPieChart(
+                                    response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() }
+                                        ?: "0",
+                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
+                                        ?: 0f
+                                )
+                                setupGaugeChart(
+                                    (response.body()!!.result.interest_bearing_securities_market_cap?.toFloatOrNull()
+                                        ?: 0f).toString(), piechart
+                                )
+                            }
+
+                        }
+                        AppProgressBar.hideLoaderDialog()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    myToast(context as Activity, "Something went wrong")
+                    AppProgressBar.hideLoaderDialog()
+
+                }
+            }
+
+            override fun onFailure(call: Call<ModelCompanyDetails>, t: Throwable) {
+                AppProgressBar.hideLoaderDialog()
+
+                count++
+                if (count <= 3) {
+                    apiCallGetCompanyDetails(id)
+                } else {
+                    myToast(
+                        this@ComplianceReportActivity,
+                        "Failed after multiple attempts. Please try again later."
+                    )
+                }
+            }
+        })
+    }
+
     private fun setupPieChart(interestIncome: String, fl: Float) {
         val entries = listOf(
             PieEntry(interestIncome.toFloat(), "interestIncome"),
@@ -117,75 +207,4 @@ class ComplianceReportActivity : AppCompatActivity() {
             chart.invalidate() // Refresh the chart
         }
     }
-
-    private fun apiCallGetCompanyDetails(id: String) {
-        AppProgressBar.showLoaderDialog(context)
-        binding.progressBar.progress = 0
-
-        ApiClient.apiService.getCompanyDetails(id).enqueue(object : Callback<ModelCompanyDetails> {
-            @SuppressLint("LogNotTimber", "SetTextI18n")
-            override fun onResponse(
-                call: Call<ModelCompanyDetails>,
-                response: Response<ModelCompanyDetails>
-            ) {
-                AppProgressBar.hideLoaderDialog()
-
-                try {
-                    if (response.code() == 500) {
-                        myToast(this@ComplianceReportActivity, "Server Error")
-                        AppProgressBar.hideLoaderDialog()
-                    } else if (response.code() == 404) {
-                        myToast(this@ComplianceReportActivity, "Something went wrong")
-                        AppProgressBar.hideLoaderDialog()
-                    } else {
-
-                        if (response.body()!!.result.status == 1) {
-                            with(binding) {
-                                companyName.text = response.body()!!.result.name_of_company
-                                tvDebtCapture.text = response.body()!!.result.debts_market_cap
-                                tvMarketCap.text = "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() } ?: "0.00")
-                                tvTotalDebt.text = "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() } ?: "0.00")
-                                tvBusinessScreen.text = response.body()!!.result.final
-                                financialActivityStatus.text = response.body()!!.result.financial_screening
-                                val marketCap = response.body()?.result?.debts_market_cap?.toDoubleOrNull() ?: 0.0
-                                val maxValue = 100.0
-                                val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
-                                progressBar.progress = progress
-                                setupPieChart(
-                                    response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() } ?: "0",
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull() ?: 0f
-                                )
-                                setupGaugeChart(
-                                    (response.body()!!.result.interest_bearing_securities_market_cap?.toFloatOrNull()
-                                        ?: 0f).toString(), piechart
-                                )
-                            }
-
-                        }
-                        AppProgressBar.hideLoaderDialog()
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    myToast(context as Activity, "Something went wrong")
-                    AppProgressBar.hideLoaderDialog()
-
-                }
-            }
-
-            override fun onFailure(call: Call<ModelCompanyDetails>, t: Throwable) {
-                AppProgressBar.hideLoaderDialog()
-
-                count++
-                if (count <= 3) {
-                    apiCallGetCompanyDetails(id)
-                } else {
-                    myToast(
-                        this@ComplianceReportActivity,
-                        "Failed after multiple attempts. Please try again later."
-                    )
-                }
-            }
-        })
-    }
-
 }
