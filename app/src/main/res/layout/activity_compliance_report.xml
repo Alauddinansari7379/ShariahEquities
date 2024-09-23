@@ -92,7 +92,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
-                        android:text="Updated on NA"
+                        android:text="Updated on AAOIFI standards"
                         android:textSize="11sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView

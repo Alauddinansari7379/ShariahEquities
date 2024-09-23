@@ -11,6 +11,7 @@
     <color name="text_color">#688662</color>
     <color name="main_color">#85BB65</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#FFFFFFFF</color>
+    <color name="yellow">#FFC107</color>
+    <color name="green">#4CAF50</color>
     <color name="category_color">#FFE0E1</color>
 </resources>

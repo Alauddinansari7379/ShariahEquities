@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.fragments.model.ModelCompanyDetails
 import com.amtech.shariahEquities.retrofit.ApiClient
@@ -15,6 +16,7 @@ import com.example.tlismimoti.Helper.myToast
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.ActivityComplianceReportBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,15 +63,18 @@ class ComplianceReportActivity : AppCompatActivity() {
 
     private fun setupPieChart(interestIncome: String, fl: Float) {
         val entries = listOf(
-            PieEntry(interestIncome.toFloat(), "interestIncome"),
+            PieEntry(interestIncome.toFloat(), "Interest Income"),
             PieEntry(fl, "Interest Bearing Securities Market Cap")
 //            PieEntry(0.97f, "Not Halal")
         )
-
         val dataSet = PieDataSet(entries, "Compliance Report").apply {
-            colors = listOf(Color.GREEN, Color.YELLOW, Color.RED)
+            colors = listOf(
+                ContextCompat.getColor(context, R.color.green),   // Convert resource ID to color value
+                ContextCompat.getColor(context, R.color.yellow),
+                Color.RED // This is already a color value, so no need to convert
+            )
             valueTextColor = Color.BLACK
-            valueTextSize = 12f
+             valueTextSize = 12f
         }
 
         val pieData = PieData(dataSet)
@@ -146,14 +151,12 @@ class ComplianceReportActivity : AppCompatActivity() {
                             with(binding) {
                                 updateDate.text ="Updated on "+ response.body()!!.result.created_at.substringBefore("T")
                                 companyName.text = response.body()!!.result.name_of_company
-                                tvDebtCapture.text = response.body()!!.result.debts_market_cap+"%"
+                                tvDebtCapture.text = response.body()!!.result.interest_bearing_securities_market_cap+"%"
                                 tvSecuritiesCapture.text = response.body()!!.result.interest_income+"%"
-                                tvMarketCap.text =
-                                    "₹" + (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() }
-                                        ?: "0.00")
-                                tvTotalDebt.text =
-                                    "₹" + (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() }
-                                        ?: "0.00")
+                                tvMarketCap.text = (response.body()?.result?.interest_bearing_securities_market_cap?.takeIf { it.isNotEmpty() } ?: "0.00")+"%"
+                                        tvTotalDebt.text =
+                                    (response.body()?.result?.debts_market_cap?.takeIf { it.isNotEmpty() }
+                                        ?: "0.00")+"%"
                                 if (response.body()!!.result.final.contentEquals("PASS")) {
                                     binding.llBusiness.visibility = View.VISIBLE
                                 } else {
@@ -171,7 +174,7 @@ class ComplianceReportActivity : AppCompatActivity() {
                                 if (response.body()!!.result.financial_screening.isNullOrEmpty()){
                                     binding.layoutFinancialSub.visibility=View.GONE
                                 }
-                                val marketCap = response.body()?.result?.debts_market_cap?.toDoubleOrNull() ?: 0.0
+                                val marketCap = response.body()?.result?.interest_bearing_securities_market_cap?.toDoubleOrNull() ?: 0.0
                                 val maxValue = 100.0
                                 val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
                                 progressBarDebt.progress = progress
