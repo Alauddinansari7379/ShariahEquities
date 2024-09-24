@@ -178,7 +178,8 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGauge.addRange(range)
         // binding.halfGauge.addRange(range2)
         binding.halfGauge.addRange(range3)
-
+//        binding.halfGauge.startAngle = 180f  // Set the start angle at 180 degrees
+//        binding.halfGauge.sweepAngle = 180f
         //set min max and current value
         binding.halfGauge.minValue = 0.0
         binding.halfGauge.maxValue = 100.0
@@ -294,10 +295,10 @@ class ComplianceReportActivity : AppCompatActivity() {
                                     binding.complianceTag.visibility = View.GONE
 
                                 }
-//                                setupGaugeChart(
-//                                    (response.body()!!.result.interest_income?.toFloatOrNull()
-//                                        ?: 0f).toString()
-//                                )
+                                setupGaugeChart(
+                                    (response.body()!!.result.interest_income?.toFloatOrNull()
+                                        ?: 0f).toString()
+                                )
                             }
 
                         }

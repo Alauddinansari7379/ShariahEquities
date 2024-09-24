@@ -117,6 +117,12 @@ interface ApiInterface {
         @Query("companyid") companyid:String,
       ): Call<ModelCompanyDetails>
 
+    @POST("update_subscription")
+    fun updateSubscription(
+        @Query("id") id:String,
+        @Query("value") value:String,
+      ): Call<ModelResetPass>
+
 //
 //    @POST("login-user")
 //    fun loginUser(
