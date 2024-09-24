@@ -36,12 +36,12 @@ class WatchListAdapter(
                 companyName.text = item.name_of_company
                 companySymbol.text = item.nse_symbol_bse_script_id
 
-                if (item.complaint_type == 1) {
-                    complianceTag.visibility = View.VISIBLE
-                    nonComplianceTag.visibility = View.GONE
+                if (item.final == "PASS") {
+                    binding.complianceTag.visibility = View.VISIBLE
+                    binding.nonComplianceTag.visibility = View.GONE
                 } else {
-                    nonComplianceTag.visibility = View.VISIBLE
-                    complianceTag.visibility = View.GONE
+                    binding.nonComplianceTag.visibility = View.VISIBLE
+                    binding.complianceTag.visibility = View.GONE
 
                 }
             }

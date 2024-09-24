@@ -3,6 +3,7 @@ package com.amtech.shariahEquities.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,9 +26,11 @@ import com.amtech.shariahEquities.fragments.model.modelGetBasket.ModelGetBasket
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.ModuleDeleteWatchList
+import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.FragmentBasketBinding
 import retrofit2.Call
@@ -62,19 +65,31 @@ class BasketsFragment : Fragment(),AdapterBasket.Delete{
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
-        if (sessionManager.subscribed=="0"){
-            binding.imgLock.visibility=View.VISIBLE
+//        if (sessionManager.subscribed=="0"){
+//            binding.imgLock.visibility=View.VISIBLE
+//        }
+
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
+        bottomSheetDialog.setContentView(parentView)
+        val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
+        val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
+
+        imgCloseNew.setOnClickListener {
+            bottomSheetDialog.dismiss()
+
         }
+        btnSubscribe.setOnClickListener {
+            startActivity(Intent(context, Payment::class.java))
+        }
+
         binding.addSelectedButton.setOnClickListener {
             if (sessionManager.subscribed=="0"){
-                SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Please upgrade the plan.")
-                    .setConfirmText("ok")
-                    .showCancelButton(true)
-                    .setConfirmClickListener { sDialog ->
-                        sDialog.cancel()
-                    }
-                    .show()
+                     try {
+                        bottomSheetDialog.show()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                }
             }else{
                 showCompanySelectionDialog()
 
@@ -289,7 +304,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                 }
                 val filteredList = companyList.filter {
                     it.name_of_company.contains(s.toString(), ignoreCase = true) ||
-                            it.symbol.contains(s.toString(), ignoreCase = true)
+                            it.nse_symbol_bse_script_id.contains(s.toString(), ignoreCase = true)
                 }
                 dialogAdapter.submitList(filteredList)
             }

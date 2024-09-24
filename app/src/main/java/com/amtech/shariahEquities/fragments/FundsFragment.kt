@@ -39,12 +39,12 @@ class FundsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sessionManager = SessionManager(requireContext())
 
-        if (sessionManager.subscribed.toString() == "0") {
-            binding.edtSearch.setEnabled(false)
-            binding.edtSearch.isFocusable = false
-            binding.edtSearch.setCursorVisible(false);
-            binding.imgLock.visibility = View.VISIBLE
-        }
+//        if (sessionManager.subscribed.toString() == "0") {
+//            binding.edtSearch.setEnabled(false)
+//            binding.edtSearch.isFocusable = false
+//            binding.edtSearch.setCursorVisible(false);
+//            binding.imgLock.visibility = View.VISIBLE
+//        }
 
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(companyList.filter {

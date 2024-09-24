@@ -58,8 +58,8 @@ class FundsAdapter(
 
 
                         }
-                        if (complaint_type == 1) {
-                            complianceTag.visibility = View.VISIBLE
+                        if (final == "PASS") {
+                            binding.complianceTag.visibility = View.VISIBLE
                             binding.nonComplianceTag.visibility = View.GONE
                         } else {
                             binding.nonComplianceTag.visibility = View.VISIBLE

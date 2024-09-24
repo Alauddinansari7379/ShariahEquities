@@ -22,12 +22,12 @@ class AdapterPopupBasket (
             binding.apply {
                  companyName.text = result.name_of_company
                 companySymbol.text = result.symbol
-                if (result.complaint_type==1){
-                    complianceTag.visibility= View.VISIBLE
-                    nonComplianceTag.visibility= View.GONE
-                }else{
-                    nonComplianceTag.visibility= View.VISIBLE
-                    complianceTag.visibility= View.GONE
+                if (result.final == "PASS") {
+                    binding.complianceTag.visibility = View.VISIBLE
+                    binding.nonComplianceTag.visibility = View.GONE
+                } else {
+                    binding.nonComplianceTag.visibility = View.VISIBLE
+                    binding.complianceTag.visibility = View.GONE
 
                 }
                 checkbox.setOnCheckedChangeListener(null)

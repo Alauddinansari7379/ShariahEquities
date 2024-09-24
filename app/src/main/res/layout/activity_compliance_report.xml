@@ -54,10 +54,10 @@
         android:scrollbars="none">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,17 +73,136 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/companyName"
-                        android:layout_width="wrap_content"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/poppins_semi_bold"
-                        android:gravity="center"
-                        android:text="NA"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="1dp"
+                        app:cardCornerRadius="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/companyName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:text="Company Name"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/companySymbol"
+
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="NA"
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="1dp"
+                                        android:layout_marginBottom="1dp"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:id="@+id/complianceTag"
+                                            android:layout_width="100dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/corner_new"
+                                            android:backgroundTint="#437C90"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:padding="4dp"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="COMPLIANT"
+                                                android:textColor="@color/white"
+                                                android:textSize="10sp" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:id="@+id/nonComplianceTag"
+                                            android:layout_width="100dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/corner_new"
+                                            android:backgroundTint="#413F3F"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:padding="4dp"
+                                            android:visibility="gone">
+
+                                            <TextView
+                                                android:id="@+id/tvComStatues"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="NON-COMPLIANT"
+                                                android:textColor="@color/white"
+                                                android:textSize="10sp" />
+                                        </LinearLayout>
+
+                                        <CheckBox
+                                            android:id="@+id/checkbox"
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:layout_marginStart="5dp"
+                                            android:visibility="gone" />
+
+                                    </LinearLayout>
+
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <TextView
+                                    android:id="@+id/tvIndustryGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="NA"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvExchange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Apple Inc"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/update_date"
@@ -92,7 +211,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="center"
-                        android:text="Updated on AAOIFI standards"
+                        android:text="Updated on "
                         android:textSize="11sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -100,11 +219,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:fontFamily="@font/poppins_regular"
+                        android:drawableEnd="@drawable/ic_info_outline_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/main_color"
+                        android:fontFamily="@font/poppins_semi_bold"
                         android:gravity="center"
-                        android:text="Based on NA"
-                        android:textSize="11sp" />
+                        android:text="Based on AAOIFI standards"
+                        android:textColor="@color/green"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:gravity="center"
+                    android:text="BUSINESS SCREENING"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -199,10 +333,21 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/poppins_regular"
-                            android:text="Revenue derived from gambling, adult entertainment, alcohol, pork and other non-Islamic business segments should not exceed 5% of total revenue"
+                            android:text="Companies pass business screening if they avoid prohibited sectors like banking, alcohol, gambling etc.. Failure occurs when involved in non-permissible sectors."
                             android:textColor="@android:color/darker_gray"
                             android:textSize="12sp" />
                     </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:gravity="center"
+                        android:text="FINANCIAL SCREENING"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
@@ -240,7 +385,7 @@
                                 android:visibility="gone">
 
                                 <androidx.appcompat.widget.AppCompatTextView
-                                     android:layout_width="wrap_content"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:gravity="end"
@@ -282,13 +427,20 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                            <com.amtech.shariahEquities.fragments.GaugeChartWithPointer
-                                android:id="@+id/piechart"
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/pieChartView1"
                                 android:layout_width="match_parent"
+                                android:layout_height="200dp" />
+
+                            <com.ekn.gruzer.gaugelibrary.HalfGauge
+                                android:id="@+id/halfGauge"
+                                android:layout_width="200dp"
                                 android:layout_height="200dp"
-                                android:layout_gravity="center" />
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -337,6 +489,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
+                                android:scaleY="3"
+                                android:progressTint="@color/green"
                                 android:progress="00" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -344,7 +498,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Companies may take on debt to finance their activities. Debt that generates interest should not exceed 30% of its market cap."
+                                android:text="A company’s total debt should not exceed 30% of its market capitalisation"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="12sp" />
 
@@ -400,7 +554,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="0dp"
@@ -424,7 +579,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="0dp"
@@ -507,6 +663,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
+                                android:scaleY="3"
+                                android:progressTint="@color/green"
                                 android:progress="00" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -514,7 +672,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Companies may take on debt to finance their activities. Debt that generates interest should not exceed 30% of its market cap."
+                                android:text="A company’s investments in interest-bearing securities, such as bonds or other debt instruments that generate interest, should not exceed 30% of its market capitalisation"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="12sp" />
 
@@ -570,7 +728,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="0dp"
@@ -594,7 +753,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="0dp"
@@ -624,7 +784,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="0dp"
@@ -660,6 +821,188 @@
                                 android:textAllCaps="false"
                                 android:textSize="11sp" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="vertical"
+                            android:paddingVertical="8dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:contentDescription="Checked"
+                                    android:src="@drawable/checked" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Non-Permissible Income"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvNonPermissible"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="0.00%"
+                                    android:textColor="@android:color/holo_green_dark"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <ProgressBar
+                                android:id="@+id/ProgressBarNon"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:max="100"
+                                android:scaleY="3"
+                                android:progressTint="@color/green"
+                                android:progress="00" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="The percentage of income generated from non-permissible activities, such as interest or other impermissible sources, should not exceed 5% of the company’s total income"
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="12sp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Disclaimer: This Shariah compliance report is based on AAOIFI standards and is for Educational purposes only. Investors are encouraged to consult their financial advisors for personalised guidance."
+                                android:textColor="#C74848"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:background="#F6E9D0"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="4dp"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="CALCULATION"
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="(Cash &amp; Equivalents + Deposits) "
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="250dp"
+                                        android:layout_height="3dp"
+                                        android:background="@color/black" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Market Cap"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Cash &amp; Equivalents"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="₹00.00"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Deposits"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <androidx.appcompat.widget.AppCompatTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semi_bold"
+                                            android:text="₹00.00"
+                                            android:textSize="12sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/showdetailsbuttonNon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Show Details"
+                                android:textAllCaps="false"
+                                android:textSize="11sp"
+                                android:visibility="gone" />
+                        </LinearLayout>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -667,4 +1010,112 @@
             </LinearLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/SampleReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:paddingVertical="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/lock" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:gravity="center"
+                android:text="Shariah Compliance Report"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="An extensive business and financial screening of the company which specifies why a stock is compliant or non compliant"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+
+
+        <LinearLayout
+            android:id="@+id/upgradeBtn"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_button"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/upgrade">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="start"
+                android:text="Upgrade &amp; Unlock"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutViewSample"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient_button"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:text="View Sample Shariah Compliance Report"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

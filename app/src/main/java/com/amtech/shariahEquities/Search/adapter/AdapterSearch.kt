@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.amtech.shariahEquities.fragments.ComplianceReportActivity
 import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
@@ -33,13 +34,12 @@ class AdapterSearch(
             binding.apply {
                 companyName.text = result.name_of_company
                 companySymbol.text = result.nse_symbol_bse_script_id
-
-                if (result.complaint_type == 1) {
-                    complianceTag.visibility = View.VISIBLE
-                    nonComplianceTag.visibility = View.GONE
+                if (result.final == "PASS") {
+                    binding.complianceTag.visibility = View.VISIBLE
+                    binding.nonComplianceTag.visibility = View.GONE
                 } else {
-                    nonComplianceTag.visibility = View.VISIBLE
-                    complianceTag.visibility = View.GONE
+                    binding.nonComplianceTag.visibility = View.VISIBLE
+                    binding.complianceTag.visibility = View.GONE
 
                 }
 
@@ -50,14 +50,14 @@ class AdapterSearch(
                     selectedItems[result.id.toLong()] = isChecked
                     onItemChecked(result, isChecked)
                 }
-                if (sessionManager.subscribed == "0") {
-                    binding.imgLock.visibility = View.VISIBLE
-                    binding.nonComplianceTagBluer.visibility = View.VISIBLE
-                    nonComplianceTag.visibility = View.GONE
-                    complianceTag.visibility = View.GONE
-                }else{
-                    binding.imgLock.visibility = View.GONE
-                }
+//                if (sessionManager.subscribed == "0") {
+//                    binding.imgLock.visibility = View.VISIBLE
+//                    binding.nonComplianceTagBluer.visibility = View.VISIBLE
+//                    nonComplianceTag.visibility = View.GONE
+//                    complianceTag.visibility = View.GONE
+//                }else{
+//                    binding.imgLock.visibility = View.GONE
+//                }
                 btnAddWatchList.setOnClickListener {
                     if (sessionManager.subscribed == "0") {
                         SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
@@ -71,6 +71,11 @@ class AdapterSearch(
                     } else {
                         addWatchList.addWatchList(result.id.toString())
                     }
+                }
+                binding.root.setOnClickListener {
+                    val intent = Intent(context, ComplianceReportActivity::class.java)
+                    intent.putExtra("id", result.id)
+                    context.startActivity(intent)
                 }
             }
         }

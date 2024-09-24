@@ -41,7 +41,7 @@ class StocksAdapter(
                 binding.companyName.text = name_of_company
                 binding.companySymbol.text = nse_symbol_bse_script_id
                 binding.tvExchange.text = exchange
-                if (complaint_type == 1) {
+                if (final == "PASS") {
                     binding.complianceTag.visibility = View.VISIBLE
                     binding.nonComplianceTag.visibility = View.GONE
                 } else {
