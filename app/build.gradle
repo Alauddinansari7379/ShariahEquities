@@ -129,4 +129,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
 
+//red and greewn when and fail bussiness scrning
+    // 124.91 red tick is grather than 30%
+    //payment Page Changes
 }

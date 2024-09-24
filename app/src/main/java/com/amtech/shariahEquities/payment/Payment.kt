@@ -28,8 +28,10 @@ class Payment : AppCompatActivity() {
     var apiEndPoint = "/pg/v1/pay"
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
-    val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
-    val MERCHANT_ID = "M22NH1V8TQ8WX"  // Merhcant id
+  //  val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
+    val salt = "53f3c71e-6a8a-4e77-a9d1-2ca3c37230bc" // salt key
+   // val MERCHANT_ID = "M22NH1V8TQ8WX"  // Merhcant id
+    val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
 
     val BASE_URL = "https://api-preprod.phonepe.com/"
 
@@ -79,22 +81,15 @@ class Payment : AppCompatActivity() {
         val data = JSONObject().apply {
             put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
             put("merchantId", MERCHANT_ID)  // Your merchant ID
-            put("amount", amount * 100)  // Amount in paisa (1 INR = 100 paisa)
-            put("mobileNumber", "7908834635")  // Optional: Customer's mobile number
-            put(
-                "callbackUrl",
-                "https://webhook.site/21c2fcdd-bd23-425a-a9b4-0896da91d82d"
-            )  // Change to your actual callback URL in production
-
+            put("amount", 1 * 100)  // Amount in paisa (1 INR = 100 paisa)
+            put("mobileNumber", "7379452259")  // Optional: Customer's mobile number
+            put("callbackUrl", "https://webhook.site/f3ed82b0-b1f0-484b-86ba-6ca4d52f230b")  // Change to your actual callback URL in production
             val paymentInstrument = JSONObject().apply {
                 put("type", "PAY_PAGE")
 //                        put("targetApp", "com.phonepe.app")
-
                 // Payment instrument type, should be PAY_PAGE for redirection
             }
-
             put("paymentInstrument", paymentInstrument)  // Add payment instrument object
-
             val deviceContext = JSONObject().apply {
                 put("deviceOS", "ANDROID")  // Device OS context
             }
