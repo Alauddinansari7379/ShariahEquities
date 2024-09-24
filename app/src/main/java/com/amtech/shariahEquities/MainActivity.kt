@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var bottomNav: BottomNavigationView
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +57,8 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment!!.findNavController()
         val popupMenu = PopupMenu(this, null)
 
-        if (sessionManager.subscribed.toString()!="0"){
-           binding.btnUpgrade.visibility=View.GONE
+        if (sessionManager.subscribed.toString() != "0") {
+            binding.btnUpgrade.visibility = View.GONE
         }
         popupMenu.inflate(R.menu.bootom_nav_menu)
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -80,14 +81,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.e("DeviceId", sessionManager.deviceId.toString())
-      //  requestNotificationPermission()
+        //  requestNotificationPermission()
         Log.e("authTokenUser", sessionManager.authTokenUser.toString())
         Log.e("userEmail", sessionManager.userEmail.toString())
         Log.e("userName", sessionManager.userName.toString())
         Log.e("sessionManager.fcmToken", sessionManager.fcmToken.toString())
 
-        if (sessionManager.randomKey!!.isEmpty()){
-            sessionManager.randomKey=generateRandomString(10)
+        if (sessionManager.randomKey!!.isEmpty()) {
+            sessionManager.randomKey = generateRandomString(10)
             val randomString = generateRandomString(10)
             println("Random String: $randomString")
         }
@@ -132,9 +133,11 @@ class MainActivity : AppCompatActivity() {
                     R.id.fragment_explore -> {
                         appCompatTextView2.text = "Explore"
                     }
+
                     R.id.fragment_search -> {
                         appCompatTextView2.text = "Search"
                     }
+
                     R.id.fragment_watchlist -> {
                         appCompatTextView2.text = "Watchlist"
 //                        if (sessionManager.authTokenUser!!.isEmpty()){
@@ -145,6 +148,7 @@ class MainActivity : AppCompatActivity() {
 //                            }
 //                        }
                     }
+
                     R.id.fragment_portfolio -> {
                         appCompatTextView2.text = "Profile"
 //                        if (sessionManager.authTokenUser!!.isEmpty()){
@@ -158,23 +162,26 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            tvUserName.text=sessionManager.userName
+            tvUserName.text = sessionManager.userName
             btnUpgrade.setOnClickListener {
-                if (sessionManager.authTokenUser!!.isEmpty()){
+                if (sessionManager.authTokenUser!!.isEmpty()) {
                     try {
                         bottomSheetDialog.show()
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                }            }
+                }
+            }
         }
 
     }
+
     private fun getDeviceId(context: Context): String? {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
     }
-//    private fun checkForUpdate(context: Context) {
+
+    //    private fun checkForUpdate(context: Context) {
 //        val appUpdateManager = AppUpdateManagerFactory.create(context)
 //        val appUpdateInfoTask: Task<AppUpdateInfo> = appUpdateManager.appUpdateInfo
 //
@@ -260,6 +267,7 @@ class MainActivity : AppCompatActivity() {
             val flat = Settings.Secure.getString(contentResolver, "enabled_notification_listeners")
             return flat != null && flat.contains(cn.flattenToString())
         }
+
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(
             this,
@@ -275,12 +283,14 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("Cancel", null)
             .show()
     }
+
     private fun generateRandomString(length: Int): String {
         val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
     }
+
     private fun showNotificationPermissionRationale() {
 
         MaterialAlertDialogBuilder(
@@ -322,6 +332,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun showUpdateDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Update Available")
@@ -330,9 +341,19 @@ class MainActivity : AppCompatActivity() {
             // Redirect to Play Store
             val appPackageName = context.packageName
             try {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
             } catch (e: android.content.ActivityNotFoundException) {
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
             }
             dialog.dismiss()
         }

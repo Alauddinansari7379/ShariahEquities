@@ -30,8 +30,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ComplianceReportActivity : AppCompatActivity() {
-    private var context: Context = this@ComplianceReportActivity
+class ComplianceSampleReport : AppCompatActivity() {
+    private var context: Context = this@ComplianceSampleReport
     var id = ""
     private var count = 0
     private lateinit var binding: ActivityComplianceReportBinding
@@ -41,71 +41,69 @@ class ComplianceReportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityComplianceReportBinding.inflate(layoutInflater)
-        id = intent.getIntExtra("id", 0).toString()
-        sessionManager = SessionManager(context)
-        binding.showDetailsButton.setOnClickListener {
-            if (binding.showDetailsTxt.visibility == View.VISIBLE) {
-                binding.showDetailsTxt.visibility = View.GONE
-                binding.showDetailsButton.text = "Show Details"
-            } else {
-                binding.showDetailsTxt.visibility = View.VISIBLE
-                binding.showDetailsButton.text = "Hide Details"
-            }
-        }
-        binding.showdetailsbutton1.setOnClickListener {
-            if (binding.securitiesShowDetailsTxt.visibility == View.VISIBLE) {
-                binding.securitiesShowDetailsTxt.visibility = View.GONE
-                binding.showdetailsbutton1.text = "Show Details"
-            } else {
-                binding.securitiesShowDetailsTxt.visibility = View.VISIBLE
-                binding.showdetailsbutton1.text = "Hide Details"
-            }
-        }
-        binding.imgBack.setOnClickListener {
-            onBackPressed()
-        }
-        binding.standardsLabel.setOnClickListener {
-            startActivity(
-                PdfViewerActivity.launchPdfFromUrl(
-                    context,
-                    "http://ehcf.in/public/Shariah_Equities_Screening_Methodology.pdf",
-                    "Screening Methodology",
-                    "",
-                    enableDownload = true
-                )
-            )
-        }
         setContentView(binding.root)
 
 
-        val bottomSheetDialog = BottomSheetDialog(context)
-        val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
-        bottomSheetDialog.setContentView(parentView)
-        val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
-        val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
+        with(binding) {
+            imgBack.setOnClickListener {
+                onBackPressed()
+            }
+            appCompatTextView2.text = "Sample Compliance Report"
 
-        imgCloseNew.setOnClickListener {
-            bottomSheetDialog.dismiss()
+            updateDate.text = "Updated on 22-09-2024"
+            companyName.text = "Company name"
+            tvExchange.text = "NSE"
+            companySymbol.text = "Company symbol"
+            tvIndustryGroup.text = "IndustryGroup"
+            tvDebtCapture.text =   "15 %"
+            tvSecuritiesCapture.text = "15 %"
+            tvNonPermissible.text =  "23 %"
+            tvMarketCap.text =  "15 %"
+            tvTotalDebt.text = "00 %"
+
+            binding.showDetailsButton.setOnClickListener {
+                if (binding.showDetailsTxt.visibility == View.VISIBLE) {
+                    binding.showDetailsTxt.visibility = View.GONE
+                    binding.showDetailsButton.text = "Show Details"
+                } else {
+                    binding.showDetailsTxt.visibility = View.VISIBLE
+                    binding.showDetailsButton.text = "Hide Details"
+                }
+            }
+            binding.showdetailsbutton1.setOnClickListener {
+                if (binding.securitiesShowDetailsTxt.visibility == View.VISIBLE) {
+                    binding.securitiesShowDetailsTxt.visibility = View.GONE
+                    binding.showdetailsbutton1.text = "Show Details"
+                } else {
+                    binding.securitiesShowDetailsTxt.visibility = View.VISIBLE
+                    binding.showdetailsbutton1.text = "Hide Details"
+                }
+            }
+            binding.nonComplianceTag.visibility = View.VISIBLE
+
+            val marketCap = 15
+            val maxValue = 100.0
+            val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
+            progressBarDebt.progress = progress
+
+            val marketCap1 = 10
+            val maxValue1 = 100.0
+            val progress1 =
+                (marketCap1 / maxValue1 * 100).toInt().coerceIn(0, 100)
+            securitiesProgressBar.progress = progress1
+
+            val marketCap2 = 23
+            val maxValue2 = 100.0
+            val progress2 =
+                (marketCap2 / maxValue2 * 100).toInt().coerceIn(0, 100)
+            ProgressBarNon.progress = progress2
+
+            setupPieChart("10", 15F)
+
+            setupPieChartFin("10", 15F)
 
         }
-        btnSubscribe.setOnClickListener {
-            startActivity(Intent(context, Payment::class.java))
-        }
 
-        if (sessionManager.subscribed != "0") {
-            apiCallGetCompanyDetails(id)
-        } else {
-            binding.SampleReport.visibility = View.VISIBLE
-            binding.layoutMain.visibility = View.GONE
-         }
-
-         binding.layoutViewSample.setOnClickListener {
-            startActivity(Intent(context, ComplianceSampleReport::class.java))
-        }
-
-        binding.upgradeBtn.setOnClickListener {
-            bottomSheetDialog.show()
-        }
 
     }
 
@@ -200,10 +198,10 @@ class ComplianceReportActivity : AppCompatActivity() {
 
                 try {
                     if (response.code() == 500) {
-                        myToast(this@ComplianceReportActivity, "Server Error")
+                        myToast(this@ComplianceSampleReport, "Server Error")
                         AppProgressBar.hideLoaderDialog()
                     } else if (response.code() == 404) {
-                        myToast(this@ComplianceReportActivity, "Something went wrong")
+                        myToast(this@ComplianceSampleReport, "Something went wrong")
                         AppProgressBar.hideLoaderDialog()
                     } else {
 
@@ -249,51 +247,8 @@ class ComplianceReportActivity : AppCompatActivity() {
                                 if (response.body()!!.result.financial_screening.isNullOrEmpty()) {
                                     binding.layoutFinancialSub.visibility = View.GONE
                                 }
-                                val marketCap =
-                                    response.body()?.result?.debts_market_cap?.toDoubleOrNull()
-                                        ?: 0.0
-                                val maxValue = 100.0
-                                val progress = (marketCap / maxValue * 100).toInt().coerceIn(0, 100)
-                                progressBarDebt.progress = progress
 
-                                val marketCap1 =
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toDoubleOrNull()
-                                        ?: 0.0
-                                val maxValue1 = 100.0
-                                val progress1 =
-                                    (marketCap1 / maxValue1 * 100).toInt().coerceIn(0, 100)
-                                securitiesProgressBar.progress = progress1
 
-                                val marketCap2 =
-                                    response.body()?.result?.interest_income?.toDoubleOrNull()
-                                        ?: 0.0
-                                val maxValue2 = 100.0
-                                val progress2 =
-                                    (marketCap2 / maxValue2 * 100).toInt().coerceIn(0, 100)
-                                ProgressBarNon.progress = progress2
-
-                                setupPieChart(
-                                    response.body()?.result?.debts_market_cap?.takeIf { !it.isNullOrEmpty() }
-                                        ?: "0",
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
-                                        ?: 0f
-                                )
-
-                                setupPieChartFin(
-                                    response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() }
-                                        ?: "0",
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
-                                        ?: 0f
-                                )
-
-                                if (response.body()?.result?.final == "PASS") {
-                                    binding.complianceTag.visibility = View.VISIBLE
-                                    binding.nonComplianceTag.visibility = View.GONE
-                                } else {
-                                    binding.nonComplianceTag.visibility = View.VISIBLE
-                                    binding.complianceTag.visibility = View.GONE
-
-                                }
 //                                setupGaugeChart(
 //                                    (response.body()!!.result.interest_income?.toFloatOrNull()
 //                                        ?: 0f).toString()
@@ -319,7 +274,7 @@ class ComplianceReportActivity : AppCompatActivity() {
                     apiCallGetCompanyDetails(id)
                 } else {
                     myToast(
-                        this@ComplianceReportActivity,
+                        this@ComplianceSampleReport,
                         t.message.toString()
                     )
                 }

@@ -37,7 +37,7 @@ class AdapterBasketList(
                 with(list[position]) {
                     binding.btnAddWatchList.visibility= View.GONE
                     binding.companyName.text = nse_symbol_bse_script_id
-                     if (complaint_type == 1) {
+                    if (final == "PASS") {
                         binding.complianceTag.visibility = View.VISIBLE
                         binding.nonComplianceTag.visibility = View.GONE
                     } else {

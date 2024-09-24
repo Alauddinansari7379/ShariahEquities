@@ -1,7 +1,9 @@
 package com.amtech.shariahEquities.profile.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
  import com.sellacha.tlismiherbs.databinding.ActivityPrivacyPolicyBinding
@@ -28,18 +30,26 @@ class PrivacyPolicy : AppCompatActivity() {
 
 
 
-            // Enable JavaScript
             webView.settings.javaScriptEnabled = true
-
-            // Enable other settings if needed
             webView.settings.domStorageEnabled = true
             webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
 
-            // Set a WebViewClient to handle page navigation
-            webView.webViewClient = WebViewClient()
+// Enable mixed content if needed
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            }
 
-            // Load a URL or HTML content
+// Set WebViewClient to handle HTTPS and navigation
+            webView.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                    view.loadUrl(url)
+                    return true
+                }
+            }
+
+// Load URL
             webView.loadUrl(link)
+
 
         }
 

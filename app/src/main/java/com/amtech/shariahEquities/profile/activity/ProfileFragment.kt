@@ -18,6 +18,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.login.Login
+import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
@@ -79,7 +80,29 @@ class ProfileFragment : Fragment() {
             login.setOnClickListener {
                // startActivity(Intent(activity, Login::class.java))
             }
+            val bottomSheetDialog = BottomSheetDialog(requireContext())
+            val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
+            bottomSheetDialog.setContentView(parentView)
+            val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
+            val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
 
+            imgCloseNew.setOnClickListener {
+                bottomSheetDialog.dismiss()
+
+            }
+            btnSubscribe.setOnClickListener {
+                startActivity(Intent(context, Payment::class.java))
+            }
+
+            binding.upgradeBtn.setOnClickListener {
+                if (sessionManager.subscribed=="0"){
+                    try {
+                        bottomSheetDialog.show()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
             btnSignOut.setOnClickListener {
                 SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure want to Logout?")
@@ -182,7 +205,14 @@ class ProfileFragment : Fragment() {
             cardContactUs.setOnClickListener {
                 val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                     .putExtra("title", "Contact Us")
-                    .putExtra("link", "https://shariahequities.in/")
+                    .putExtra("link", "https://shariahequities.in/faq/")
+                (context as Activity).startActivity(intent)
+            }
+
+            aboutConst.setOnClickListener {
+                val intent = Intent(context as Activity, PrivacyPolicy::class.java)
+                    .putExtra("title", "About Shariah Equities")
+                    .putExtra("link", "https://shariahequities.in/faq/")
                 (context as Activity).startActivity(intent)
             }
 

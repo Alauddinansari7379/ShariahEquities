@@ -127,5 +127,6 @@ dependencies {
     implementation 'phonepe.intentsdk.android.release:IntentSDK:2.4.1'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
 
 }
