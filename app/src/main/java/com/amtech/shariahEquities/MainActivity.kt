@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.hostFragment)
         val navController = navHostFragment!!.findNavController()
         val popupMenu = PopupMenu(this, null)
-        if (sessionManager.startDate!= "" && sessionManager.endDate!="")
+
+        if (sessionManager.startDate!= "" && sessionManager.endDate!="" && sessionManager.startDate!="0000-00-00" && sessionManager.endDate!="0000-00-00")
         {
             checkSubscriptionDateRange(sessionManager.startDate.toString(),sessionManager.endDate.toString())
 
@@ -399,25 +400,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun checkSubscriptionDateRange(startDate: String, endDate: String) {
-        // Get today's date
-        val today = LocalDate.now()
+     @RequiresApi(Build.VERSION_CODES.O)
+     fun checkSubscriptionDateRange(startDate: String, endDate: String) {
+         // Get today's date
+         val today = LocalDate.now()
 
-        // Parse the start and end dates from the string
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        val parsedStartDate = LocalDate.parse(startDate, formatter)
-        val parsedEndDate = LocalDate.parse(endDate, formatter)
+         // Parse the start and end dates from the strings
+         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        // val parsedStartDate = LocalDate.parse(startDate, formatter)
+         val parsedEndDate = LocalDate.parse(endDate, formatter)
 
-        // Check if today's date is within the startDate and endDate or after the endDate
-        if (!(today.isAfter(parsedStartDate) && today.isBefore(parsedEndDate)) ||
-            today.isEqual(parsedEndDate) ||
-            today.isEqual(parsedStartDate) ||
-            today.isAfter(parsedEndDate)
-        ) {
-            apiCallUpdateSubscription()
-        }
-    }
+         // Check if today's date is after the endDate
+         if (today.isAfter(parsedEndDate)) {
+             apiCallUpdateSubscription()
+         }
+     }
+
 
     private fun apiCallUpdateSubscription() {
 //        AppProgressBar.showLoaderDialog(context)
@@ -447,7 +445,7 @@ class MainActivity : AppCompatActivity() {
                                 sessionManager.startDate = ""
                                 sessionManager.endDate = ""
 
-                                val di = SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                val di = SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                                 di.setTitleText("Subscription expired!")
                                 di.setContentText("Your subscription has expired. Renew now to continue enjoying premium benefits!")
                                 di.setConfirmText("ok")

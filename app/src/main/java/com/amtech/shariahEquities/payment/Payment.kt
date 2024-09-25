@@ -8,12 +8,14 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -40,6 +42,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.nio.charset.Charset
 import java.security.MessageDigest
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 
@@ -50,8 +55,11 @@ class Payment : AppCompatActivity() {
     var count = 0
     var countC = 0
     var amount = 0
+    private var startDate = ""
+    private var endDate = ""
     private var apiEndPoint = "/pg/v1/pay"
     lateinit var sessionManager: SessionManager
+    private var isMonthlySubscriotion = ""
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
     //  val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
@@ -61,13 +69,15 @@ class Payment : AppCompatActivity() {
     private val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
 
     val BASE_URL = "https://api-preprod.phonepe.com/"
-
+    lateinit var monthRange: Pair<String, String>
+    lateinit var yearRange: Pair<String, String>
 
 //    var apiEndPoint = "/pg/v1/pay"
 //    val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
 //    val MERCHANT_ID = "PGTESTPAYUAT"  // Merhcant id
 //    val MERCHANT_TID = "txnId"
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -79,7 +89,7 @@ class Payment : AppCompatActivity() {
             MERCHANT_ID,
             ""
         )
-
+        getDateRanges()
         try {
             val upiApps = PhonePe.getUpiApps()
             Log.e("UPIAPPS", upiApps.toString())
@@ -129,6 +139,7 @@ class Payment : AppCompatActivity() {
 
                 if (radioMonth.isChecked) {
                     amount = 599
+                    isMonthlySubscriotion="month"
                 }
                 if (radioYear.isChecked) {
                     amount = 5999
@@ -279,8 +290,16 @@ class Payment : AppCompatActivity() {
 
     private fun apiCallUpdateSubscription() {
         AppProgressBar.showLoaderDialog(context)
-
-        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "1")
+        if (isMonthlySubscriotion.equals("month"))
+        {
+            startDate =monthRange.first
+            endDate =monthRange.second
+        }else
+        {
+            startDate =yearRange.first
+            endDate =yearRange.second
+        }
+        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "1",startDate,endDate)
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("LogNotTimber", "SetTextI18n")
                 override fun onResponse(
@@ -299,6 +318,8 @@ class Payment : AppCompatActivity() {
                         } else {
                             if (response.body()!!.status == 1) {
                                 sessionManager.subscribed = "1"
+                                sessionManager.startDate = startDate
+                                sessionManager.endDate = endDate
                                 startFlowerRain()
                               //  binding.rainview.showAnimation()
                                 val di = SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
@@ -435,5 +456,25 @@ class Payment : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
        // binding.rainview.animationClear()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDateRanges() {
+        val today = LocalDate.now()
+
+        // Get one month from today's date
+        val oneMonthFromToday = today.plus(1, ChronoUnit.MONTHS)
+
+        // Get one year from today's date
+        val oneYearFromToday = today.plus(1, ChronoUnit.YEARS)
+
+        // Format the dates as strings
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val todayFormatted = today.format(formatter)
+        val oneMonthFormatted = oneMonthFromToday.format(formatter)
+        val oneYearFormatted = oneYearFromToday.format(formatter)
+
+        // Assign values to global variables
+        monthRange = Pair(todayFormatted, oneMonthFormatted)
+        yearRange = Pair(todayFormatted, oneYearFormatted)
     }
 }
