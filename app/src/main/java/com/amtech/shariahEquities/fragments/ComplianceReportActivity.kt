@@ -174,6 +174,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         range3.to = 100.0
 
 
+
         //add color ranges to gauge
         binding.halfGauge.addRange(range)
         // binding.halfGauge.addRange(range2)
