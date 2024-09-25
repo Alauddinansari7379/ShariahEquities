@@ -73,117 +73,147 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="1dp"
-                        app:cardCornerRadius="10dp">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp">
+                            android:layout_weight="2"
+                            android:orientation="vertical">
 
-                            <LinearLayout
-                                android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/companyName"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="2"
-                                android:orientation="vertical">
+                                android:layout_marginBottom="10dp"
+                                android:text="Company Name"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/companyName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="10dp"
-                                    android:text="Company Name"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                                <androidx.appcompat.widget.LinearLayoutCompat
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:orientation="horizontal">
+                                   <TextView
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_weight="1"
+                                       android:fontFamily="@font/poppins_semi_bold"
+                                       android:text="Symbol : "
+                                       android:textColor="@color/black"
+                                       android:textSize="12sp" />
+                                   <TextView
+                                       android:id="@+id/companySymbol"
+
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_weight="1"
+                                       android:fontFamily="@font/poppins_regular"
+                                       android:text="NA"
+                                       android:textColor="@color/black"
+                                       android:textSize="12sp" />
+                               </LinearLayout>
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:id="@+id/companySymbol"
-
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/poppins_regular"
-                                        android:text="NA"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_marginBottom="1dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:id="@+id/complianceTag"
+                                        android:layout_width="100dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="1dp"
-                                        android:layout_marginBottom="1dp"
-                                        android:layout_weight="1"
+                                        android:background="@drawable/corner_new"
+                                        android:backgroundTint="#437C90"
                                         android:gravity="center"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:padding="4dp"
+                                        android:visibility="gone">
 
-                                        <LinearLayout
-                                            android:id="@+id/complianceTag"
-                                            android:layout_width="100dp"
+                                        <TextView
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:background="@drawable/corner_new"
-                                            android:backgroundTint="#437C90"
-                                            android:gravity="center"
-                                            android:orientation="horizontal"
-                                            android:padding="4dp"
-                                            android:visibility="gone">
-
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="COMPLIANT"
-                                                android:textColor="@color/white"
-                                                android:textSize="10sp" />
-                                        </LinearLayout>
-
-                                        <LinearLayout
-                                            android:id="@+id/nonComplianceTag"
-                                            android:layout_width="100dp"
-                                            android:layout_height="wrap_content"
-                                            android:background="@drawable/corner_new"
-                                            android:backgroundTint="#413F3F"
-                                            android:gravity="center"
-                                            android:orientation="horizontal"
-                                            android:padding="4dp"
-                                            android:visibility="gone">
-
-                                            <TextView
-                                                android:id="@+id/tvComStatues"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="NON-COMPLIANT"
-                                                android:textColor="@color/white"
-                                                android:textSize="10sp" />
-                                        </LinearLayout>
-
-                                        <CheckBox
-                                            android:id="@+id/checkbox"
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:layout_marginStart="5dp"
-                                            android:visibility="gone" />
-
+                                            android:text="COMPLIANT"
+                                            android:textColor="@color/white"
+                                            android:textSize="10sp" />
                                     </LinearLayout>
 
-                                </androidx.appcompat.widget.LinearLayoutCompat>
+                                    <LinearLayout
+                                        android:id="@+id/nonComplianceTag"
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/corner_new"
+                                        android:backgroundTint="#413F3F"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:padding="4dp"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:id="@+id/tvComStatues"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="NON-COMPLIANT"
+                                            android:textColor="@color/white"
+                                            android:textSize="10sp" />
+                                    </LinearLayout>
+
+                                    <CheckBox
+                                        android:id="@+id/checkbox"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_marginStart="5dp"
+                                        android:visibility="gone" />
+
+                                </LinearLayout>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text="Industry group : "
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+                                <TextView
+                                android:id="@+id/tvIndustryGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="NA"
+                                android:textColor="@color/black"
+                                android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
                                 <TextView
-                                    android:id="@+id/tvIndustryGroup"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="NA"
+                                    android:layout_marginTop="2dp"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Exchange : "
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
 
@@ -196,12 +226,12 @@
                                     android:text="Apple Inc"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
-
                             </LinearLayout>
+
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -433,15 +463,14 @@
 
                             <com.github.mikephil.charting.charts.PieChart
                                 android:id="@+id/pieChartView1"
-                                android:visibility="gone"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp" />
+                                android:layout_height="200dp"
+                                android:visibility="gone" />
 
                             <com.ekn.gruzer.gaugelibrary.HalfGauge
                                 android:id="@+id/halfGauge"
                                 android:layout_width="200dp"
-                                android:layout_height="200dp"
-                               />
+                                android:layout_height="200dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -479,9 +508,9 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
-                                    android:visibility="gone"
                                     android:textColor="@android:color/holo_green_dark"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ProgressBar
@@ -491,16 +520,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
-                                android:visibility="gone"
-                                android:scaleY="3"
+                                android:progress="00"
                                 android:progressTint="@color/green"
-                                android:progress="00" />
+                                android:scaleY="3"
+                                android:visibility="gone" />
+
                             <com.ekn.gruzer.gaugelibrary.HalfGauge
                                 android:id="@+id/halfGaugeDebt"
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
-                                android:layout_gravity="center"
-                                />
+                                android:layout_gravity="center" />
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -660,9 +690,9 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
-                                    android:visibility="gone"
                                     android:textColor="@android:color/holo_green_dark"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ProgressBar
@@ -672,16 +702,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
-                                android:visibility="gone"
-                                android:scaleY="3"
+                                android:progress="00"
                                 android:progressTint="@color/green"
-                                android:progress="00" />
+                                android:scaleY="3"
+                                android:visibility="gone" />
+
                             <com.ekn.gruzer.gaugelibrary.HalfGauge
                                 android:id="@+id/halfGaugeSecurities"
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
-                                android:layout_gravity="center"
-                                />
+                                android:layout_gravity="center" />
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -870,11 +901,11 @@
                                     android:id="@+id/tvNonPermissible"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:visibility="gone"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
                                     android:textColor="@android:color/holo_green_dark"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ProgressBar
@@ -884,16 +915,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
-                                android:visibility="gone"
-                                android:scaleY="3"
+                                android:progress="00"
                                 android:progressTint="@color/green"
-                                android:progress="00" />
+                                android:scaleY="3"
+                                android:visibility="gone" />
+
                             <com.ekn.gruzer.gaugelibrary.HalfGauge
                                 android:id="@+id/halfGaugeNon"
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
-                                android:layout_gravity="center"
-                                />
+                                android:layout_gravity="center" />
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -909,7 +941,7 @@
                                 android:layout_marginTop="15dp"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Disclaimer: This Shariah compliance report is based on AAOIFI standards and is for Educational purposes only. Investors are encouraged to consult their financial advisors for personalised guidance."
-                                android:textColor="#C74848"
+                                android:textColor="@color/main_color"
                                 android:textSize="12sp" />
 
                             <LinearLayout
@@ -1039,9 +1071,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
         android:orientation="vertical"
-        android:paddingVertical="8dp">
+        android:paddingVertical="8dp"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="90dp"
