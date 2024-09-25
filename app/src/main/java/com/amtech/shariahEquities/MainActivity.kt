@@ -6,6 +6,7 @@ package com.amtech.shariahEquities
 //import com.google.android.play.core.tasks.Task
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
@@ -22,13 +23,19 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import cn.pedant.SweetAlert.SweetAlertDialog
+import com.amtech.shariahEquities.Helper.AppProgressBar
+import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.payment.Payment
+import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.currentDate
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -37,6 +44,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.ActivityMainBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
     private var context = this@MainActivity
@@ -48,7 +60,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var sessionManager: SessionManager
     private lateinit var bottomNav: BottomNavigationView
     private var backPressedTime: Long = 0
+    private var count = 0
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +73,11 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.hostFragment)
         val navController = navHostFragment!!.findNavController()
         val popupMenu = PopupMenu(this, null)
+        if (sessionManager.startDate!= "" && sessionManager.endDate!="")
+        {
+            checkSubscriptionDateRange(sessionManager.startDate.toString(),sessionManager.endDate.toString())
 
+        }
         if (sessionManager.subscribed.toString() != "0") {
             binding.btnUpgrade.visibility = View.GONE
         }
@@ -379,4 +397,104 @@ class MainActivity : AppCompatActivity() {
         builder.setCancelable(false)
         builder.show()
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkSubscriptionDateRange(startDate: String, endDate: String) {
+        // Get today's date
+        val today = LocalDate.now()
+
+        // Parse the start and end dates from the string
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val parsedStartDate = LocalDate.parse(startDate, formatter)
+        val parsedEndDate = LocalDate.parse(endDate, formatter)
+
+        // Check if today's date is within the startDate and endDate or after the endDate
+        if (!(today.isAfter(parsedStartDate) && today.isBefore(parsedEndDate)) ||
+            today.isEqual(parsedEndDate) ||
+            today.isEqual(parsedStartDate) ||
+            today.isAfter(parsedEndDate)
+        ) {
+            apiCallUpdateSubscription()
+        }
+    }
+
+    private fun apiCallUpdateSubscription() {
+//        AppProgressBar.showLoaderDialog(context)
+
+
+        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "0",
+            currentDate,currentDate)
+            .enqueue(object : Callback<ModelResetPass> {
+                @SuppressLint("LogNotTimber", "SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelResetPass>,
+                    response: Response<ModelResetPass>
+                ) {
+                    AppProgressBar.hideLoaderDialog()
+
+                    try {
+                        if (response.code() == 500) {
+                            myToast(context, "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+                        } else if (response.code() == 404) {
+                            myToast(context, "Something went wrong")
+                            AppProgressBar.hideLoaderDialog()
+                        } else {
+                            if (response.body()!!.status == 1) {
+                                count = 0
+                                sessionManager.subscribed = "0"
+                                sessionManager.startDate = ""
+                                sessionManager.endDate = ""
+
+                                val di = SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                di.setTitleText("Subscription expired!")
+                                di.setContentText("Your subscription has expired. Renew now to continue enjoying premium benefits!")
+                                di.setConfirmText("ok")
+                                di.showCancelButton(true)
+                                di.setConfirmClickListener { sDialog ->
+                                    sDialog.cancel()
+                                    refresh()
+                                }
+                                di.setCancelClickListener { sDialog ->
+                                    sDialog.cancel()
+                                }
+                                    .show()
+                                di.setCancelable(false)
+
+
+                            }
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context as Activity, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelResetPass>, t: Throwable) {
+                    AppProgressBar.hideLoaderDialog()
+                    count++
+                    if (count <= 3) {
+                        apiCallUpdateSubscription()
+                    } else {
+                        myToast(
+                            this@MainActivity,
+                            t.message.toString()
+                        )
+                    }
+                }
+            })
+
+    }
+
+    fun refresh() {
+        overridePendingTransition(0, 0)
+        finish()
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
 }

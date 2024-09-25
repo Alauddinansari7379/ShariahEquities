@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Rect
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -313,7 +313,7 @@ class ComplianceReportActivity : AppCompatActivity() {
                         if (response.body()!!.result.status == 1) {
                             with(binding) {
                                 updateDate.text =
-                                    "Updated on " + response.body()!!.result.created_at.substringBefore(
+                                    "Updated on " + response.body()!!.result.created_at?.substringBefore(
                                         "T"
                                     )
                                 companyName.text = response.body()!!.result.name_of_company
@@ -396,6 +396,30 @@ class ComplianceReportActivity : AppCompatActivity() {
                                     binding.nonComplianceTag.visibility = View.VISIBLE
                                     binding.complianceTag.visibility = View.GONE
 
+                                }
+                                if (response.body()!!.result.interest_income != null && response.body()!!.result.interest_income?.toDouble()!! > 5) {
+                                    binding.ivNonPermissibleIncStatus.setColorFilter(
+                                        ContextCompat.getColor(context, R.color.red), // Replace with your color
+                                        PorterDuff.Mode.SRC_IN // This mode will apply the tint color to the drawable
+                                    )
+                                } else {
+                                    binding.ivNonPermissibleIncStatus.clearColorFilter()
+                                }
+                                if (response.body()!!.result.debts_market_cap != null && response.body()!!.result.debts_market_cap?.toDouble()!! > 30) {
+                                    binding.ivInterestBearingDebStatus.setColorFilter(
+                                        ContextCompat.getColor(context, R.color.red),
+                                        PorterDuff.Mode.SRC_IN
+                                    )
+                                } else {
+                                    binding.ivInterestBearingDebStatus.clearColorFilter()
+                                }
+                                if (response.body()!!.result.interest_bearing_securities_market_cap!= null && response.body()!!.result.interest_bearing_securities_market_cap?.toDouble()!! > 30) {
+                                    binding.ivInterestBearingSecStatus.setColorFilter(
+                                        ContextCompat.getColor(context, R.color.red), // Replace with your color
+                                        PorterDuff.Mode.SRC_IN // This mode will apply the tint color to the drawable
+                                    )
+                                } else {
+                                    binding.ivInterestBearingSecStatus.clearColorFilter()
                                 }
                                 setupGaugeChart(
                                     (response.body()!!.result.interest_income?.toFloatOrNull()

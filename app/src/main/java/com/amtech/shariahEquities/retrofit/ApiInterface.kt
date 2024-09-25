@@ -121,6 +121,8 @@ interface ApiInterface {
     fun updateSubscription(
         @Query("id") id:String,
         @Query("value") value:String,
+        @Query("start_date") start_date:String,
+        @Query("end_date") end_date:String,
       ): Call<ModelResetPass>
 
 //

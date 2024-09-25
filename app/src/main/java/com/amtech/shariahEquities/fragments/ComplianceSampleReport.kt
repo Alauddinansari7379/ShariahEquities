@@ -208,7 +208,7 @@ class ComplianceSampleReport : AppCompatActivity() {
                         if (response.body()!!.result.status == 1) {
                             with(binding) {
                                 updateDate.text =
-                                    "Updated on " + response.body()!!.result.created_at.substringBefore(
+                                    "Updated on " + response.body()!!.result.created_at?.substringBefore(
                                         "T"
                                     )
                                 companyName.text = response.body()!!.result.name_of_company
