@@ -256,10 +256,13 @@ class OTPVerification : AppCompatActivity() {
                         } else {
                             myToast(context, response.body()!!.message)
 
-                            otp = response.body()!!.result.otp
-                            if (otp.toString().isNotEmpty()) {
-                                binding.layoutSendOTP.visibility = View.GONE
-                                binding.layoutVerifyOTP.visibility = View.VISIBLE
+                            if (response.body()!!.result!=null) {
+                                otp = response.body()!!.result.otp
+                                if (otp.toString().isNotEmpty()) {
+                                    binding.layoutSendOTP.visibility = View.GONE
+                                    binding.layoutVerifyOTP.visibility = View.VISIBLE
+                                }
+                                AppProgressBar.hideLoaderDialog()
                             }
                             AppProgressBar.hideLoaderDialog()
                         }

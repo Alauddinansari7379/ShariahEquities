@@ -229,11 +229,14 @@ class SignUp : AppCompatActivity() {
 
                         } else {
                             myToast(context, response.body()!!.message)
-                            val intent = Intent(applicationContext, Login::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            finish()
-                            startActivity(intent)
+                            if (response.body()!!.status == 1) {
+                                val intent = Intent(applicationContext, Login::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                finish()
+                                startActivity(intent)
+                                AppProgressBar.hideLoaderDialog()
+                            }
                             AppProgressBar.hideLoaderDialog()
                         }
                     } catch (e: Exception) {

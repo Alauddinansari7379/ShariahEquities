@@ -68,6 +68,9 @@ class ProfileFragment : Fragment() {
             if (nameParts.size >= 2) {
                  val initials = "${nameParts[0].first()}${nameParts[1].first()}"
                 tvNameTag.text = initials
+            }else
+            {
+                tvNameTag.text = fullName
             }
             Log.e("Email",sessionManager.userEmail.toString())
             val imgClose = parentView.findViewById<ImageView>(R.id.imgBackDil)
