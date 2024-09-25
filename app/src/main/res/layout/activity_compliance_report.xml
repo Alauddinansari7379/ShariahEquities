@@ -130,7 +130,7 @@
                                     android:layout_marginTop="1dp"
                                     android:layout_marginBottom="1dp"
                                     android:layout_weight="1"
-                                    android:gravity="center"
+                                    android:gravity="end"
                                     android:orientation="horizontal">
 
                                     <LinearLayout
@@ -490,7 +490,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="Compliant"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
@@ -520,7 +520,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="Non-compliant"
-                                    android:textSize="14sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
@@ -607,7 +607,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
@@ -637,7 +637,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Non-compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
@@ -848,7 +848,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
@@ -878,7 +878,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Non-compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
@@ -1120,7 +1120,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
@@ -1150,7 +1150,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
                                         android:text="Non-compliant"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"

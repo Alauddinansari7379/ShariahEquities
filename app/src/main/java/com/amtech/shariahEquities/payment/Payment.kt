@@ -11,25 +11,20 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.MainActivity
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
-import com.amtech.shariahEquities.fragments.model.ModelCompanyDetails
-import com.amtech.shariahEquities.login.Login
+import com.amtech.shariahEquities.payment.model.ModelCreatePayment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.ehcf.phonepesdk.ApiUtilities
 import com.example.tlismimoti.Helper.myToast
-import com.fevziomurtekin.widget.RainAnimation
 import com.phonepe.intent.sdk.api.B2BPGRequestBuilder
 import com.phonepe.intent.sdk.api.PhonePe
 import com.phonepe.intent.sdk.api.PhonePeInitException
@@ -51,17 +46,19 @@ import kotlin.random.Random
 class Payment : AppCompatActivity() {
     val binding by lazy { ActivityPaymentBinding.inflate(layoutInflater) }
     val context = this@Payment
-    var MERCHANT_TID = ""
+    private var MERCHANT_TID = ""
     var count = 0
-     var apiEndPoint = "/pg/v1/pay"
+    var countC = 0
+    var amount = 0
+    private var apiEndPoint = "/pg/v1/pay"
     lateinit var sessionManager: SessionManager
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
     //  val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
-    val salt = "53f3c71e-6a8a-4e77-a9d1-2ca3c37230bc" // salt key
+    private val salt = "53f3c71e-6a8a-4e77-a9d1-2ca3c37230bc" // salt key
 
     // val MERCHANT_ID = "M22NH1V8TQ8WX"  // Merhcant id
-    val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
+    private val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
 
     val BASE_URL = "https://api-preprod.phonepe.com/"
 
@@ -129,14 +126,14 @@ class Payment : AppCompatActivity() {
 
 //
             binding.btnPayNow.setOnClickListener {
-                var amt = 0
+
                 if (radioMonth.isChecked) {
-                    amt = 599
+                    amount = 599
                 }
                 if (radioYear.isChecked) {
-                    amt = 5999
+                    amount = 5999
                 }
-                payment(amt)
+                payment(amount)
             }
         }
     }//Shariah Equities
@@ -239,6 +236,7 @@ class Payment : AppCompatActivity() {
                         val result = response.body()
                         result?.let {
                             when (it.code) {
+
                                 "PAYMENT_SUCCESS" -> {
                                     Toast.makeText(
                                         context,
@@ -260,6 +258,7 @@ class Payment : AppCompatActivity() {
 
                                 }
                             }
+                            apiCallSavePaymentRec(it.code,it.data.merchantTransactionId)
                         }
                     } else {
                         Log.e("PhonePeError", "Error: ${response.errorBody()?.string()}")
@@ -336,6 +335,53 @@ class Payment : AppCompatActivity() {
                     count++
                     if (count <= 3) {
                         apiCallUpdateSubscription()
+                    } else {
+                        myToast(
+                            this@Payment,
+                            t.message.toString()
+                        )
+                    }
+                }
+            })
+    }
+    private fun apiCallSavePaymentRec(paymentStatues: String, merchantTransactionId: String) {
+       // AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.savePaymentRec(sessionManager.id.toString(), MERCHANT_TID,
+            amount.toString(), paymentStatues, "Online", merchantTransactionId)
+            .enqueue(object : Callback<ModelCreatePayment> {
+                @SuppressLint("LogNotTimber", "SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelCreatePayment>,
+                    response: Response<ModelCreatePayment>
+                ) {
+                    AppProgressBar.hideLoaderDialog()
+
+                    try {
+                        if (response.code() == 500) {
+                            myToast(context, "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+                        } else if (response.code() == 404) {
+                            myToast(context, "Something went wrong")
+                            AppProgressBar.hideLoaderDialog()
+                        } else {
+                            if (response.body()!!.status == 1) {
+
+                            }
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(context as Activity, "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelCreatePayment>, t: Throwable) {
+                    AppProgressBar.hideLoaderDialog()
+                    countC++
+                    if (countC <= 3) {
+                        apiCallSavePaymentRec(paymentStatues,merchantTransactionId)
                     } else {
                         myToast(
                             this@Payment,

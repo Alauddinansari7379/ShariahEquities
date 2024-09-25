@@ -11,6 +11,8 @@ import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.ModuleDeleteWatchList
 import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
+import com.amtech.shariahEquities.payment.model.ModelCreatePayment
+import com.amtech.shariahEquities.profile.activity.model.ModelTransList
 import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -122,6 +124,21 @@ interface ApiInterface {
         @Query("id") id:String,
         @Query("value") value:String,
       ): Call<ModelResetPass>
+
+    @POST("create_payment")
+    fun savePaymentRec(
+        @Query("user_id") user_id:String,
+        @Query("transaction_id") transaction_id:String,
+        @Query("amount") amount:String,
+        @Query("paymentStatus") paymentStatus:String,
+        @Query("paymentMethod") paymentMethod:String,
+        @Query("methodTransactionId") methodTransactionId:String,
+      ): Call<ModelCreatePayment>
+
+    @POST("get_payment_list")
+    fun transList(
+        @Query("user_id") user_id:String,
+      ): Call<ModelTransList>
 
 //
 //    @POST("login-user")

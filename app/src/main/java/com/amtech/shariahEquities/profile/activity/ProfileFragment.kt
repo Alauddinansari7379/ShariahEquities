@@ -2,9 +2,12 @@ package com.amtech.shariahEquities.profile.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +17,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.payment.Payment
+import com.amtech.shariahEquities.profile.activity.adapter.AdapterTransList
+import com.amtech.shariahEquities.profile.activity.model.ModelTransList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
@@ -30,13 +36,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(),AdapterTransList.Download {
     private lateinit var binding: FragmentProfileNewBinding
       lateinit var sessionManager: SessionManager
+    private lateinit var adapterTransList: AdapterTransList
     var dialog: Dialog? = null
     var count = 0
+    var countT = 0
     var countU = 0
     var countDes = 0
+    private var transList = ArrayList<com.amtech.shariahEquities.profile.activity.model.Result>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +64,7 @@ class ProfileFragment : Fragment() {
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
         sessionManager=SessionManager(requireActivity())
+        apiTransList()
         with(binding) {
 
             tvFullName.text=sessionManager.userName
@@ -241,6 +252,10 @@ class ProfileFragment : Fragment() {
                 changePassDialog("Change Password")
             }
 
+            cardTransaction.setOnClickListener {
+                showTransDialog()
+            }
+
 
             if (sessionManager.authTokenUser!!.isNotEmpty()) {
                // apiCallGetSetting()
@@ -249,6 +264,54 @@ class ProfileFragment : Fragment() {
 
         }
 
+    }
+    @SuppressLint("MissingInflatedId")
+    private fun showTransDialog() {
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.popup_transaction_list, null)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.rvDialogCompanyList)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnClose)
+        val tvNoTansFound = dialogView.findViewById<TextView>(R.id.tvNoTansFound)
+        val edtSearch = dialogView.findViewById<EditText>(R.id.edtSearch)
+         val close = dialogView.findViewById<ImageView>(R.id.imgClose)
+
+        if (transList.isEmpty()){
+            tvNoTansFound.visibility=View.VISIBLE
+        }else{
+            adapterTransList = AdapterTransList(requireContext(),transList,this@ProfileFragment)
+            recyclerView.adapter = adapterTransList
+
+        }
+
+
+//         edtSearch.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                if (s!!.isNotEmpty()){
+//                    recyclerView.scrollToPosition(0)
+//                }
+//                val filteredList = transList.filter {
+//                    it.name_of_company.contains(s.toString(), ignoreCase = true) ||
+//                            it.nse_symbol_bse_script_id.contains(s.toString(), ignoreCase = true)
+//                }
+//                adapterTransList.submitList(filteredList)
+//            }
+
+//            override fun afterTextChanged(s: Editable?) {}
+//        })
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        close.setOnClickListener {
+            dialog!!.dismiss()
+        }
+        btnSave.setOnClickListener {
+                dialog!!.dismiss()
+        }
+
+        dialog!!.show()
     }
 
 
@@ -352,6 +415,58 @@ class ProfileFragment : Fragment() {
 
             })
     }
+    private fun apiTransList() {
+       // AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.transList(
+            sessionManager.id.toString()
+        )
+            .enqueue(object : Callback<ModelTransList> {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    call: Call<ModelTransList>, response: Response<ModelTransList>
+                ) {
+                    try {
+                        if (response.code() == 500) {
+                            myToast(requireActivity(), "Server Error")
+                            AppProgressBar.hideLoaderDialog()
+
+
+                        } else if (response.code() == 404) {
+                            myToast(requireActivity(), "Something went wrong")
+                            AppProgressBar.hideLoaderDialog()
+
+                        } else {
+                            if (response.body()!!.result.isNotEmpty()){
+                                if (response.body()!!.status==1) {
+                                    transList=response.body()!!.result
+                                }
+                            }
+
+                            AppProgressBar.hideLoaderDialog()
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        myToast(requireActivity(), "Something went wrong")
+                        AppProgressBar.hideLoaderDialog()
+                    }
+                }
+
+                override fun onFailure(call: Call<ModelTransList>, t: Throwable) {
+                    countT++
+                    if (countT <= 3) {
+                        apiTransList()
+                    } else {
+                        myToast(requireActivity(), t.message.toString())
+                        AppProgressBar.hideLoaderDialog()
+
+                    }
+                    AppProgressBar.hideLoaderDialog()
+
+
+                }
+
+            })
+    }
 
      private fun apiCallDeleteAccount() {
         AppProgressBar.showLoaderDialog(context)
@@ -397,4 +512,8 @@ class ProfileFragment : Fragment() {
             })
     }
 
- }
+    override fun download(id: String) {
+        TODO("Not yet implemented")
+    }
+
+}
