@@ -31,6 +31,7 @@ import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -71,6 +72,9 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetDialog = BottomSheetDialog(context)
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
+        val behavior = BottomSheetBehavior.from(parentView.parent as View)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED // Set to expanded state by default
+        behavior.peekHeight = BottomSheetBehavior.PEEK_HEIGHT_AUTO // Optional: Allow it to auto-adjust
         val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
         val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
 
@@ -79,6 +83,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         btnSubscribe.setOnClickListener {
+            bottomSheetDialog.dismiss()
             startActivity(Intent(context, Payment::class.java))
         }
 

@@ -6,22 +6,30 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
+import com.amtech.shariahEquities.MainActivity
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.fragments.model.ModelCompanyDetails
+import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.ehcf.phonepesdk.ApiUtilities
 import com.example.tlismimoti.Helper.myToast
+import com.fevziomurtekin.widget.RainAnimation
 import com.phonepe.intent.sdk.api.B2BPGRequestBuilder
 import com.phonepe.intent.sdk.api.PhonePe
 import com.phonepe.intent.sdk.api.PhonePeInitException
@@ -45,7 +53,7 @@ class Payment : AppCompatActivity() {
     val context = this@Payment
     var MERCHANT_TID = ""
     var count = 0
-    var apiEndPoint = "/pg/v1/pay"
+     var apiEndPoint = "/pg/v1/pay"
     lateinit var sessionManager: SessionManager
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
@@ -86,12 +94,49 @@ class Payment : AppCompatActivity() {
                 onBackPressed()
             }
 
+            radioYear.isChecked = true
+            radioMonth.isChecked = false
+            val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+            cardMonth.backgroundTintList = colorStateList
+            val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))
+            cardYear.backgroundTintList = colorStateList1
 
-            binding.btnPayNowYear.setOnClickListener {
-                payment(5999)
+            cardMonth.setOnClickListener {
+                radioMonth.isChecked = true
+                radioYear.isChecked = false
+//                binding.cardYear.setCardBackgroundColor(Color.parseColor("#D8E6F1"))
+//                binding.cardMonth.setCardBackgroundColor(Color.parseColor("#D7F3C7"))//green
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
+                cardMonth.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+                cardYear.backgroundTintList = colorStateList1
             }
-            binding.btnPayNowMonth.setOnClickListener {
-                payment(599)
+            cardYear.setOnClickListener {
+                radioYear.isChecked = true
+                radioMonth.isChecked = false
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+                cardMonth.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))
+                cardYear.backgroundTintList = colorStateList1
+
+            }
+
+//            binding.radioYear.setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    radioMonth.isChecked=false
+//                  }
+//            }
+
+//
+            binding.btnPayNow.setOnClickListener {
+                var amt = 0
+                if (radioMonth.isChecked) {
+                    amt = 599
+                }
+                if (radioYear.isChecked) {
+                    amt = 5999
+                }
+                payment(amt)
             }
         }
     }//Shariah Equities
@@ -105,7 +150,7 @@ class Payment : AppCompatActivity() {
             put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
             put("merchantId", MERCHANT_ID)  // Your merchant ID
             put("amount", 1 * 100)  // Amount in paisa (1 INR = 100 paisa)
-            put("mobileNumber", "7379452259")  // Optional: Customer's mobile number
+            put("mobileNumber", sessionManager.userMobile)  // Optional: Customer's mobile number
             put("callbackUrl", "")  // Change to your actual callback URL in production
             val paymentInstrument = JSONObject().apply {
                 put("type", "PAY_PAGE")
@@ -174,41 +219,6 @@ class Payment : AppCompatActivity() {
     }
 
 
-    private fun checkStatus() {
-        val xVerify = sha256("/pg/v1/status/$MERCHANT_ID/${MERCHANT_TID}${salt}") + "###1"
-
-        Log.d("phonepe", "xverify : $xVerify")
-
-        val headers = mapOf(
-            "Content-Type" to "application/json",
-            "X-VERIFY" to xVerify,
-            "X-MERCHANT-ID" to MERCHANT_ID,
-        )
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val res = ApiUtilities.getApiInterface().checkStatus(
-                MERCHANT_ID,
-                MERCHANT_TID.toString(), headers
-            )
-            withContext(Dispatchers.Main) {
-                Log.d("phonepe", "APIResponse${res.body()}")
-
-//                if (res.body() != null && res.body()!!.success) {
-//                    Log.d("phonepe", "onCreate: success")
-//                    Toast.makeText(context, res.body()!!.message, Toast.LENGTH_SHORT)
-//                        .show()
-//                    if (res.body()!!.code == "PAYMENT_SUCCESS") {
-//                        Toast.makeText(context, res.body()!!.message, Toast.LENGTH_SHORT)
-//
-//                    }
-//
-//                }
-            }
-        }
-
-
-    }
-
     private fun checkStatusNew() {
         val merchantTransactionId = MERCHANT_TID
         val endpoint = "/pg/v1/status/$MERCHANT_ID/$merchantTransactionId"
@@ -241,11 +251,13 @@ class Payment : AppCompatActivity() {
                                 "PAYMENT_FAILED" -> {
                                     Toast.makeText(context, "Payment Failed", Toast.LENGTH_SHORT)
                                         .show()
+
                                 }
 
                                 else -> {
                                     Toast.makeText(context, "Payment Pending", Toast.LENGTH_SHORT)
                                         .show()
+
                                 }
                             }
                         }
@@ -289,7 +301,25 @@ class Payment : AppCompatActivity() {
                             if (response.body()!!.status == 1) {
                                 sessionManager.subscribed = "1"
                                 startFlowerRain()
-                                refresh()
+                              //  binding.rainview.showAnimation()
+                                val di = SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                di.setTitleText("Exclusive Access Unlocked!")
+                                di.setContentText("You've unlocked all the best features. Enjoy!")
+                                di.setConfirmText("ok")
+                                di.showCancelButton(true)
+                                di.setConfirmClickListener { sDialog ->
+                                    sDialog.cancel()
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                    startActivity(intent)
+                                    context.finish()
+                                }
+                                di.setCancelClickListener { sDialog ->
+                                    sDialog.cancel()
+                                }
+                                    .show()
+                                di.setCancelable(false)
                             }
                             AppProgressBar.hideLoaderDialog()
                         }
@@ -303,7 +333,6 @@ class Payment : AppCompatActivity() {
 
                 override fun onFailure(call: Call<ModelResetPass>, t: Throwable) {
                     AppProgressBar.hideLoaderDialog()
-
                     count++
                     if (count <= 3) {
                         apiCallUpdateSubscription()
@@ -316,40 +345,49 @@ class Payment : AppCompatActivity() {
                 }
             })
     }
-
     private fun startFlowerRain() {
-        for (i in 1..10) { // Change the number for more/less flowers
-            val flower = ImageView(this)
-            flower.setImageResource(R.drawable.flawer) // Add your flower drawable here
+        binding.rainview.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                binding.rainview.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                for (i in 1..10) { // Change the number for more/less flowers
+                    val flower = ImageView(context)
+                    flower.setImageResource(R.drawable.flawer) // Add your flower drawable here
 
-            // Set initial position
-            flower.translationX = Random.nextInt(0, binding.mainLayout.width).toFloat()
-            flower.translationY = 0f
+                    // Set initial position
+                    flower.translationX = 5f
+                    flower.translationY = 10f
 
-            binding.mainLayout.addView(flower)
+                    binding.rainview.addView(flower)
 
-            // Animate falling
-            val animator = ObjectAnimator.ofFloat(
-                flower,
-                "translationY",
-                0f,
-                binding.mainLayout.height.toFloat()
-            )
-            animator.duration = Random.nextLong(2000, 4000) // Random duration
-            animator.start()
+                    // Animate falling
+                    val animator = ObjectAnimator.ofFloat(
+                        flower,
+                        "translationY",
+                        0f,
+                        binding.rainview.height.toFloat()
+                    )
+                    animator.duration = Random.nextLong(1000, 3000) // Random duration
+                    animator.start()
 
-            // Remove flower after animation ends
-            animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    binding.mainLayout.removeView(flower)
+                    // Remove flower after animation ends
+                    animator.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            binding.rainview.removeView(flower)
+                        }
+                    })
                 }
-            })
-        }
+            }
+        })
     }
-        fun refresh() {
+
+      fun refresh() {
         overridePendingTransition(0, 0)
         finish()
         startActivity(intent)
         overridePendingTransition(0, 0)
+    }
+    override fun onStop() {
+        super.onStop()
+       // binding.rainview.animationClear()
     }
 }
