@@ -29,6 +29,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var sessionManager: SessionManager
     private lateinit var bottomNav: BottomNavigationView
+    private var backPressedTime: Long = 0
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -289,6 +291,15 @@ class MainActivity : AppCompatActivity() {
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
+    }
+    override fun onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed()
+            return
+        } else {
+             myToast(context, "Press back again to exit")
+        }
+        backPressedTime = System.currentTimeMillis()
     }
 
     private fun showNotificationPermissionRationale() {

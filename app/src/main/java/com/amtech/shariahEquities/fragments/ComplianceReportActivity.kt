@@ -184,6 +184,101 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGauge.minValue = 0.0
         binding.halfGauge.maxValue = 100.0
         binding.halfGauge.value = chart1.toDouble()
+        binding.halfGauge.setFormatter { value ->
+            "${value}%" }
+
+
+    }
+    private fun setupGaugeChartDebt(chart1: String) {
+        val range = Range()
+        range.color = Color.parseColor("#00b20b")
+        range.from = 0.0
+        range.to = 30.0
+
+//        val range2 = Range()
+//        range2.color = Color.parseColor("#E3E500")
+//        range2.from = 50.0
+//        range2.to = 100.0
+
+        val range3 = Range()
+        range3.color = Color.parseColor("#ce0000")
+        range3.from = 30.0
+        range3.to = 100.0
+
+
+        //add color ranges to gauge
+        binding.halfGaugeDebt.addRange(range)
+        // binding.halfGauge.addRange(range2)
+        binding.halfGaugeDebt.addRange(range3)
+//        binding.halfGauge.startAngle = 180f  // Set the start angle at 180 degrees
+//        binding.halfGauge.sweepAngle = 180f
+        //set min max and current value
+        binding.halfGaugeDebt.minValue = 0.0
+        binding.halfGaugeDebt.maxValue = 100.0
+        binding.halfGaugeDebt.value = chart1.toDouble()
+        binding.halfGaugeDebt.setFormatter { value ->
+            "${value}%" }
+    }
+    private fun setupGaugeChartSecurities(chart1: String) {
+        val range = Range()
+        range.color = Color.parseColor("#00b20b")
+        range.from = 0.0
+        range.to = 30.0
+
+//        val range2 = Range()
+//        range2.color = Color.parseColor("#E3E500")
+//        range2.from = 50.0
+//        range2.to = 100.0
+
+        val range3 = Range()
+        range3.color = Color.parseColor("#ce0000")
+        range3.from = 30.0
+        range3.to = 100.0
+
+
+        //add color ranges to gauge
+        binding.halfGaugeSecurities.addRange(range)
+        // binding.halfGauge.addRange(range2)
+        binding.halfGaugeSecurities.addRange(range3)
+//        binding.halfGauge.startAngle = 180f  // Set the start angle at 180 degrees
+//        binding.halfGauge.sweepAngle = 180f
+        //set min max and current value
+        binding.halfGaugeSecurities.minValue = 0.0
+        binding.halfGaugeSecurities.maxValue = 100.0
+        binding.halfGaugeSecurities.value = chart1.toDouble()
+        binding.halfGaugeSecurities.setFormatter { value ->
+            "${value}%" }
+    }
+    private fun setupGaugeChartNon(chart1: String) {
+        val range = Range()
+        range.color = Color.parseColor("#00b20b")
+        range.from = 0.0
+        range.to = 5.0
+
+//        val range2 = Range()
+//        range2.color = Color.parseColor("#E3E500")
+//        range2.from = 50.0
+//        range2.to = 100.0
+
+        val range3 = Range()
+        range3.color = Color.parseColor("#ce0000")
+        range3.from = 5.0
+        range3.to = 100.0
+
+
+        //add color ranges to gauge
+        binding.halfGaugeNon.addRange(range)
+        // binding.halfGauge.addRange(range2)
+        binding.halfGaugeNon.addRange(range3)
+//        binding.halfGauge.startAngle = 180f  // Set the start angle at 180 degrees
+//        binding.halfGauge.sweepAngle = 180f
+        //set min max and current value
+        binding.halfGaugeNon.minValue = 0.0
+        binding.halfGaugeNon.maxValue = 100.0
+        binding.halfGaugeNon.value = chart1.toDouble()
+        binding.halfGaugeNon.setFormatter { value ->
+            "${value}%" }
+
     }
 
     private fun apiCallGetCompanyDetails(id: String) {
@@ -297,6 +392,18 @@ class ComplianceReportActivity : AppCompatActivity() {
                                 }
                                 setupGaugeChart(
                                     (response.body()!!.result.interest_income?.toFloatOrNull()
+                                        ?: 0f).toString()
+                                )
+                                setupGaugeChartNon(
+                                    (response.body()!!.result.interest_income?.toFloatOrNull()
+                                        ?: 0f).toString()
+                                )
+                                setupGaugeChartSecurities(
+                                    (response.body()!!.result.interest_bearing_securities_market_cap?.toFloatOrNull()
+                                        ?: 0f).toString()
+                                )
+                                setupGaugeChartDebt(
+                                    (response.body()!!.result.debts_market_cap?.toFloatOrNull()
                                         ?: 0f).toString()
                                 )
                             }

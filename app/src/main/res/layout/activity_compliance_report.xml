@@ -433,6 +433,7 @@
 
                             <com.github.mikephil.charting.charts.PieChart
                                 android:id="@+id/pieChartView1"
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp" />
 
@@ -478,6 +479,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
+                                    android:visibility="gone"
                                     android:textColor="@android:color/holo_green_dark"
                                     android:textSize="14sp" />
                             </LinearLayout>
@@ -489,6 +491,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
+                                android:visibility="gone"
                                 android:scaleY="3"
                                 android:progressTint="@color/green"
                                 android:progress="00" />
@@ -657,6 +660,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
+                                    android:visibility="gone"
                                     android:textColor="@android:color/holo_green_dark"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -668,6 +672,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
+                                android:visibility="gone"
                                 android:scaleY="3"
                                 android:progressTint="@color/green"
                                 android:progress="00" />
@@ -865,6 +870,7 @@
                                     android:id="@+id/tvNonPermissible"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:visibility="gone"
                                     android:fontFamily="@font/poppins_semi_bold"
                                     android:text="0.00%"
                                     android:textColor="@android:color/holo_green_dark"
@@ -878,6 +884,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:max="100"
+                                android:visibility="gone"
                                 android:scaleY="3"
                                 android:progressTint="@color/green"
                                 android:progress="00" />
