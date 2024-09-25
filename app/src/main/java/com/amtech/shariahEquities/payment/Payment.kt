@@ -8,23 +8,30 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.MainActivity
 import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
-import com.amtech.shariahEquities.payment.model.ModelCreatePayment
+import com.amtech.shariahEquities.fragments.model.ModelCompanyDetails
+import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.ehcf.phonepesdk.ApiUtilities
 import com.example.tlismimoti.Helper.myToast
+import com.fevziomurtekin.widget.RainAnimation
 import com.phonepe.intent.sdk.api.B2BPGRequestBuilder
 import com.phonepe.intent.sdk.api.PhonePe
 import com.phonepe.intent.sdk.api.PhonePeInitException
@@ -40,34 +47,40 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.nio.charset.Charset
 import java.security.MessageDigest
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import kotlin.random.Random
 
 
 class Payment : AppCompatActivity() {
+    private var startDate = ""
+    private var endDate = ""
+    private var isMonthlySubscriotion = ""
     val binding by lazy { ActivityPaymentBinding.inflate(layoutInflater) }
     val context = this@Payment
-    private var MERCHANT_TID = ""
+    var MERCHANT_TID = ""
     var count = 0
-    var countC = 0
-    var amount = 0
-    private var apiEndPoint = "/pg/v1/pay"
+     var apiEndPoint = "/pg/v1/pay"
     lateinit var sessionManager: SessionManager
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
     //  val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
-    private val salt = "53f3c71e-6a8a-4e77-a9d1-2ca3c37230bc" // salt key
+    val salt = "53f3c71e-6a8a-4e77-a9d1-2ca3c37230bc" // salt key
 
     // val MERCHANT_ID = "M22NH1V8TQ8WX"  // Merhcant id
-    private val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
+    val MERCHANT_ID = "SHARIAONLINE"  // Merhcant id
 
     val BASE_URL = "https://api-preprod.phonepe.com/"
-
+    lateinit var monthRange: Pair<String, String>
+    lateinit var yearRange: Pair<String, String>
 
 //    var apiEndPoint = "/pg/v1/pay"
 //    val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
 //    val MERCHANT_ID = "PGTESTPAYUAT"  // Merhcant id
 //    val MERCHANT_TID = "txnId"
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -79,7 +92,6 @@ class Payment : AppCompatActivity() {
             MERCHANT_ID,
             ""
         )
-
         try {
             val upiApps = PhonePe.getUpiApps()
             Log.e("UPIAPPS", upiApps.toString())
@@ -126,14 +138,16 @@ class Payment : AppCompatActivity() {
 
 //
             binding.btnPayNow.setOnClickListener {
-
+                var amt = 0
                 if (radioMonth.isChecked) {
-                    amount = 599
+                    amt = 599
+                    isMonthlySubscriotion = "month"
                 }
                 if (radioYear.isChecked) {
-                    amount = 5999
+                    amt = 5999
+                    isMonthlySubscriotion = "Year"
                 }
-                payment(amount)
+                payment(amt)
             }
         }
     }//Shariah Equities
@@ -216,6 +230,7 @@ class Payment : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkStatusNew() {
         val merchantTransactionId = MERCHANT_TID
         val endpoint = "/pg/v1/status/$MERCHANT_ID/$merchantTransactionId"
@@ -236,14 +251,15 @@ class Payment : AppCompatActivity() {
                         val result = response.body()
                         result?.let {
                             when (it.code) {
-
                                 "PAYMENT_SUCCESS" -> {
                                     Toast.makeText(
                                         context,
                                         "Payment Successful",
                                         Toast.LENGTH_SHORT
                                     ).show()
+
                                     apiCallUpdateSubscription()
+
                                 }
 
                                 "PAYMENT_FAILED" -> {
@@ -258,7 +274,6 @@ class Payment : AppCompatActivity() {
 
                                 }
                             }
-                            apiCallSavePaymentRec(it.code,it.data.merchantTransactionId)
                         }
                     } else {
                         Log.e("PhonePeError", "Error: ${response.errorBody()?.string()}")
@@ -277,10 +292,23 @@ class Payment : AppCompatActivity() {
         return digest.fold("") { str, it -> str + "%02x".format(it) }
     }
 
+
+
+
     private fun apiCallUpdateSubscription() {
         AppProgressBar.showLoaderDialog(context)
 
-        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "1")
+        if (isMonthlySubscriotion.equals("month"))
+        {
+            startDate =monthRange.first
+            endDate =monthRange.second
+        }else
+        {
+            startDate =yearRange.first
+            endDate =yearRange.second
+        }
+
+        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "1",startDate,endDate)
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("LogNotTimber", "SetTextI18n")
                 override fun onResponse(
@@ -344,53 +372,6 @@ class Payment : AppCompatActivity() {
                 }
             })
     }
-    private fun apiCallSavePaymentRec(paymentStatues: String, merchantTransactionId: String) {
-       // AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.savePaymentRec(sessionManager.id.toString(), MERCHANT_TID,
-            amount.toString(), paymentStatues, "Online", merchantTransactionId)
-            .enqueue(object : Callback<ModelCreatePayment> {
-                @SuppressLint("LogNotTimber", "SetTextI18n")
-                override fun onResponse(
-                    call: Call<ModelCreatePayment>,
-                    response: Response<ModelCreatePayment>
-                ) {
-                    AppProgressBar.hideLoaderDialog()
-
-                    try {
-                        if (response.code() == 500) {
-                            myToast(context, "Server Error")
-                            AppProgressBar.hideLoaderDialog()
-                        } else if (response.code() == 404) {
-                            myToast(context, "Something went wrong")
-                            AppProgressBar.hideLoaderDialog()
-                        } else {
-                            if (response.body()!!.status == 1) {
-
-                            }
-                            AppProgressBar.hideLoaderDialog()
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        myToast(context as Activity, "Something went wrong")
-                        AppProgressBar.hideLoaderDialog()
-
-                    }
-                }
-
-                override fun onFailure(call: Call<ModelCreatePayment>, t: Throwable) {
-                    AppProgressBar.hideLoaderDialog()
-                    countC++
-                    if (countC <= 3) {
-                        apiCallSavePaymentRec(paymentStatues,merchantTransactionId)
-                    } else {
-                        myToast(
-                            this@Payment,
-                            t.message.toString()
-                        )
-                    }
-                }
-            })
-    }
     private fun startFlowerRain() {
         binding.rainview.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -436,4 +417,45 @@ class Payment : AppCompatActivity() {
         super.onStop()
        // binding.rainview.animationClear()
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDateRanges() {
+        val today = LocalDate.now()
+
+        // Get one month from today's date
+        val oneMonthFromToday = today.plus(1, ChronoUnit.MONTHS)
+
+        // Get one year from today's date
+        val oneYearFromToday = today.plus(1, ChronoUnit.YEARS)
+
+        // Format the dates as strings
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val todayFormatted = today.format(formatter)
+        val oneMonthFormatted = oneMonthFromToday.format(formatter)
+        val oneYearFormatted = oneYearFromToday.format(formatter)
+
+        // Assign values to global variables
+        monthRange = Pair(todayFormatted, oneMonthFormatted)
+        yearRange = Pair(todayFormatted, oneYearFormatted)
+    }
+
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun getDateRanges(): Pair<Pair<String, String>, Pair<String, String>> {
+//        val today = LocalDate.now()
+//
+//        // Get one month from today's date
+//        val oneMonthFromToday = today.plus(1, ChronoUnit.MONTHS)
+//
+//        // Get one year from today's date
+//        val oneYearFromToday = today.plus(1, ChronoUnit.YEARS)
+//
+//        // Format the dates as strings (optional, depending on your use case)
+//        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+//        val todayFormatted = today.format(formatter)
+//        val oneMonthFormatted = oneMonthFromToday.format(formatter)
+//        val oneYearFormatted = oneYearFromToday.format(formatter)
+//
+//        // Return the date ranges as pairs
+//        return Pair(Pair(todayFormatted, oneMonthFormatted), Pair(todayFormatted, oneYearFormatted))
+//    }
+
 }
