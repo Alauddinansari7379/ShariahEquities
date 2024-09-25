@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.fevziomurtekin.widget.RainlayoutView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/mainLayout"
-    android:layout_height="wrap_content"
+    android:id="@+id/rainview"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/main_background"
+    app:isColorful="false"
+    app:dropPerSecond="1"
+    app:durationOfDropTime="200"
+    app:dropSrc="@drawable/flawer"
+    app:dropTintColor="@color/main_background"
     tools:context="com.amtech.shariahEquities.payment.Payment">
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="@color/main_color"
-        android:layout_height="50dp">
+        android:background="@color/main_color">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:background="?actionBarItemBackground"
             android:padding="5dp"
-            android:tint="@color/white"
-            android:layout_marginStart="10dp"
-
             android:src="@drawable/ic_baseline_arrow_back_24"
+
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -35,11 +43,11 @@
             android:id="@+id/appCompatTextView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
             android:gravity="center"
             android:text="Payment"
-            android:fontFamily="@font/poppins_semi_bold"
             android:textColor="@color/white"
-             android:textSize="14sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -48,796 +56,268 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="2dp"
+            android:backgroundTint="#D8E6F1"
+            app:cardCornerRadius="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1.4"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text="Just ₹5999/Year"
+                                android:textColor="@color/black"
+                                android:textSize="14sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="exclusive of GST"
+                                android:textColor="@color/black"
+                                android:textSize="11sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:gravity="end">
+
+                                <LinearLayout
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:gravity="center"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.appcompat.widget.AppCompatRadioButton
+                                        android:id="@+id/radioYear"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:buttonTint="@color/green"
+                                        android:elevation="5dp">
+
+                                    </androidx.appcompat.widget.AppCompatRadioButton>
+
+                                </LinearLayout>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </LinearLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Shariah Equities Pro Membership"
+                            android:textColor="@color/text_color"
+                            android:textSize="12sp">
+
+                        </androidx.appcompat.widget.AppCompatTextView>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="#D8E6F1"
+            app:cardCornerRadius="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1.4"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:text="Just ₹599/month"
+                                android:textColor="@color/black"
+                                android:textSize="14sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="exclusive of GST"
+                                android:textColor="@color/black"
+                                android:textSize="11sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:gravity="end">
+
+                                <LinearLayout
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:gravity="center"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.appcompat.widget.AppCompatRadioButton
+                                        android:id="@+id/radioMonth"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:buttonTint="@color/green"
+                                        android:elevation="5dp">
+
+                                    </androidx.appcompat.widget.AppCompatRadioButton>
+
+                                </LinearLayout>
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </LinearLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Shariah Equities Pro Membership"
+                            android:textColor="@color/text_color"
+                            android:textSize="12sp">
+
+                        </androidx.appcompat.widget.AppCompatTextView>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-
-            <androidx.cardview.widget.CardView
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnPayNow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
+
                 android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Full reports"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:text="Get Unlimeted access to in-depth shariah compliance reports for over 10000 stocks."
-                                android:textColor="@color/text_color"
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Stock Baskets"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Create you Stock Baskets with selected stocks."
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:visibility="gone"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Unlimited portfolios"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Connect and sync multiple brokerage account to traack youre portfolio and calculate zakat."
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Early access"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Get early access to test out new features before public release."
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Shariah Compliance"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Get all Shariah Compliance information."
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Just ₹5999/Year"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="exclusive of GST"
-                                    android:layout_marginStart="5dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Shariah Equities Pro Membership"
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:gravity="end"
-                                android:orientation="horizontal">
-
-                                <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/btnPayNowYear"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="25dp"
-                                    android:layout_marginStart="20dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:background="@drawable/corner_login"
-                                    android:backgroundTint="@color/main_color"
-                                    android:text="Pay Now"
-                                    android:layout_marginBottom="2dp"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp">
-
-                                </androidx.appcompat.widget.AppCompatButton>
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#D8E6F1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="10dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal">
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Just ₹599/month"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="exclusive of GST"
-                                    android:layout_marginStart="5dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="11sp">
-
-                                </androidx.appcompat.widget.AppCompatTextView>
-                                <androidx.appcompat.widget.LinearLayoutCompat
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:gravity="end">
-
-                                    <LinearLayout
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:gravity="center"
-                                        android:layout_marginEnd="10dp"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:layout_width="20dp"
-                                            android:layout_height="20dp"
-                                            android:background="@drawable/checked"
-                                            android:elevation="5dp">
-
-                                        </androidx.appcompat.widget.AppCompatImageView>
-
-                                    </LinearLayout>
-
-                                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
-
-                            </LinearLayout>
-
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:textColor="@color/text_color"
-                                android:text="Shariah Equities Pro Membership"
-                                android:textSize="12sp">
-
-                            </androidx.appcompat.widget.AppCompatTextView>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:gravity="end"
-                                android:orientation="horizontal">
-
-                                <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/btnPayNowMonth"
-                                    android:layout_width="wrap_content"
-                                     android:layout_height="25dp"
-                                    android:layout_marginStart="20dp"
-                                    android:layout_marginEnd="20dp"
-                                    android:layout_marginBottom="2dp"
-                                    android:background="@drawable/corner_login"
-                                    android:backgroundTint="@color/main_color"
-                                    android:text="Pay Now"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp">
-
-                                </androidx.appcompat.widget.AppCompatButton>
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                android:background="@drawable/corner_login"
+                android:backgroundTint="@color/main_color"
+                android:text="Pay Now"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp">
+
+            </androidx.appcompat.widget.AppCompatButton>
         </LinearLayout>
-    </ScrollView>
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
+</com.fevziomurtekin.widget.RainlayoutView>

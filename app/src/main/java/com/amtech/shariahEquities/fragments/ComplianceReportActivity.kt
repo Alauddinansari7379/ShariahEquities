@@ -184,7 +184,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGauge.minValue = 0.0
         binding.halfGauge.maxValue = 100.0
         binding.halfGauge.value = chart1.toDouble()
-    }
+     }
 
     private fun apiCallGetCompanyDetails(id: String) {
         AppProgressBar.showLoaderDialog(context)

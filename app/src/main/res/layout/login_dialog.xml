@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -162,7 +162,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_regular"
-                                        android:text="Get Unlimeted access to in-depth shariah compliance reports for over 10000 stocks."
+                                        android:layout_marginEnd="10dp"
+                                        android:text="Get Unlimited access to in-depth Shariah Compliant reports for stocks"
                                         android:textColor="@color/text_color"
                                         android:textSize="12sp">
 
@@ -264,7 +265,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_regular"
-                                        android:text="Create you Stock Baskets with selected stocks."
+                                        android:layout_marginEnd="10dp"
+                                        android:text="Build customised baskets of stocks for a diversified portfolio"
                                         android:textColor="@color/text_color"
                                         android:textSize="12sp">
 
@@ -428,6 +430,107 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/poppins_semi_bold"
+                                            android:text="Smart Alerts"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp">
+
+                                        </androidx.appcompat.widget.AppCompatTextView>
+
+                                        <androidx.appcompat.widget.LinearLayoutCompat
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="end"
+                                            android:gravity="end">
+
+                                            <LinearLayout
+                                                android:layout_width="30dp"
+                                                android:layout_height="30dp"
+                                                android:layout_marginEnd="10dp"
+                                                android:gravity="center"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintStart_toStartOf="parent"
+                                                app:layout_constraintTop_toTopOf="parent">
+
+                                                <androidx.appcompat.widget.AppCompatImageView
+                                                    android:layout_width="20dp"
+                                                    android:layout_height="20dp"
+                                                    android:background="@drawable/checked"
+                                                    android:elevation="5dp">
+
+                                                </androidx.appcompat.widget.AppCompatImageView>
+
+                                            </LinearLayout>
+
+                                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                                    </LinearLayout>
+
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Receive email notifications fro changes in Shariah Compliance of your stocks"
+                                        android:textColor="@color/text_color"
+                                        android:textSize="12sp">
+
+                                    </androidx.appcompat.widget.AppCompatTextView>
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:backgroundTint="#D7F3C7"
+                        app:cardCornerRadius="10dp">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_weight="1.4"
+                                    android:orientation="vertical">
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="5dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <androidx.appcompat.widget.AppCompatTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppins_semi_bold"
                                             android:text="Early access"
                                             android:textColor="@color/black"
                                             android:textSize="14sp">
@@ -530,7 +633,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/poppins_semi_bold"
-                                            android:text="Shariah Compliance"
+                                            android:text="Watchlist Export"
                                             android:textColor="@color/black"
                                             android:textSize="14sp">
 
@@ -571,8 +674,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_regular"
-                                        android:text="Get all Shariah Compliance information."
+                                        android:text="Add upto 500 stocks to your watchlist. Export Data to CSV with one Click"
                                         android:textColor="@color/text_color"
+                                        android:layout_marginEnd="10dp"
                                         android:textSize="12sp">
 
                                     </androidx.appcompat.widget.AppCompatTextView>
@@ -616,4 +720,4 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.core.widget.NestedScrollView>
