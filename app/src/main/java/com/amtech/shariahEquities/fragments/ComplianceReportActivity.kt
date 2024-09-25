@@ -167,7 +167,6 @@ class ComplianceReportActivity : AppCompatActivity() {
 //        range2.color = Color.parseColor("#E3E500")
 //        range2.from = 50.0
 //        range2.to = 100.0
-
         val range3 = Range()
         range3.color = Color.parseColor("#ce0000")
         range3.from = 30.0
