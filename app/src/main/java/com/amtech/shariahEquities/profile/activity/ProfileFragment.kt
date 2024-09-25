@@ -63,14 +63,18 @@ class ProfileFragment : Fragment() {
             if (sessionManager.subscribed.toString()!="0"){
                 binding.upgradeBtn.visibility=View.GONE
             }
-            val fullName = sessionManager.userName
-            val nameParts = fullName!!.split(" ")
-            if (nameParts.size >= 2) {
-                 val initials = "${nameParts[0].first()}${nameParts[1].first()}"
-                tvNameTag.text = initials
-            }else
-            {
-                tvNameTag.text = fullName
+            try {
+                val fullName = sessionManager.userName
+                val nameParts = fullName!!.split(" ")
+                if (nameParts.size >= 2) {
+                     val initials = "${nameParts[0].first()}${nameParts[1].first()}"
+                    tvNameTag.text = initials
+                }else
+                {
+                    tvNameTag.text = fullName[0].toString()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
             Log.e("Email",sessionManager.userEmail.toString())
             val imgClose = parentView.findViewById<ImageView>(R.id.imgBackDil)

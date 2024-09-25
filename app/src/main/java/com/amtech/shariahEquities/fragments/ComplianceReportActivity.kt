@@ -97,9 +97,9 @@ class ComplianceReportActivity : AppCompatActivity() {
         } else {
             binding.SampleReport.visibility = View.VISIBLE
             binding.layoutMain.visibility = View.GONE
-         }
+        }
 
-         binding.layoutViewSample.setOnClickListener {
+        binding.layoutViewSample.setOnClickListener {
             startActivity(Intent(context, ComplianceSampleReport::class.java))
         }
 
@@ -174,7 +174,6 @@ class ComplianceReportActivity : AppCompatActivity() {
         range3.to = 100.0
 
 
-
         //add color ranges to gauge
         binding.halfGauge.addRange(range)
         // binding.halfGauge.addRange(range2)
@@ -186,10 +185,12 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGauge.maxValue = 100.0
         binding.halfGauge.value = chart1.toDouble()
         binding.halfGauge.setFormatter { value ->
-            "${value}%" }
+            "${value}%"
+        }
 
 
     }
+
     private fun setupGaugeChartDebt(chart1: String) {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
@@ -218,8 +219,10 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGaugeDebt.maxValue = 100.0
         binding.halfGaugeDebt.value = chart1.toDouble()
         binding.halfGaugeDebt.setFormatter { value ->
-            "${value}%" }
+            "${value}%"
+        }
     }
+
     private fun setupGaugeChartSecurities(chart1: String) {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
@@ -248,8 +251,10 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGaugeSecurities.maxValue = 100.0
         binding.halfGaugeSecurities.value = chart1.toDouble()
         binding.halfGaugeSecurities.setFormatter { value ->
-            "${value}%" }
+            "${value}%"
+        }
     }
+
     private fun setupGaugeChartNon(chart1: String) {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
@@ -278,7 +283,8 @@ class ComplianceReportActivity : AppCompatActivity() {
         binding.halfGaugeNon.maxValue = 100.0
         binding.halfGaugeNon.value = chart1.toDouble()
         binding.halfGaugeNon.setFormatter { value ->
-            "${value}%" }
+            "${value}%"
+        }
 
     }
 

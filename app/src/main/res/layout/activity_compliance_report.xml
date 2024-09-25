@@ -472,6 +472,65 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">>
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="30dp"
+                                android:background="@color/green"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="vertical">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Compliant"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Less than 30%"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center">
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="30dp"
+                                android:background="@color/red_btn_bg_color"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="vertical">
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Non-compliant"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Grater than 30%"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -530,6 +589,65 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
                                 android:layout_gravity="center" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">>
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/green"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Less than 30%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center">
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/red_btn_bg_color"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Non-compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Grater than 30%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
@@ -712,6 +830,65 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
                                 android:layout_gravity="center" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">>
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/green"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Less than 30%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center">
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/red_btn_bg_color"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Non-compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Grater than 30%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
@@ -925,6 +1102,65 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
                                 android:layout_gravity="center" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">>
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/green"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Less than 5%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center">
+                                <View
+                                    android:layout_width="15dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/red_btn_bg_color"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:orientation="vertical">
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Non-compliant"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Grater than 5%"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+                            </LinearLayout>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="match_parent"
