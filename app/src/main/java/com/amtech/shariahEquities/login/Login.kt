@@ -126,6 +126,11 @@ class Login : AppCompatActivity() {
                             sessionManager.status = response.body()!!.result.status.toString()
                             sessionManager.userMobile = response.body()!!.result.mobile_number.toString()
                             sessionManager.subscribed = response.body()!!.result.IsSubscribed.toString()
+                            if (response.body()!!.result.subscription_start_date!=null&&response.body()!!.result.subscription_end_date!=null){
+                                sessionManager.startDate = response.body()!!.result.subscription_start_date.toString()
+                                sessionManager.endDate = response.body()!!.result.subscription_end_date.toString()
+                            }
+
                             sessionManager.isLogin = true
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             intent.flags =

@@ -40,9 +40,11 @@ class AdapterTransList(
             with(holder) {
                 with(list[position]) {
                     binding.tvTransId.text = transaction_id
-                    binding.tvPaymentStatus.text = paymentStatus
+                    if (paymentStatus=="PAYMENT_SUC"){
+                        binding.tvPaymentStatus.text = "Success"
+                    }
                     binding.tvPaymentDate.text = paymentDate
-                    binding.tvMethodTransactionId.text = methodTransactionId.toString()
+                    binding.tvPrice.text = amount.toString()
 
 
  //                    binding.btnView.setOnClickListener {

@@ -40,7 +40,7 @@
                             android:ellipsize="end"
                             android:text="TransactionId : "
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -49,10 +49,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:ellipsize="end"
-                            android:text=""
+                             android:fontFamily="@font/poppins_regular"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textSize="12sp"
+                         />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -88,7 +88,7 @@
                         android:ellipsize="end"
                         android:text="Payment Status : "
                         android:textColor="@color/black"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -98,9 +98,10 @@
                         android:layout_marginBottom="10dp"
                         android:ellipsize="end"
                         android:text=""
+                        android:fontFamily="@font/poppins_regular"
                         android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                  />
 
                 </LinearLayout>
 
@@ -116,7 +117,7 @@
                         android:ellipsize="end"
                         android:text="Payment Date : "
                         android:textColor="@color/black"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -127,8 +128,9 @@
                         android:ellipsize="end"
                         android:text=""
                         android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"
+                        />
 
                 </LinearLayout>
 
@@ -142,21 +144,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:ellipsize="end"
-                        android:text="Method TransactionId : "
+                        android:text="Price : "
                         android:textColor="@color/black"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvMethodTransactionId"
+                        android:id="@+id/tvPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:ellipsize="end"
                         android:text=""
                         android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="12sp"
+                        android:fontFamily="@font/poppins_regular"
+                        />
 
                 </LinearLayout>
 
