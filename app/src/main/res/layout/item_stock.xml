@@ -30,14 +30,14 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/tvExchange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NA"
                 android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp" />-->
 
             <TextView
                 android:id="@+id/companyName"
@@ -50,113 +50,125 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="51dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-             android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/complianceTag"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/corner_new"
-                android:backgroundTint="#437C90"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="COMPLIANT"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/nonComplianceTag"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/corner_new"
-                android:backgroundTint="#413F3F"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:padding="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NON-COMPLIANT"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/nonComplianceTagBluer"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvExchange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/corner_new"
-                android:backgroundTint="#413F3F"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:padding="4dp">
+                android:text="NA"
+                android:layout_gravity="start"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@drawable/lock"
-                    android:background="?actionBarItemBackground"
-                    android:layout_gravity="center_vertical"
-                    />
+                <LinearLayout
+                    android:id="@+id/complianceTag"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_new"
+                    android:backgroundTint="#437C90"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:visibility="gone">
 
-                <TextView
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="COMPLIANT"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/nonComplianceTag"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_new"
+                    android:backgroundTint="#413F3F"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NON-COMPLIANT"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/nonComplianceTagBluer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-------------------------"
-                    android:layout_marginStart="2dp"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    android:background="@drawable/corner_new"
+                    android:backgroundTint="#413F3F"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="?actionBarItemBackground"
+                        android:src="@drawable/lock" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:text="-------------------------"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:visibility="gone"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddWatchList"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/gradient_button"
+                android:drawableStart="@drawable/baseline_add_24"
+                android:drawableTint="@color/white"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Watchlist"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="10sp">
+
+            </androidx.appcompat.widget.AppCompatButton>
 
         </LinearLayout>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddWatchList"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/gradient_button"
-            android:drawableTint="@color/white"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:paddingStart="10dp"
-            android:drawableStart="@drawable/baseline_add_24"
-            android:paddingEnd="10dp"
-            android:text="Watchlist"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="10sp">
-
-        </androidx.appcompat.widget.AppCompatButton>
-
-    </LinearLayout>
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgDelete"
             android:layout_width="23dp"

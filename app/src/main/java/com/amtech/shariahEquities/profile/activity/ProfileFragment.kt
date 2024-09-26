@@ -230,7 +230,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
             aboutConst.setOnClickListener {
                 val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                     .putExtra("title", "About Shariah Equities")
-                    .putExtra("link", "https://shariahequities.in/faq/")
+                    .putExtra("link", "https://shariahequities.in")
                 (context as Activity).startActivity(intent)
             }
 

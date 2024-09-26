@@ -2,6 +2,7 @@ package com.amtech.shariahEquities.profile.activity
 
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -23,6 +24,17 @@ class PrivacyPolicy : AppCompatActivity() {
 //        }else{
 //            link =  "https://shariahsecurities.com/contact-us-2/"
 //        }
+
+        if(title =="Contact Us")
+        {
+            binding.webView.visibility = View.GONE
+            binding.tvEmail.visibility = View.VISIBLE
+            binding.tvMobile.visibility = View.VISIBLE
+        }else
+        {
+            binding.tvEmail.visibility = View.GONE
+            binding.tvMobile.visibility = View.GONE
+        }
         with(binding){
             imgBack.setOnClickListener {
                 onBackPressed()
