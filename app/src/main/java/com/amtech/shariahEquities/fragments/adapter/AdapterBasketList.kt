@@ -2,10 +2,12 @@ package com.amtech.shariahEquities.fragments.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.amtech.shariahEquities.fragments.ComplianceReportActivity
 import com.amtech.shariahEquities.fragments.model.modelBasketList.Company
 import com.amtech.shariahEquities.fragments.model.modelGetBasket.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
@@ -37,6 +39,7 @@ class AdapterBasketList(
                 with(list[position]) {
                     binding.btnAddWatchList.visibility= View.GONE
                     binding.companySymbol.text = nse_symbol_bse_script_id
+                    binding.companyName.text = name_of_company
                     binding.tvExchange.text = exchange
                     if (final == "PASS") {
                         binding.complianceTag.visibility = View.VISIBLE
@@ -48,6 +51,11 @@ class AdapterBasketList(
                     }
                     binding.imgDelete.setOnClickListener {
                         delete.delete(id.toString())
+                    }
+                    binding.root.setOnClickListener {
+                        val intent = Intent(context, ComplianceReportActivity::class.java)
+                        intent.putExtra("id", id)
+                        context.startActivity(intent)
                     }
                 }
             }

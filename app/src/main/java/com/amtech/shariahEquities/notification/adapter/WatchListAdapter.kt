@@ -1,11 +1,13 @@
 package com.amtech.shariahEquities.notification.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.amtech.shariahEquities.fragments.ComplianceReportActivity
 import com.amtech.shariahEquities.notification.modelwatchlist.Result
 import com.sellacha.tlismiherbs.databinding.WatchlistItemBinding
 import retrofit2.http.DELETE
@@ -44,6 +46,11 @@ class WatchListAdapter(
                     binding.complianceTag.visibility = View.GONE
 
                 }
+//                binding.root.setOnClickListener {
+//                    val intent = Intent(context, ComplianceReportActivity::class.java)
+//                    intent.putExtra("id", id)
+//                    context.startActivity(intent)
+//                }
             }
         }
     }
