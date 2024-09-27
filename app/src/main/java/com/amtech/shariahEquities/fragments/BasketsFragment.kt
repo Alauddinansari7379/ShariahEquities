@@ -309,7 +309,10 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                 dialogAdapter.submitList(filteredList)
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+
+
+            }
         })
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
