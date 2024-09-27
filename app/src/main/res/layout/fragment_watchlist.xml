@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/main_background"
+    android:orientation="vertical"
     tools:context="com.amtech.shariahEquities.notification.WatchlistFragment">
 
     <androidx.cardview.widget.CardView
@@ -41,8 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:gravity="center"
         android:layout_marginTop="5dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
@@ -61,9 +61,15 @@
             <Spinner
                 android:id="@+id/spinnerFilter"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                 />
+                android:layout_height="30dp" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnExport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Export to Excel" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

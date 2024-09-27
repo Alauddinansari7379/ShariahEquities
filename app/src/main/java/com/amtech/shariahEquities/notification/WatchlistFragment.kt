@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -30,11 +31,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.FragmentStocksBinding
 import com.sellacha.tlismiherbs.databinding.FragmentWatchlistBinding
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
 
-class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
+class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
     private var _binding: FragmentWatchlistBinding? = null
     private val binding get() = _binding!!
     private var watchList = ArrayList<Result>()
@@ -53,7 +57,7 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
         sessionManager = SessionManager(requireContext())
         apiCallGetWatchList()
         initRecyclerView()
-       // setupSwipeToDelete()
+        // setupSwipeToDelete()
         setupSpinner()
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -63,7 +67,7 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
 
             override fun afterTextChanged(s: Editable?) {}
         })
-
+        binding.btnExport.setOnClickListener { exportToExcel() }
         return binding.root
     }
 
@@ -105,7 +109,7 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
     }
 
     private fun initRecyclerView() {
-        watchListAdapter = WatchListAdapter(watchList,this)
+        watchListAdapter = WatchListAdapter(watchList, this)
         binding.rvWatchlist.apply {
             adapter = watchListAdapter
         }
@@ -204,7 +208,7 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
 
     private fun setRecyclerViewAdapter(filteredList: ArrayList<Result>) {
         watchListAdapter =
-            WatchListAdapter(filteredList,this) // Update the adapter's data
+            WatchListAdapter(filteredList, this) // Update the adapter's data
         binding.rvWatchlist.adapter = watchListAdapter // Set the new adapter
         watchListAdapter.notifyDataSetChanged() // Notify the adapter about the data change
     }
@@ -216,52 +220,51 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
     }
 
 
-
-/*    private fun handleDeletionError(position: Int) {
-        watchListAdapter.notifyItemChanged(position)
-        Snackbar.make(
-            binding.root,
-            "Failed to delete item. Please try again.",
-            Snackbar.LENGTH_LONG
-        )
-            .setAction("Retry") {
-                val itemToRetry = watchList[position]
-                deleteWatchListItem(itemToRetry, position)
-            }
-            .show()
-    }*/
-
-
-/*
-    private fun setupSwipeToDelete() {
-        val itemTouchHelperCallback = object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                if (position >= 0 && position < watchList.size) {
-                    val itemToDelete = watchList[position]
-                    showDeleteConfirmationDialog(itemToDelete, position)
+    /*    private fun handleDeletionError(position: Int) {
+            watchListAdapter.notifyItemChanged(position)
+            Snackbar.make(
+                binding.root,
+                "Failed to delete item. Please try again.",
+                Snackbar.LENGTH_LONG
+            )
+                .setAction("Retry") {
+                    val itemToRetry = watchList[position]
+                    deleteWatchListItem(itemToRetry, position)
                 }
-                watchListAdapter.notifyDataSetChanged()
+                .show()
+        }*/
+
+
+    /*
+        private fun setupSwipeToDelete() {
+            val itemTouchHelperCallback = object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    if (position >= 0 && position < watchList.size) {
+                        val itemToDelete = watchList[position]
+                        showDeleteConfirmationDialog(itemToDelete, position)
+                    }
+                    watchListAdapter.notifyDataSetChanged()
+                }
+
             }
 
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(binding.rvWatchlist)
         }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(binding.rvWatchlist)
-    }
-*/
+    */
 
 
-    private fun showDeleteConfirmationDialog(id:String) {
+    private fun showDeleteConfirmationDialog(id: String) {
         val sweetAlertDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
             .setTitleText("Are you sure you want to delete this item?")
             .setConfirmText("Yes")
@@ -274,52 +277,79 @@ class WatchlistFragment : Fragment(),WatchListAdapter.Delete {
             }
             .setCancelClickListener { sDialog ->
                 sDialog.dismissWithAnimation()
-             }
+            }
 
         sweetAlertDialog.setCanceledOnTouchOutside(false)
         sweetAlertDialog.setCancelable(false)
         sweetAlertDialog.show()
     }
 
-    override fun delete(id:String) {
+    override fun delete(id: String) {
         showDeleteConfirmationDialog(id)
     }
-private fun apiDeleteWatchList(id:String){
-    ApiClient.apiService.deleteWatchList(id, sessionManager.id.toString())
-        .enqueue(object : Callback<ModuleDeleteWatchList> {
-            override fun onResponse(
-                call: Call<ModuleDeleteWatchList>,
-                response: Response<ModuleDeleteWatchList>
-            ) {
-                if (response.body()!!.status == 1) {
-                    //  watchList.removeAt(position)
-                    apiCallGetWatchListRe()
-                    countDe=0
+
+    private fun apiDeleteWatchList(id: String) {
+        ApiClient.apiService.deleteWatchList(id, sessionManager.id.toString())
+            .enqueue(object : Callback<ModuleDeleteWatchList> {
+                override fun onResponse(
+                    call: Call<ModuleDeleteWatchList>,
+                    response: Response<ModuleDeleteWatchList>
+                ) {
+                    if (response.body()!!.status == 1) {
+                        //  watchList.removeAt(position)
+                        apiCallGetWatchListRe()
+                        countDe = 0
 //                        watchListAdapter.notifyItemRemoved(position)
 //                        watchListAdapter.notifyDataSetChanged()
-                    myToast(context as Activity, "Item deleted successfully")
-                } else {
-                    when (response.code()) {
-                        400 -> myToast(context as Activity, "Bad Request: Invalid data")
-                        401 -> myToast(context as Activity, "Unauthorized: Please login again")
-                        404 -> myToast(context as Activity, "Not Found: Item not found")
-                        500 -> myToast(context as Activity, "Server Error: Try again later")
-                        else -> myToast(context as Activity, "Unexpected error occurred")
+                        myToast(context as Activity, "Item deleted successfully")
+                    } else {
+                        when (response.code()) {
+                            400 -> myToast(context as Activity, "Bad Request: Invalid data")
+                            401 -> myToast(context as Activity, "Unauthorized: Please login again")
+                            404 -> myToast(context as Activity, "Not Found: Item not found")
+                            500 -> myToast(context as Activity, "Server Error: Try again later")
+                            else -> myToast(context as Activity, "Unexpected error occurred")
+                        }
+                        //  handleDeletionError(position)
                     }
-                    //  handleDeletionError(position)
                 }
-            }
 
-            override fun onFailure(call: Call<ModuleDeleteWatchList>, t: Throwable) {
-                // handleDeletionError(position)
-                countDe++
-                if (countDe <= 3) {
-                    apiDeleteWatchList(id)
-                } else {
-                    myToast(context as Activity, "Network Error: ${t.message}")
+                override fun onFailure(call: Call<ModuleDeleteWatchList>, t: Throwable) {
+                    // handleDeletionError(position)
+                    countDe++
+                    if (countDe <= 3) {
+                        apiDeleteWatchList(id)
+                    } else {
+                        myToast(context as Activity, "Network Error: ${t.message}")
+                    }
                 }
-            }
-        })
-}
+            })
+    }
+    private fun exportToExcel() {
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("Watchlist")
+        val headerRow = sheet.createRow(0)
+        headerRow.createCell(0).setCellValue("Name of Company")
+        headerRow.createCell(1).setCellValue("Symbol")
+        headerRow.createCell(2).setCellValue("Complaint Type")
+        for (i in watchList.indices) {
+            val row = sheet.createRow(i + 1)
+            row.createCell(0).setCellValue(watchList[i].name_of_company)
+            row.createCell(1).setCellValue(watchList[i].symbol)
+            row.createCell(2)
+                .setCellValue(if (watchList[i].complaint_type == 1) "Compliant" else "Non-Compliant")
+        }
+        val sdCard = Environment.getExternalStorageDirectory()
+        val directory = File(sdCard, "Watchlist Data")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        val file = File(directory, "Watchlist.xlsx")
+        FileOutputStream(file).use { outputStream ->
+            workbook.write(outputStream)
+        }
+        workbook.close()
+        myToast(requireActivity(), "Watchlist exported to: ${file.absolutePath}")
+    }
 
 }

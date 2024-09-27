@@ -51,7 +51,7 @@ class AdapterBasket(
                         companyIds.add(id)
                     }
                     binding.tvBasketQty.text = "Basket Qty :" + companyIds.size.toString()
-                    binding.btnView.setOnClickListener {
+                    binding.root.setOnClickListener {
                         val intent = Intent(context as Activity, BasketsList::class.java)
                             .putExtra("basketId", id.toString())
                         context.startActivity(intent)

@@ -19,4 +19,5 @@ data class Result(
     val compliant_status_interest_income: String,
     val financial_screening: String,
     val created_at: String,
+    val company_id: String,
 )

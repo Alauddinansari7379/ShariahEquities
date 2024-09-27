@@ -38,18 +38,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class BasketsFragment : Fragment(),AdapterBasket.Delete{
+class BasketsFragment : Fragment(), AdapterBasket.Delete {
 
     private lateinit var dialogAdapter: AdapterPopupBasket
     private var _binding: FragmentBasketBinding? = null
     private val binding get() = _binding!!
 
-     private var count = 0
-     private var countL = 0
-     private var countAdd = 0
-     private var countDe = 0
+    private var count = 0
+    private var countL = 0
+    private var countAdd = 0
+    private var countDe = 0
     private var companyList = mutableListOf<Result>()
-    private var allbasketList = ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>()
+    private var allbasketList =
+        ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>()
     private val selectedCompanies = mutableListOf<Result>()
     private lateinit var sessionManager: SessionManager
 
@@ -84,13 +85,13 @@ class BasketsFragment : Fragment(),AdapterBasket.Delete{
         }
 
         binding.addSelectedButton.setOnClickListener {
-            if (sessionManager.subscribed=="0"){
-                     try {
-                        bottomSheetDialog.show()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+            if (sessionManager.subscribed == "0") {
+                try {
+                    bottomSheetDialog.show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            }else{
+            } else {
                 showCompanySelectionDialog()
 
             }
@@ -98,7 +99,7 @@ class BasketsFragment : Fragment(),AdapterBasket.Delete{
 
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(allbasketList.filter {
-                it.basketname!=null && it.basketname.contains(str.toString(), ignoreCase = true)
+                it.basketname != null && it.basketname.contains(str.toString(), ignoreCase = true)
             } as ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>)
         }
 
@@ -106,14 +107,15 @@ class BasketsFragment : Fragment(),AdapterBasket.Delete{
         apiCallGetBasketList()
     }
 
-@SuppressLint("SetTextI18n")
-private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>) {
-    if (binding.rvBasketList != null) {
-        binding.rvBasketList.apply {
-            adapter = AdapterBasket(requireContext(), userList,this@BasketsFragment)
+    @SuppressLint("SetTextI18n")
+    private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquities.fragments.model.modelGetBasket.Result>) {
+        if (binding.rvBasketList != null) {
+            binding.rvBasketList.apply {
+                adapter = AdapterBasket(requireContext(), userList, this@BasketsFragment)
+            }
         }
     }
-}
+
     private fun apiCallGetCompanyList() {
         // AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
@@ -134,7 +136,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                             }
 
                             response.isSuccessful && response.body() != null -> {
-                                count=0
+                                count = 0
                                 companyList = response.body()!!.result.toMutableList()
                                 dialogAdapter.submitList(companyList)
                             }
@@ -143,7 +145,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                       // activity?.let { myToast(it, "Something went wrong") }
+                        // activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
@@ -159,7 +161,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             })
     }
 
-    fun addBasketList(basket: String,description:String) {
+    fun addBasketList(basket: String, description: String) {
         AppProgressBar.showLoaderDialog(context)
         val companyIdsArray = selectedCompanies.map { it.id.toString() }
         val formattedString =
@@ -173,7 +175,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             sessionManager.id.toString(),
             basket,
 //            companyIdsArray.joinToString(",")
-            formattedString,description
+            formattedString, description
         )
             .enqueue(object : Callback<ModelAddWatchList> {
                 @SuppressLint("SetTextI18n")
@@ -197,11 +199,11 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                                     context as Activity,
                                     "${selectedCompanies.size} Stocks Added"
                                 )
-                                 binding.btnSave.visibility = View.GONE
+                                binding.btnSave.visibility = View.GONE
                                 binding.edtOwnName.visibility = View.GONE
                                 binding.edOwnName.setText("")
                                 selectedCompanies.clear()
-                                 apiCallGetBasketList()
+                                apiCallGetBasketList()
 
 
                             }
@@ -210,14 +212,14 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                       // activity?.let { myToast(it, "Something went wrong") }
+                        // activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
                 override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
                     countL++
                     if (countL <= 3) {
-                        addBasketList(basket,description)
+                        addBasketList(basket, description)
                     } else {
                         activity?.let { myToast(it, t.message.toString()) }
                     }
@@ -252,10 +254,14 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                             }
 
                             response.isSuccessful && response.body() != null -> {
-                                countAdd=0
+                                countAdd = 0
                                 allbasketList = response.body()!!.result
                                 binding.rvBasketList.apply {
-                                    adapter = AdapterBasket(requireContext(), allbasketList,this@BasketsFragment)
+                                    adapter = AdapterBasket(
+                                        requireContext(),
+                                        allbasketList,
+                                        this@BasketsFragment
+                                    )
                                 }
                             }
 
@@ -263,7 +269,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                      //  activity?.let { myToast(it, "Something went wrong") }
+                        //  activity?.let { myToast(it, "Something went wrong") }
                     }
                 }
 
@@ -290,7 +296,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
         val edtDescription = dialogView.findViewById<EditText>(R.id.edtDescription)
         val close = dialogView.findViewById<ImageView>(R.id.imgClose)
 
-        dialogAdapter = AdapterPopupBasket(requireContext(), { result, isChecked -> },)
+        dialogAdapter = AdapterPopupBasket(requireContext(), { result, isChecked -> })
 
 
         recyclerView.adapter = dialogAdapter
@@ -299,7 +305,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s!!.isNotEmpty()){
+                if (s!!.isNotEmpty()) {
                     recyclerView.scrollToPosition(0)
                 }
                 val filteredList = companyList.filter {
@@ -337,8 +343,8 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
             } else if (selectedCompanies.isEmpty()) {
                 activity?.let { it1 -> myToast(it1, "Please select any items") }
             } else {
-                addBasketList(etOwnName.text!!.toString(),edtDescription.text!!.toString())
-                
+                addBasketList(etOwnName.text!!.toString(), edtDescription.text!!.toString())
+
                 dialog.dismiss()
 
             }
@@ -348,7 +354,7 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
     }
 
 
-    private fun showDeleteConfirmationDialog(id:String) {
+    private fun showDeleteConfirmationDialog(id: String) {
         val sweetAlertDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
             .setTitleText("Are you sure you want to delete this item?")
             .setConfirmText("Yes")
@@ -368,11 +374,12 @@ private fun setRecyclerViewAdapter(userList: ArrayList<com.amtech.shariahEquitie
         sweetAlertDialog.show()
     }
 
-    override fun delete(id:String) {
+    override fun delete(id: String) {
         showDeleteConfirmationDialog(id)
     }
-    private fun apiDeleteWatchList(id:String){
-        ApiClient.apiService.deleteBasket(sessionManager.id.toString(),id)
+
+    private fun apiDeleteWatchList(id: String) {
+        ApiClient.apiService.deleteBasket(sessionManager.id.toString(), id)
             .enqueue(object : Callback<ModuleDeleteWatchList> {
                 override fun onResponse(
                     call: Call<ModuleDeleteWatchList>,

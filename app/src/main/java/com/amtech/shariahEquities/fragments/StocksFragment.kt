@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.amtech.shariahEquities.Helper.AppProgressBar
@@ -14,6 +16,7 @@ import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
+import com.sellacha.tlismiherbs.R
 import com.sellacha.tlismiherbs.databinding.FragmentStocksBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,9 +26,9 @@ class StocksFragment : Fragment() {
     private var _binding: FragmentStocksBinding? = null
     private val binding get() = _binding!!
 
-     private var count = 0
+    private var count = 0
     private var companyList = ArrayList<Result>()
-     lateinit var sessionManager: SessionManager
+    lateinit var sessionManager: SessionManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +41,8 @@ class StocksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.llCreateWon.visibility = View.GONE
         sessionManager = SessionManager(requireContext())
-
+        setupSpinner()
+        setupSpinner2()
 //        if (sessionManager.subscribed.toString()=="0"){
 //            binding.edtSearch.setEnabled(false)
 //            binding.edtSearch.isFocusable = false
@@ -47,7 +51,13 @@ class StocksFragment : Fragment() {
 //        }
         binding.edtSearch.addTextChangedListener { str ->
             setRecyclerViewAdapter(companyList.filter {
-                it.name_of_company!=null && it.name_of_company.contains(str.toString(), ignoreCase = true)||it.nse_symbol_bse_script_id!=null && it.nse_symbol_bse_script_id.contains(str.toString(), ignoreCase = true)
+                it.name_of_company != null && it.name_of_company.contains(
+                    str.toString(),
+                    ignoreCase = true
+                ) || it.nse_symbol_bse_script_id != null && it.nse_symbol_bse_script_id.contains(
+                    str.toString(),
+                    ignoreCase = true
+                )
             } as ArrayList<Result>)
         }
 
@@ -56,12 +66,75 @@ class StocksFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setRecyclerViewAdapter(userList: ArrayList<Result>) {
-              if (binding.rvCompanyList != null) {
-                   binding.rvCompanyList.apply {
-                      adapter = StocksAdapter(requireContext(),userList)
+        if (binding.rvCompanyList != null) {
+            binding.rvCompanyList.apply {
+                adapter = StocksAdapter(requireContext(), userList)
 //
-                  }
-              }
+            }
+        }
+    }
+
+    private fun setupSpinner() {
+        val filterOptions = ArrayList<String>()
+        filterOptions.add("All")
+        filterOptions.add("Compliant")
+        filterOptions.add("Non-Compliant")
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+        binding.spinnerFilter.adapter = adapter
+        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedFilter = filterOptions[position]
+                filterListByCompliance(selectedFilter)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        binding.spinnerFilter.setSelection(0)
+    }
+    private fun setupSpinner2() {
+        val filterOptions = ArrayList<String>()
+        filterOptions.add("All")
+        filterOptions.add("BSE")
+        filterOptions.add("NSE")
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+        binding.spinnerFilter2.adapter = adapter
+        binding.spinnerFilter2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedFilter = filterOptions[position]
+                filterListByCompliance(selectedFilter)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
+        }
+        binding.spinnerFilter2.setSelection(0)
+    }
+
+    private fun filterListByCompliance(selectedFilter: String) {
+        val filteredList = when (selectedFilter) {
+            "All" -> companyList
+            "BSE" -> companyList.filter { it.exchange == "BSE" }
+            "NSE" -> companyList.filter { it.exchange == "NSE" }
+            else -> companyList
+        }
+        setRecyclerViewAdapter(ArrayList(filteredList))
     }
 
     private fun apiCallGetCompanyList() {
@@ -92,14 +165,15 @@ class StocksFragment : Fragment() {
 //
 //                                    }
 //                                }else{
-                                    binding.rvCompanyList.apply {
-                                        adapter = StocksAdapter(requireContext(),companyList)
+                                filterListByCompliance("All")
+                                binding.rvCompanyList.apply {
+                                    adapter = StocksAdapter(requireContext(), companyList)
 //
-                                   // }
+                                    // }
                                 }
 
 
-                             }
+                            }
 
                             else -> activity?.let { myToast(it, "Unexpected error") }
 

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.shariah.shariahEquities"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 3
         versionName "1.0.3"
@@ -132,4 +132,9 @@ dependencies {
 //red and greewn when and fail bussiness scrning
     // 124.91 red tick is grather than 30%
     //payment Page Changes
+    //export to excel
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+
 }

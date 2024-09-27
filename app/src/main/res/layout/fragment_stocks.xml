@@ -191,7 +191,60 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/filter" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
 
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/corner"
+                        android:orientation="horizontal">
+
+
+                        <Spinner
+                            android:id="@+id/spinnerFilter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                  android:gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="20dp"
+                        android:background="@drawable/corner"
+                        android:orientation="horizontal">
+
+
+                        <Spinner
+                            android:id="@+id/spinnerFilter2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCompanyList"
                 android:layout_width="match_parent"
