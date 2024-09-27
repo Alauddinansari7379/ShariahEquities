@@ -2,18 +2,21 @@ package com.amtech.shariahEquities.Search
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.amtech.shariahEquities.Helper.AppProgressBar
 import com.amtech.shariahEquities.Search.adapter.AdapterSearch
 import com.amtech.shariahEquities.fragments.model.ModelAddWatchList
 import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
+import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
@@ -24,18 +27,22 @@ import com.sellacha.tlismiherbs.databinding.FragmentCartBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
+class SearchFragment : Fragment(), AdapterSearch.AddWatchList {
     private lateinit var binding: FragmentCartBinding
     private lateinit var sessionManager: SessionManager
     var shimmerFrameLayout: ShimmerFrameLayout? = null
-    val finalTotal=ArrayList<Int>()
+    val finalTotal = ArrayList<Int>()
 
     private lateinit var adapterSearch: AdapterSearch
     private var count = 0
     private var companyList = mutableListOf<Result>()
     private val selectedCompanies = mutableListOf<Result>()
-     var countRe = 0
+    var countRe = 0
+    private var watchList =
+        ArrayList<com.amtech.shariahEquities.notification.modelwatchlist.Result>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,14 +57,15 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
         //  shimmerFrameLayout = view.findViewById(R.id.shimmer)
 //        shimmerFrameLayout!!.startShimmer()
         sessionManager = SessionManager(requireContext())
-        adapterSearch = AdapterSearch (requireContext(),{ _, _ -> updateSaveButtonVisibility() },this)
+        adapterSearch =
+            AdapterSearch(requireContext(), { _, _ -> updateSaveButtonVisibility() }, this)
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
 
-         binding.rvCompanyList.apply {
-             adapter = adapterSearch
+        binding.rvCompanyList.apply {
+            adapter = adapterSearch
         }
 
 
@@ -75,10 +83,13 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
 
         binding.rvCompanyList.visibility = View.GONE
         apiCallGetCompanyList()
+        apiCallGetWatchListRe()
     }
+
     private fun updateSaveButtonVisibility() {
         val hasSelectedItems = adapterSearch.getSelectedItems().isNotEmpty()
-     }
+    }
+
     private fun performSearch(query: String) {
         val trimmedQuery = query.trim()
 
@@ -92,7 +103,8 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
             if (adapterSearch.currentList != filteredList) {
                 adapterSearch.submitList(filteredList)
             }
-            binding.rvCompanyList.visibility = if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
+            binding.rvCompanyList.visibility =
+                if (filteredList.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
 
@@ -112,12 +124,14 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
                                 context as Activity,
                                 "Something went wrong"
                             )
+
                             response.isSuccessful && response.body() != null -> {
-                                count=0
+                                count = 0
                                 companyList =
                                     response.body()!!.result.toMutableList()
                                 adapterSearch.submitList(companyList)
                             }
+
                             else -> myToast(context as Activity, "Unexpected error")
                         }
                     } catch (e: Exception) {
@@ -138,29 +152,22 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
             })
     }
 
-    override fun addWatchList(compenyId: String) {
-        AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.createWatchlist(sessionManager.id.toString(),compenyId)
-            .enqueue(object : Callback<ModelAddWatchList> {
-                @SuppressLint("SetTextI18n")
+    private fun apiCallGetWatchListRe() {
+        //  AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.getWatchList(sessionManager.id.toString())
+            .enqueue(object : Callback<ModelWatchList> {
                 override fun onResponse(
-                    call: Call<ModelAddWatchList>, response: Response<ModelAddWatchList>
+                    call: Call<ModelWatchList>, response: Response<ModelWatchList>
                 ) {
                     AppProgressBar.hideLoaderDialog()
                     try {
-                        when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
-
-                            response.isSuccessful && response.body()?.status==1 != null -> {
-                                myToast(context as Activity, "Added in Watchlist")
-
-                            }
-
-                            else -> myToast(context as Activity, "Unexpected error")
+                        if (response.isSuccessful && response.body() != null) {
+                            val responseBody = response.body()!!
+                            watchList.clear()
+                            watchList.addAll(responseBody.result)
+                            //  myToast(context as Activity, responseBody.message)
+                        } else {
+                            myToast(context as Activity, "Unexpected error")
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -168,16 +175,73 @@ class SearchFragment : Fragment(),AdapterSearch.AddWatchList {
                     }
                 }
 
-                override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
-                    count++
-                    if (count <= 2) {
-                        addWatchList(compenyId)
+                override fun onFailure(call: Call<ModelWatchList>, t: Throwable) {
+                    countRe++
+                    if (countRe <= 3) {
+                        apiCallGetWatchListRe()
                     } else {
                         myToast(context as Activity, "Something went wrong")
                     }
                     AppProgressBar.hideLoaderDialog()
                 }
-            })    }
+            })
+    }
 
+    override fun addWatchList(compenyId: String) {
+        AppProgressBar.showLoaderDialog(context)
+        if (watchList.any { it.company_id == compenyId }) {
+            myToast(context as Activity, "Company is already added in the watchlist.")
+            AppProgressBar.hideLoaderDialog()
+        } else if ((sessionManager.startDate == "" || sessionManager.endDate == "") && watchList.size >= 25) {
+            myToast(
+                context as Activity,
+                "You can't add more then 25 companies to add more upgrade your profile."
+            )
+            AppProgressBar.hideLoaderDialog()
+        } else {
+            ApiClient.apiService.createWatchlist(sessionManager.id.toString(), compenyId)
+                .enqueue(object : Callback<ModelAddWatchList> {
+                    @SuppressLint("SetTextI18n")
+                    override fun onResponse(
+                        call: Call<ModelAddWatchList>, response: Response<ModelAddWatchList>
+                    ) {
+                        AppProgressBar.hideLoaderDialog()
+                        try {
+                            when {
+                                response.code() == 500 -> myToast(
+                                    context as Activity,
+                                    "Server Error"
+                                )
 
+                                response.code() == 404 -> myToast(
+                                    context as Activity,
+                                    "Something went wrong"
+                                )
+
+                                response.isSuccessful && response.body()?.status == 1 != null -> {
+                                    myToast(context as Activity, "Added in Watchlist")
+
+                                    apiCallGetWatchListRe()
+                                }
+
+                                else -> myToast(context as Activity, "Unexpected error")
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            myToast(context as Activity, "Something went wrong")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ModelAddWatchList>, t: Throwable) {
+                        count++
+                        if (count <= 2) {
+                            addWatchList(compenyId)
+                        } else {
+                            myToast(context as Activity, "Something went wrong")
+                        }
+                        AppProgressBar.hideLoaderDialog()
+                    }
+                })
+        }
+    }
 }

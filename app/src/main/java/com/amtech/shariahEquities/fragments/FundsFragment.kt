@@ -139,7 +139,7 @@ class FundsFragment : Fragment() {
                                     industry_group = "",
                                     main_product_service_group = "",
                                     exchange = "",
-                                    final = "",
+                                    final = "PASS",
                                     debts_market_cap = "",
                                     compliant_debts_market_cap_status = "",
                                     interest_bearing_securities_market_cap = "",

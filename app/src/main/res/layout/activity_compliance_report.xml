@@ -1176,6 +1176,7 @@
                                 android:textSize="12sp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/disclaimer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"

@@ -6,7 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -29,6 +34,7 @@ import com.sellacha.tlismiherbs.databinding.ActivityComplianceReportBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ComplianceReportActivity : AppCompatActivity() {
     private var context: Context = this@ComplianceReportActivity
@@ -76,14 +82,17 @@ class ComplianceReportActivity : AppCompatActivity() {
             )
         }
         setContentView(binding.root)
-
-
+        val fullText =
+            "Disclaimer: This Shariah compliance report is based on AAOIFI standards and is for Educational purposes only. Investors are encouraged to consult their financial advisors for personalised guidance."
+        val spannable = SpannableString(fullText)
+        spannable.setSpan(ForegroundColorSpan(Color.RED), 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.disclaimer.text = spannable
         val bottomSheetDialog = BottomSheetDialog(context)
         val parentView: View = layoutInflater.inflate(R.layout.login_dialog, null)
         bottomSheetDialog.setContentView(parentView)
         val imgCloseNew = parentView.findViewById<ImageView>(R.id.imgBackDil)
         val btnSubscribe = parentView.findViewById<Button>(R.id.btnSubscribe)
-
         imgCloseNew.setOnClickListener {
             bottomSheetDialog.dismiss()
 

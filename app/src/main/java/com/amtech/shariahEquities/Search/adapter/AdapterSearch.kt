@@ -59,18 +59,18 @@ class AdapterSearch(
 //                    binding.imgLock.visibility = View.GONE
 //                }
                 btnAddWatchList.setOnClickListener {
-                    if (sessionManager.subscribed == "0") {
-                        SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Please upgrade the plan.")
-                             .setConfirmText("ok")
-                            .showCancelButton(true)
-                            .setConfirmClickListener { sDialog ->
-                                sDialog.cancel()
-                            }
-                            .show()
-                    } else {
+//                    if (sessionManager.subscribed == "0") {
+//                        SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+//                            .setTitleText("Please upgrade the plan.")
+//                             .setConfirmText("ok")
+//                            .showCancelButton(true)
+//                            .setConfirmClickListener { sDialog ->
+//                                sDialog.cancel()
+//                            }
+//                            .show()
+//                    } else {
                         addWatchList.addWatchList(result.id.toString())
-                    }
+//                    }
                 }
                 binding.root.setOnClickListener {
                     val intent = Intent(context, ComplianceReportActivity::class.java)

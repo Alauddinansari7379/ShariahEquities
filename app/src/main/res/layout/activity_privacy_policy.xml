@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
      android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.amtech.shariahEquities.profile.activity.PrivacyPolicy">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,4 +58,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
         tools:ignore="WebViewLayout" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEmail"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:textSize="20sp"
+            android:text="Email: info@shariahequities.in"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMobile"
+            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="Mobile Number: +919000706786"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
