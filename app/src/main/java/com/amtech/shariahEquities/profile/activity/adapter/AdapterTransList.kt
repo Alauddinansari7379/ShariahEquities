@@ -55,6 +55,8 @@ class AdapterTransList(
 
                     binding.imgDownload.setOnClickListener {
                        // delete.delete(id.toString())
+                        download.downloadInvoice(paymentId.toString())
+
                     }
                 }
             }
@@ -64,7 +66,7 @@ class AdapterTransList(
     }
 
     interface Download {
-        fun download(id: String)
+        fun downloadInvoice(id: String)
     }
 
 }

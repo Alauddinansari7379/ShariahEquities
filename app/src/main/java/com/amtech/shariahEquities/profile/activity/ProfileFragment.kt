@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,6 +18,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -28,13 +33,18 @@ import com.amtech.shariahEquities.profile.activity.model.ModelTransList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.myToast
+import com.google.android.gms.common.api.Api
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rajat.pdfviewer.PdfViewerActivity
 import com.sellacha.tlismiherbs.R
  import com.sellacha.tlismiherbs.databinding.FragmentProfileNewBinding
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class ProfileFragment : Fragment(),AdapterTransList.Download {
     private lateinit var binding: FragmentProfileNewBinding
@@ -43,6 +53,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
     var dialog: Dialog? = null
     var count = 0
     var countT = 0
+    var count1 = 0
     var countU = 0
     var countDes = 0
     private var transList = ArrayList<com.amtech.shariahEquities.profile.activity.model.Result>()
@@ -511,9 +522,106 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
                 }
             })
     }
+    fun apiCallDownloadPdfAndOpen(userId: String, paymentId: String) {
+        AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.getInvoice(userId, paymentId).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { body ->
+                        count1 =0
+                        val fileName = "invoice_$userId$paymentId.pdf"
+                        val savedFile = saveFileToStorage(body, fileName)
+                        if (savedFile != null) {
+                            AppProgressBar.hideLoaderDialog()
+                            openPdf(savedFile)  // Open the PDF once it is saved
+                        } else {
+                            AppProgressBar.hideLoaderDialog()
+                            myToast(context as Activity, "Failed to save file")
+                        }
+                    } ?: run {
+                        AppProgressBar.hideLoaderDialog()
+                        Log.e("API Error", "Empty response body")
+                        myToast(context as Activity, "Received empty response")
+                    }
+                } else {
+                    AppProgressBar.hideLoaderDialog()
+                    Log.e("API Error", "Response Code: ${response.code()}")
+                    val errorMessage = when (response.code()) {
+                        404 -> "Invoice not found"
+                        500 -> "Server error, please try again later"
+                        else -> "Unexpected error: ${response.code()}"
+                    }
+                    myToast(context as Activity, errorMessage)
 
-    override fun download(id: String) {
-        TODO("Not yet implemented")
+                    response.errorBody()?.let {
+                        Log.e("API Error Body", "Error Body: ${it.string()}")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                AppProgressBar.hideLoaderDialog()
+                Log.e("Download Error", "Error message: ${t.message}")
+                count1++
+                if (count1 <= 2) {
+                    apiCallDownloadPdfAndOpen(userId,paymentId)
+                } else {
+                    myToast(context as Activity, "Something went wrong")
+                }
+                when (t) {
+                    is IOException -> {
+                        myToast(context as Activity, "Network error, please check your connection")
+                    }
+                    else -> {
+                        myToast(context as Activity, "Failed to download file: ${t.localizedMessage}")
+                    }
+                }
+            }
+        })
+    }
+
+
+    private fun openPdf(file: File) {
+        val uri = FileProvider.getUriForFile(context as Activity, "${context?.packageName}.provider", file)
+
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(uri, "application/pdf")
+        intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            myToast(context as Activity, "No application to view PDF")
+        }
+    }
+
+    private fun saveFileToStorage(body: ResponseBody, fileName: String): File? {
+        return try {
+            val downloadDir = context?.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadDir, fileName)
+            val inputStream = body.byteStream()
+            val outputStream = FileOutputStream(file)
+            val buffer = ByteArray(4096)
+            var bytesRead: Int
+
+            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            outputStream.flush()
+            outputStream.close()
+            inputStream.close()
+
+            file
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    override fun downloadInvoice(id: String) {
+        apiCallDownloadPdfAndOpen(sessionManager.id.toString(),id)
+
     }
 
 }

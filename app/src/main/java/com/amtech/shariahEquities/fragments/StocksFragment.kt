@@ -29,6 +29,8 @@ class StocksFragment : Fragment() {
     private var count = 0
     private var companyList = ArrayList<Result>()
     lateinit var sessionManager: SessionManager
+    private var selectedCompliance: String = "All"
+    private var selectedExchange: String = "All"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,68 +76,77 @@ class StocksFragment : Fragment() {
         }
     }
 
-    private fun setupSpinner() {
-        val filterOptions = ArrayList<String>()
-        filterOptions.add("All")
-        filterOptions.add("Compliant")
-        filterOptions.add("Non-Compliant")
-
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
-        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
-        binding.spinnerFilter.adapter = adapter
-        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedFilter = filterOptions[position]
-                filterListByCompliance(selectedFilter)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
-        binding.spinnerFilter.setSelection(0)
-    }
-    private fun setupSpinner2() {
-        val filterOptions = ArrayList<String>()
-        filterOptions.add("All")
-        filterOptions.add("BSE")
-        filterOptions.add("NSE")
-
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
-        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
-        binding.spinnerFilter2.adapter = adapter
-        binding.spinnerFilter2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedFilter = filterOptions[position]
-                filterListByCompliance(selectedFilter)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-
-            }
-        }
-        binding.spinnerFilter2.setSelection(0)
-    }
-
-    private fun filterListByCompliance(selectedFilter: String) {
-        val filteredList = when (selectedFilter) {
-            "All" -> companyList
-            "BSE" -> companyList.filter { it.exchange == "BSE" }
-            "NSE" -> companyList.filter { it.exchange == "NSE" }
-            else -> companyList
-        }
-        setRecyclerViewAdapter(ArrayList(filteredList))
-    }
+//    private fun setupSpinner() {
+//        val filterOptions = ArrayList<String>()
+//        filterOptions.add("All")
+//        filterOptions.add("Compliant")
+//        filterOptions.add("Non-Compliant")
+//
+//        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+//        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+//        binding.spinnerFilter.adapter = adapter
+//        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val selectedFilter = filterOptions[position]
+//                filterListByCompliance(selectedFilter)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//
+//            }
+//        }
+//        binding.spinnerFilter.setSelection(0)
+//    }
+//    private fun setupSpinner2() {
+//        val filterOptions = ArrayList<String>()
+//        filterOptions.add("All")
+//        filterOptions.add("BSE")
+//        filterOptions.add("NSE")
+//
+//        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+//        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+//        binding.spinnerFilter2.adapter = adapter
+//        binding.spinnerFilter2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val selectedFilter = filterOptions[position]
+//                filterListByCompliance2(selectedFilter)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//
+//            }
+//        }
+//        binding.spinnerFilter2.setSelection(0)
+//    }
+//
+//    private fun filterListByCompliance(selectedFilter: String) {
+//        val filteredList = when (selectedFilter) {
+//            "All" -> companyList
+//            "Compliant" -> companyList.filter { it.final == "PASS" }
+//            "Non-Compliant" -> companyList.filter { it.final == "FAIL" }
+//            else -> companyList
+//        }
+//        setRecyclerViewAdapter(ArrayList(filteredList))
+//    }
+//    private fun filterListByCompliance2(selectedFilter: String) {
+//        val filteredList = when (selectedFilter) {
+//            "All" -> companyList
+//            "BSE" -> companyList.filter { it.exchange == "BSE" }
+//            "NSE" -> companyList.filter { it.exchange == "NSE" }
+//            else -> companyList
+//        }
+//        setRecyclerViewAdapter(ArrayList(filteredList))
+//    }
 
     private fun apiCallGetCompanyList() {
         AppProgressBar.showLoaderDialog(context)
@@ -165,7 +176,7 @@ class StocksFragment : Fragment() {
 //
 //                                    }
 //                                }else{
-                                filterListByCompliance("All")
+//                                filterListByCompliance("All")
                                 binding.rvCompanyList.apply {
                                     adapter = StocksAdapter(requireContext(), companyList)
 //
@@ -195,6 +206,72 @@ class StocksFragment : Fragment() {
                 }
             })
     }
+
+
+
+    private fun setupSpinner() {
+        val filterOptions = arrayListOf("All", "Compliant", "Non-Compliant")
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+        binding.spinnerFilter.adapter = adapter
+        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedCompliance = filterOptions[position]
+                filterList()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+        binding.spinnerFilter.setSelection(0)
+    }
+
+    private fun setupSpinner2() {
+        val filterOptions = arrayListOf("All", "BSE", "NSE")
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_list_item_1, filterOptions)
+        adapter.setDropDownViewResource(R.layout.simple_list_item_1)
+        binding.spinnerFilter2.adapter = adapter
+        binding.spinnerFilter2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedExchange = filterOptions[position]
+                filterList()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+        binding.spinnerFilter2.setSelection(0)
+    }
+
+    private fun filterList() {
+        var filteredList = companyList
+
+        filteredList = when (selectedCompliance) {
+            "Compliant" -> filteredList.filter { it.final == "PASS" } as ArrayList<Result>
+            "Non-Compliant" -> filteredList.filter { it.final == "FAIL" } as ArrayList<Result>
+            else -> filteredList
+        }
+
+
+        filteredList = when (selectedExchange) {
+            "BSE" -> filteredList.filter { it.exchange == "BSE" } as ArrayList<Result>
+            "NSE" -> filteredList.filter { it.exchange == "NSE" } as ArrayList<Result>
+            else -> filteredList
+        }
+
+        setRecyclerViewAdapter(ArrayList(filteredList))
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

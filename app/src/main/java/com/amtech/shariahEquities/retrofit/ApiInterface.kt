@@ -13,6 +13,7 @@ import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.Mod
 import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import com.amtech.shariahEquities.payment.model.ModelCreatePayment
 import com.amtech.shariahEquities.profile.activity.model.ModelTransList
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -141,6 +142,12 @@ interface ApiInterface {
     fun transList(
         @Query("user_id") user_id:String,
       ): Call<ModelTransList>
+
+    @GET("invoice_print")
+    fun getInvoice(
+        @Query("user_id") user_id:String,
+        @Query("payment_id") payment_id:String,
+      ): Call<ResponseBody>
 
 //
 //    @POST("login-user")
