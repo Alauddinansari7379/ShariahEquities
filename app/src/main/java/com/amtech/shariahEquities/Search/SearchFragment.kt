@@ -19,6 +19,7 @@ import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -109,6 +110,13 @@ class SearchFragment : Fragment(), AdapterSearch.AddWatchList {
     }
 
     private fun apiCallGetCompanyList() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
             .enqueue(object : Callback<ModelCompanyList> {
@@ -154,6 +162,13 @@ class SearchFragment : Fragment(), AdapterSearch.AddWatchList {
 
     private fun apiCallGetWatchListRe() {
         //  AppProgressBar.showLoaderDialog(context)
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.getWatchList(sessionManager.id.toString())
             .enqueue(object : Callback<ModelWatchList> {
                 override fun onResponse(
@@ -188,6 +203,13 @@ class SearchFragment : Fragment(), AdapterSearch.AddWatchList {
     }
 
     override fun addWatchList(compenyId: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         if (watchList.any { it.company_id == compenyId }) {
             myToast(context as Activity, "Company is already added in the watchlist.")

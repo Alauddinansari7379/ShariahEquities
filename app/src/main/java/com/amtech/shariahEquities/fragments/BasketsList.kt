@@ -13,6 +13,7 @@ import com.amtech.shariahEquities.fragments.model.modelBasketList.ModelBasketLis
 import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.ModuleDeleteWatchList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.databinding.ActivityBasketListBinding
 import retrofit2.Call
@@ -46,6 +47,13 @@ class BasketsList : AppCompatActivity(),AdapterBasketList.Delete {
     }
 
     private fun apiCallGetBasketById() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getBasketById(sessionManager.id.toString(), basketId)
             .enqueue(object : Callback<ModelBasketListId> {
@@ -120,6 +128,13 @@ class BasketsList : AppCompatActivity(),AdapterBasketList.Delete {
         showDeleteConfirmationDialog(id)
     }
     private fun apiDeleteBasket(id:String){
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.deleteBasketSingle(sessionManager.id.toString(),basketId,id)
             .enqueue(object : Callback<ModuleDeleteWatchList> {
                 override fun onResponse(

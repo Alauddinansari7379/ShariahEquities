@@ -1,6 +1,7 @@
 package com.amtech.shariahEquities.login
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -17,6 +18,7 @@ import com.amtech.shariahEquities.login.modelLogin.ModelLogin
 import com.sellacha.tlismiherbs.databinding.ActivityLoginBinding
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 
 import retrofit2.Call
@@ -94,7 +96,13 @@ class Login : AppCompatActivity() {
     }
 
     private fun login(email: String, password: String) {
-
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(this@Login)
         ApiClient.apiService.login(
             email,

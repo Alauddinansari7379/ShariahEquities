@@ -23,6 +23,7 @@ import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.ekn.gruzer.gaugelibrary.Range
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -298,6 +299,13 @@ class ComplianceReportActivity : AppCompatActivity() {
     }
 
     private fun apiCallGetCompanyDetails(id: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         binding.progressBarDebt.progress = 0
         binding.securitiesProgressBar.progress = 0

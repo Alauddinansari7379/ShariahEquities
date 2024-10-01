@@ -26,6 +26,7 @@ import com.amtech.shariahEquities.payment.model.ModelCreatePayment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.ehcf.phonepesdk.ApiUtilities
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.phonepe.intent.sdk.api.B2BPGRequestBuilder
 import com.phonepe.intent.sdk.api.PhonePe
@@ -289,6 +290,13 @@ class Payment : AppCompatActivity() {
     }
 
     private fun apiCallUpdateSubscription() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         if (isMonthlySubscriotion.equals("month"))
         {
@@ -366,6 +374,13 @@ class Payment : AppCompatActivity() {
             })
     }
     private fun apiCallSavePaymentRec(paymentStatues: String, merchantTransactionId: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
        // AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.savePaymentRec(sessionManager.id.toString(), MERCHANT_TID,
             amount.toString(), paymentStatues, "Online", merchantTransactionId)

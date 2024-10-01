@@ -27,6 +27,7 @@ import com.amtech.shariahEquities.forgotPass.model.ModelResetPass
 import com.amtech.shariahEquities.login.Login
 import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.amtech.shariahEquities.retrofit.ApiClient
+import com.example.tlismimoti.Helper.isInternetAvailable
 
 import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.R
@@ -233,6 +234,13 @@ class OTPVerification : AppCompatActivity() {
     }
 
     private fun apiCallSendOTP() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.sendOTP(
             binding.edtEmail.text.toString().trim(), "forgetpassword"
@@ -291,6 +299,13 @@ class OTPVerification : AppCompatActivity() {
     }
 
     private fun apiCallResetPass(email: String, pass: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.resetPass(
             email,

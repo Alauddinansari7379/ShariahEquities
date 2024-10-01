@@ -31,6 +31,7 @@ import com.amtech.shariahEquities.notification.modelwatchlist.ModelWatchList
 import com.amtech.shariahEquities.notification.modelwatchlist.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.REQUEST_CODE
 import com.google.android.material.snackbar.Snackbar
@@ -116,8 +117,8 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
     private fun filterListByCompliance(selectedFilter: String) {
         val filteredList = when (selectedFilter) {
             "All" -> watchList
-            "Compliant" -> watchList.filter { it.complaint_type == 1 }
-            "Non-Compliant" -> watchList.filter { it.complaint_type == 0 }
+            "Compliant" -> watchList.filter { it.final == "PASS" }
+            "Non-Compliant" -> watchList.filter { it.final == "FAIL" }
             else -> watchList
         }
         setRecyclerViewAdapter(ArrayList(filteredList))
@@ -131,6 +132,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
     }
 
     private fun apiCallGetWatchList() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getWatchList(sessionManager.id.toString())
             .enqueue(object : Callback<ModelWatchList> {
@@ -169,6 +177,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
 
     private fun apiCallGetWatchListRe() {
         //  AppProgressBar.showLoaderDialog(context)
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.getWatchList(sessionManager.id.toString())
             .enqueue(object : Callback<ModelWatchList> {
                 override fun onResponse(
@@ -304,6 +319,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
     }
 
     private fun apiDeleteWatchList(id: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.deleteWatchList(id, sessionManager.id.toString())
             .enqueue(object : Callback<ModuleDeleteWatchList> {
                 override fun onResponse(

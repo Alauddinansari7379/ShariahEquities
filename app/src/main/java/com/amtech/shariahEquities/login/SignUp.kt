@@ -1,6 +1,7 @@
 package com.amtech.shariahEquities.login
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,6 +17,7 @@ import com.amtech.shariahEquities.login.modelemailotp.ModelOTP
 import com.sellacha.tlismiherbs.databinding.ActivitySignUpBinding
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 
 import retrofit2.Call
@@ -149,6 +151,13 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun apiCallSendOTP() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.sendOTP(
             binding.edtEmail.text.toString().trim(),
@@ -204,6 +213,13 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun apiCallSignUp() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.signUp(
             binding.edtFullName.text.toString().trim(),

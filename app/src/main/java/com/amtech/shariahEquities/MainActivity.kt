@@ -36,6 +36,7 @@ import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.example.tlismimoti.Helper.currentDate
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -419,7 +420,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun apiCallUpdateSubscription() {
 //        AppProgressBar.showLoaderDialog(context)
-
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
 
         ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "0",
             currentDate,currentDate)

@@ -14,6 +14,7 @@ import com.amtech.shariahEquities.modelCompany.ModelCompanyList
 import com.amtech.shariahEquities.modelCompany.Result
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.databinding.FragmentFundsBinding
 import retrofit2.Call
@@ -110,6 +111,13 @@ class FundsFragment : Fragment() {
 
 
     private fun apiCallGetCompanyList() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getCompanyList()
             .enqueue(object : Callback<ModelCompanyList> {

@@ -29,6 +29,7 @@ import com.amtech.shariahEquities.notification.adapter.moduledeletewatchlist.Mod
 import com.amtech.shariahEquities.payment.Payment
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sellacha.tlismiherbs.R
@@ -118,6 +119,13 @@ class BasketsFragment : Fragment(), AdapterBasket.Delete {
 
     private fun apiCallGetCompanyList() {
         // AppProgressBar.showLoaderDialog(context)
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.getCompanyList()
             .enqueue(object : Callback<ModelCompanyList> {
                 @SuppressLint("SetTextI18n")
@@ -162,6 +170,13 @@ class BasketsFragment : Fragment(), AdapterBasket.Delete {
     }
 
     fun addBasketList(basket: String, description: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         val companyIdsArray = selectedCompanies.map { it.id.toString() }
         val formattedString =
@@ -235,6 +250,13 @@ class BasketsFragment : Fragment(), AdapterBasket.Delete {
 
 
     private fun apiCallGetBasketList() {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.allBasketList(sessionManager.id.toString())
             .enqueue(object : Callback<ModelGetBasket> {
@@ -382,6 +404,13 @@ class BasketsFragment : Fragment(), AdapterBasket.Delete {
     }
 
     private fun apiDeleteWatchList(id: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.deleteBasket(sessionManager.id.toString(), id)
             .enqueue(object : Callback<ModuleDeleteWatchList> {
                 override fun onResponse(

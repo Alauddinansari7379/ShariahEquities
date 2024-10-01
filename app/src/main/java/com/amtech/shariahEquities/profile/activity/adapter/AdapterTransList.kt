@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.fragments.BasketsList
 import com.amtech.shariahEquities.profile.activity.model.Result
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
+import com.example.tlismimoti.Helper.myToast
 import com.sellacha.tlismiherbs.databinding.SingleRowBasketListBinding
 import com.sellacha.tlismiherbs.databinding.SingleRowTransListBinding
 import org.json.JSONArray
@@ -40,22 +42,29 @@ class AdapterTransList(
             with(holder) {
                 with(list[position]) {
                     binding.tvTransId.text = transaction_id
-                    if (paymentStatus=="PAYMENT_SUC"){
+                    if (paymentStatus == "PAYMENT_SUC") {
                         binding.tvPaymentStatus.text = "Success"
                     }
                     binding.tvPaymentDate.text = paymentDate
                     binding.tvPrice.text = amount.toString()
 
 
- //                    binding.btnView.setOnClickListener {
+                    //                    binding.btnView.setOnClickListener {
 //                        val intent = Intent(context as Activity, BasketsList::class.java)
 //                            .putExtra("basketId", id.toString())
 //                        context.startActivity(intent)
 //                    }
 
                     binding.imgDownload.setOnClickListener {
-                       // delete.delete(id.toString())
-                        download.downloadInvoice(paymentId.toString())
+                        // delete.delete(id.toString())
+                        if (!isInternetAvailable(context)) {
+                            myToast(
+                                context as Activity,
+                                "No internet connection. Please check your network settings."
+                            )
+                        } else {
+                            download.downloadInvoice(paymentId.toString())
+                        }
 
                     }
                 }

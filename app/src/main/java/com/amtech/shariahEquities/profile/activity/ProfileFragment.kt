@@ -8,8 +8,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +16,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -32,12 +28,12 @@ import com.amtech.shariahEquities.profile.activity.adapter.AdapterTransList
 import com.amtech.shariahEquities.profile.activity.model.ModelTransList
 import com.amtech.shariahEquities.retrofit.ApiClient
 import com.amtech.shariahEquities.sharedpreferences.SessionManager
+import com.example.tlismimoti.Helper.isInternetAvailable
 import com.example.tlismimoti.Helper.myToast
-import com.google.android.gms.common.api.Api
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rajat.pdfviewer.PdfViewerActivity
 import com.sellacha.tlismiherbs.R
- import com.sellacha.tlismiherbs.databinding.FragmentProfileNewBinding
+import com.sellacha.tlismiherbs.databinding.FragmentProfileNewBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -264,6 +260,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
             }
 
             cardTransaction.setOnClickListener {
+                apiTransList()
                 showTransDialog()
             }
 
@@ -375,6 +372,13 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
         }
     }
     private fun apiCallResetPass(email: String, pass: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.resetPass(
             email,
@@ -428,6 +432,13 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
     }
     private fun apiTransList() {
        // AppProgressBar.showLoaderDialog(context)
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         ApiClient.apiService.transList(
             sessionManager.id.toString()
         )
@@ -480,6 +491,13 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
     }
 
      private fun apiCallDeleteAccount() {
+         if (!isInternetAvailable(context as Activity)) {
+             myToast(
+                 context as Activity,
+                 "No internet connection. Please check your network settings."
+             )
+             return
+         }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.deleteUser(sessionManager.id.toString())
             .enqueue(object : Callback<ModelResetPass> {
@@ -523,6 +541,13 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
             })
     }
     fun apiCallDownloadPdfAndOpen(userId: String, paymentId: String) {
+        if (!isInternetAvailable(context as Activity)) {
+            myToast(
+                context as Activity,
+                "No internet connection. Please check your network settings."
+            )
+            return
+        }
         AppProgressBar.showLoaderDialog(context)
         ApiClient.apiService.getInvoice(userId, paymentId).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
