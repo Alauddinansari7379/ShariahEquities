@@ -247,8 +247,7 @@ class SignUp : AppCompatActivity() {
                             myToast(context, response.body()!!.message)
                             if (response.body()!!.status == 1) {
                                 val intent = Intent(applicationContext, Login::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                                 finish()
                                 startActivity(intent)
                                 AppProgressBar.hideLoaderDialog()

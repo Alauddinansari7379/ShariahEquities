@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.Toast
@@ -60,7 +61,7 @@ class Payment : AppCompatActivity() {
     private var endDate = ""
     private var apiEndPoint = "/pg/v1/pay"
     lateinit var sessionManager: SessionManager
-    private var isMonthlySubscriotion = ""
+    private var subscriptionType = ""
 
     //  val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
     //  val salt = "31f2f717-3d37-4d52-a36c-51f54c04c664" // salt key
@@ -72,6 +73,9 @@ class Payment : AppCompatActivity() {
     val BASE_URL = "https://api-preprod.phonepe.com/"
     lateinit var monthRange: Pair<String, String>
     lateinit var yearRange: Pair<String, String>
+    lateinit var weekRange: Pair<String, String>
+    private var subscriptionStatus = 0
+    private var isTrailDone = 0
 
 //    var apiEndPoint = "/pg/v1/pay"
 //    val salt = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399" // salt key
@@ -91,6 +95,7 @@ class Payment : AppCompatActivity() {
             ""
         )
         getDateRanges()
+        getSevenDayRange()
         try {
             val upiApps = PhonePe.getUpiApps()
             Log.e("UPIAPPS", upiApps.toString())
@@ -101,31 +106,84 @@ class Payment : AppCompatActivity() {
             imgBack.setOnClickListener {
                 onBackPressed()
             }
+            if (sessionManager.isTrailDone.equals("1"))
+            {
+                cardFreeTrail.visibility = View.GONE
+            }
 
             radioYear.isChecked = true
             radioMonth.isChecked = false
-            val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+            radioFreeTrail.isChecked = false
+            val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//green
             cardMonth.backgroundTintList = colorStateList
-            val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))
+            val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//gray
             cardYear.backgroundTintList = colorStateList1
-
-            cardMonth.setOnClickListener {
+//            cardFreeTrail.backgroundTintList = colorStateList1
+            radioMonth.setOnClickListener {
                 radioMonth.isChecked = true
                 radioYear.isChecked = false
+                radioFreeTrail.isChecked = false
 //                binding.cardYear.setCardBackgroundColor(Color.parseColor("#D8E6F1"))
 //                binding.cardMonth.setCardBackgroundColor(Color.parseColor("#D7F3C7"))//green
                 val colorStateList = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
                 cardMonth.backgroundTintList = colorStateList
-                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
                 cardYear.backgroundTintList = colorStateList1
+                cardFreeTrail.backgroundTintList = colorStateList1
+            }
+            radioYear.setOnClickListener {
+                radioYear.isChecked = true
+                radioMonth.isChecked = false
+                radioFreeTrail.isChecked = false
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
+                cardMonth.backgroundTintList = colorStateList
+                cardFreeTrail.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
+                cardYear.backgroundTintList = colorStateList1
+            }
+            radioFreeTrail . setOnClickListener {
+                radioYear.isChecked = false
+                radioMonth.isChecked = false
+                radioFreeTrail.isChecked = true
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
+                cardMonth.backgroundTintList = colorStateList
+                cardYear.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
+                cardFreeTrail.backgroundTintList = colorStateList1
+            }
+            cardMonth.setOnClickListener {
+                radioMonth.isChecked = true
+                radioYear.isChecked = false
+                radioFreeTrail.isChecked = false
+//                binding.cardYear.setCardBackgroundColor(Color.parseColor("#D8E6F1"))
+//                binding.cardMonth.setCardBackgroundColor(Color.parseColor("#D7F3C7"))//green
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
+                cardMonth.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
+                cardYear.backgroundTintList = colorStateList1
+                cardFreeTrail.backgroundTintList = colorStateList1
             }
             cardYear.setOnClickListener {
                 radioYear.isChecked = true
                 radioMonth.isChecked = false
-                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))
+                radioFreeTrail.isChecked = false
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
                 cardMonth.backgroundTintList = colorStateList
-                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))
+                cardFreeTrail.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
                 cardYear.backgroundTintList = colorStateList1
+
+            }
+
+            cardFreeTrail.setOnClickListener {
+                radioYear.isChecked = false
+                radioMonth.isChecked = false
+                radioFreeTrail.isChecked = true
+                val colorStateList = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
+                cardMonth.backgroundTintList = colorStateList
+                cardYear.backgroundTintList = colorStateList
+                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D7F3C7"))//green
+                cardFreeTrail.backgroundTintList = colorStateList1
 
             }
 
@@ -139,11 +197,16 @@ class Payment : AppCompatActivity() {
             binding.btnPayNow.setOnClickListener {
 
                 if (radioMonth.isChecked) {
-                    amount = 599
-                    isMonthlySubscriotion="month"
+                    amount = 999
+                    subscriptionType = "month"
                 }
                 if (radioYear.isChecked) {
-                    amount = 5999
+                    amount = 9999
+                    subscriptionType = "year"
+                }
+                if (radioFreeTrail.isChecked) {
+                    subscriptionType = "trail"
+                    amount = 0
                 }
                 payment(amount)
             }
@@ -151,58 +214,69 @@ class Payment : AppCompatActivity() {
     }//Shariah Equities
 
     private fun payment(amount: Int) {
-        // Generate a unique transaction ID for each payment.
-        MERCHANT_TID = System.currentTimeMillis().toString()
 
-        // Prepare the data to be sent to PhonePe
-        val data = JSONObject().apply {
-            put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
-            put("merchantId", MERCHANT_ID)  // Your merchant ID
-            put("amount", 1 * 100)  // Amount in paisa (1 INR = 100 paisa)
-            put("mobileNumber", sessionManager.userMobile)  // Optional: Customer's mobile number
-            put("callbackUrl", "")  // Change to your actual callback URL in production
-            val paymentInstrument = JSONObject().apply {
-                put("type", "PAY_PAGE")
+        if (amount == 0) {
+            apiCallUpdateSubscription()
+        } else {
+            // Generate a unique transaction ID for each payment.
+            MERCHANT_TID = System.currentTimeMillis().toString()
+            // Prepare the data to be sent to PhonePe
+            val data = JSONObject().apply {
+                put("merchantTransactionId", MERCHANT_TID) // Unique transaction ID
+                put("merchantId", MERCHANT_ID)  // Your merchant ID
+                put("amount", amount * 100)  // Amount in paisa (1 INR = 100 paisa)
+                put(
+                    "mobileNumber",
+                    sessionManager.userMobile
+                )  // Optional: Customer's mobile number
+                put("callbackUrl", "")  // Change to your actual callback URL in production
+                val paymentInstrument = JSONObject().apply {
+                    put("type", "PAY_PAGE")
 //                        put("targetApp", "com.phonepe.app")
-                // Payment instrument type, should be PAY_PAGE for redirection
+                    // Payment instrument type, should be PAY_PAGE for redirection
+                }
+                put("paymentInstrument", paymentInstrument)  // Add payment instrument object
+                val deviceContext = JSONObject().apply {
+                    put("deviceOS", "ANDROID")  // Device OS context
+                }
+                put("deviceContext", deviceContext)  // Add device context object
             }
-            put("paymentInstrument", paymentInstrument)  // Add payment instrument object
-            val deviceContext = JSONObject().apply {
-                put("deviceOS", "ANDROID")  // Device OS context
+
+            // Convert the data to base64 encoding
+            val payloadBase64 = Base64.encodeToString(
+                data.toString().toByteArray(Charset.defaultCharset()),
+                Base64.NO_WRAP
+            )
+
+            // Generate the checksum: SHA256(base64 encoded payload + apiEndPoint + salt key) + ### + salt index
+            val checksum = sha256(payloadBase64 + apiEndPoint + salt) + "###1"
+
+            // Log the values for debugging purposes (optional, can be removed later)
+            Log.e("payloadBase64", "$payloadBase64")
+            Log.e("checksum", "$checksum")
+
+            // Create the payment request using the B2BPGRequestBuilder
+            val b2BPGRequest = B2BPGRequestBuilder()
+                .setData(payloadBase64)
+                .setChecksum(checksum)
+                .setUrl(apiEndPoint)
+                .build()
+
+            // Try to launch the PhonePe payment activity
+            try {
+                PhonePe.getImplicitIntent(context, b2BPGRequest, "")?.let {
+                    startActivityForResult(it, 1)  // Start the PhonePe payment activity
+                }
+            } catch (e: PhonePeInitException) {
+                Log.e(
+                    "PhonePayException",
+                    "${e.printStackTrace()}"
+                )  // Log any exception encountered
+                Toast.makeText(context, "Error initializing PhonePe", Toast.LENGTH_SHORT)
+                    .show()  // Notify the user
             }
-            put("deviceContext", deviceContext)  // Add device context object
         }
 
-        // Convert the data to base64 encoding
-        val payloadBase64 = Base64.encodeToString(
-            data.toString().toByteArray(Charset.defaultCharset()),
-            Base64.NO_WRAP
-        )
-
-        // Generate the checksum: SHA256(base64 encoded payload + apiEndPoint + salt key) + ### + salt index
-        val checksum = sha256(payloadBase64 + apiEndPoint + salt) + "###1"
-
-        // Log the values for debugging purposes (optional, can be removed later)
-        Log.e("payloadBase64", "$payloadBase64")
-        Log.e("checksum", "$checksum")
-
-        // Create the payment request using the B2BPGRequestBuilder
-        val b2BPGRequest = B2BPGRequestBuilder()
-            .setData(payloadBase64)
-            .setChecksum(checksum)
-            .setUrl(apiEndPoint)
-            .build()
-
-        // Try to launch the PhonePe payment activity
-        try {
-            PhonePe.getImplicitIntent(context, b2BPGRequest, "")?.let {
-                startActivityForResult(it, 1)  // Start the PhonePe payment activity
-            }
-        } catch (e: PhonePeInitException) {
-            Log.e("PhonePayException", "${e.printStackTrace()}")  // Log any exception encountered
-            Toast.makeText(context, "Error initializing PhonePe", Toast.LENGTH_SHORT)
-                .show()  // Notify the user
-        }
 
     }
 
@@ -270,7 +344,7 @@ class Payment : AppCompatActivity() {
 
                                 }
                             }
-                            apiCallSavePaymentRec(it.code,it.data.merchantTransactionId)
+                            apiCallSavePaymentRec(it.code, it.data.merchantTransactionId)
                         }
                     } else {
                         Log.e("PhonePeError", "Error: ${response.errorBody()?.string()}")
@@ -298,16 +372,28 @@ class Payment : AppCompatActivity() {
             return
         }
         AppProgressBar.showLoaderDialog(context)
-        if (isMonthlySubscriotion.equals("month"))
-        {
-            startDate =monthRange.first
-            endDate =monthRange.second
-        }else
-        {
-            startDate =yearRange.first
-            endDate =yearRange.second
+        if (subscriptionType == "month") {
+            startDate = monthRange.first
+            endDate = monthRange.second
+            subscriptionStatus = 1
+            isTrailDone = 0
+        } else if (subscriptionType == "year") {
+            startDate = yearRange.first
+            endDate = yearRange.second
+            subscriptionStatus = 1
+            isTrailDone = 0
+        } else if (subscriptionType == "trail") {
+            startDate = weekRange.first
+            endDate = weekRange.second
+            subscriptionStatus = 2
+            isTrailDone = 1
         }
-        ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "1",startDate,endDate)
+        ApiClient.apiService.updateSubscription(
+            sessionManager.id.toString(),
+            subscriptionStatus.toString(),
+            startDate,
+            endDate,isTrailDone.toString()
+        )
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("LogNotTimber", "SetTextI18n")
                 override fun onResponse(
@@ -325,11 +411,12 @@ class Payment : AppCompatActivity() {
                             AppProgressBar.hideLoaderDialog()
                         } else {
                             if (response.body()!!.status == 1) {
-                                sessionManager.subscribed = "1"
+                                sessionManager.subscribed = subscriptionStatus.toString()
                                 sessionManager.startDate = startDate
                                 sessionManager.endDate = endDate
+                                sessionManager.isTrailDone = isTrailDone.toString()
                                 startFlowerRain()
-                              //  binding.rainview.showAnimation()
+                                //  binding.rainview.showAnimation()
                                 val di = SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
                                 di.setTitleText("Exclusive Access Unlocked!")
                                 di.setContentText("You've unlocked all the best features. Enjoy!")
@@ -373,6 +460,7 @@ class Payment : AppCompatActivity() {
                 }
             })
     }
+
     private fun apiCallSavePaymentRec(paymentStatues: String, merchantTransactionId: String) {
         if (!isInternetAvailable(context as Activity)) {
             myToast(
@@ -381,9 +469,11 @@ class Payment : AppCompatActivity() {
             )
             return
         }
-       // AppProgressBar.showLoaderDialog(context)
-        ApiClient.apiService.savePaymentRec(sessionManager.id.toString(), MERCHANT_TID,
-            amount.toString(), paymentStatues, "Online", merchantTransactionId)
+        // AppProgressBar.showLoaderDialog(context)
+        ApiClient.apiService.savePaymentRec(
+            sessionManager.id.toString(), MERCHANT_TID,
+            amount.toString(), paymentStatues, "Online", merchantTransactionId
+        )
             .enqueue(object : Callback<ModelCreatePayment> {
                 @SuppressLint("LogNotTimber", "SetTextI18n")
                 override fun onResponse(
@@ -417,7 +507,7 @@ class Payment : AppCompatActivity() {
                     AppProgressBar.hideLoaderDialog()
                     countC++
                     if (countC <= 3) {
-                        apiCallSavePaymentRec(paymentStatues,merchantTransactionId)
+                        apiCallSavePaymentRec(paymentStatues, merchantTransactionId)
                     } else {
                         myToast(
                             this@Payment,
@@ -427,8 +517,10 @@ class Payment : AppCompatActivity() {
                 }
             })
     }
+
     private fun startFlowerRain() {
-        binding.rainview.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        binding.rainview.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 binding.rainview.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 for (i in 1..10) { // Change the number for more/less flowers
@@ -462,16 +554,18 @@ class Payment : AppCompatActivity() {
         })
     }
 
-      fun refresh() {
+    fun refresh() {
         overridePendingTransition(0, 0)
         finish()
         startActivity(intent)
         overridePendingTransition(0, 0)
     }
+
     override fun onStop() {
         super.onStop()
-       // binding.rainview.animationClear()
+        // binding.rainview.animationClear()
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDateRanges() {
         val today = LocalDate.now()
@@ -491,5 +585,21 @@ class Payment : AppCompatActivity() {
         // Assign values to global variables
         monthRange = Pair(todayFormatted, oneMonthFormatted)
         yearRange = Pair(todayFormatted, oneYearFormatted)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getSevenDayRange() {
+        val today = LocalDate.now()
+
+        // Get the date 7 days from today
+        val sevenDaysFromToday = today.plus(7, ChronoUnit.DAYS)
+
+        // Format the dates as strings
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val todayFormatted = today.format(formatter)
+        val sevenDaysFormatted = sevenDaysFromToday.format(formatter)
+
+        // Assign values to global variable
+        weekRange = Pair(todayFormatted, sevenDaysFormatted)
     }
 }

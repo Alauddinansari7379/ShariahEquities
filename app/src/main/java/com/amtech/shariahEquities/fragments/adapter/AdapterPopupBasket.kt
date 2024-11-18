@@ -10,26 +10,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.modelCompany.Result
 import com.sellacha.tlismiherbs.databinding.SingleRowPopupBasketBinding
 
-class AdapterPopupBasket (
+class AdapterPopupBasket(
     val context: Context, private val onItemChecked: (Result, Boolean) -> Unit,
 ) : ListAdapter<Result, AdapterPopupBasket.StockViewHolder>(DiffCallback()) {
 
     private var showCheckboxes = false
     private val selectedItems: MutableMap<Long, Boolean> = mutableMapOf()
 
-    inner class StockViewHolder(val binding: SingleRowPopupBasketBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class StockViewHolder(val binding: SingleRowPopupBasketBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(result: Result) {
             binding.apply {
-                 companyName.text = result.name_of_company
+                companyName.text = result.name_of_company
                 companySymbol.text = result.symbol
-                if (result.final == "PASS") {
+                if (result.final == "PASS" && result.financial_screening == "PASS") {
                     binding.complianceTag.visibility = View.VISIBLE
                     binding.nonComplianceTag.visibility = View.GONE
+                } else if (result.final == "PASS" && result.financial_screening == "FAIL") {
+                    binding.nonComplianceTag.visibility = View.VISIBLE
+                    binding.complianceTag.visibility = View.GONE
                 } else {
                     binding.nonComplianceTag.visibility = View.VISIBLE
                     binding.complianceTag.visibility = View.GONE
 
                 }
+
                 checkbox.setOnCheckedChangeListener(null)
                 checkbox.isChecked = selectedItems[result.id.toLong()] ?: false
 //                checkbox.visibility = if (showCheckboxes) View.VISIBLE else View.GONE
@@ -44,7 +49,8 @@ class AdapterPopupBasket (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
-        val binding = SingleRowPopupBasketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            SingleRowPopupBasketBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StockViewHolder(binding)
     }
 
@@ -60,15 +66,17 @@ class AdapterPopupBasket (
     fun getSelectedItems(): List<Result> {
         return currentList.filter { selectedItems[it.id.toLong()] == true }
     }
+
     fun clearSelectedItems() {
         selectedItems.clear()
         notifyDataSetChanged()
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<Result>() {//refresh the changed data
-    override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
-        return oldItem.id == newItem.id
-    }
+    private class DiffCallback : DiffUtil.ItemCallback<Result>() {
+        //refresh the changed data
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+            return oldItem.id == newItem.id
+        }
 
         override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem == newItem

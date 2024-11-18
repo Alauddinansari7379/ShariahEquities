@@ -429,7 +429,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         ApiClient.apiService.updateSubscription(sessionManager.id.toString(), "0",
-            currentDate,currentDate)
+            currentDate,currentDate,"1")
             .enqueue(object : Callback<ModelResetPass> {
                 @SuppressLint("LogNotTimber", "SetTextI18n")
                 override fun onResponse(
@@ -451,6 +451,7 @@ class MainActivity : AppCompatActivity() {
                                 sessionManager.subscribed = "0"
                                 sessionManager.startDate = ""
                                 sessionManager.endDate = ""
+                                sessionManager.isTrailDone = "1"
 
                                 val di = SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                                 di.setTitleText("Subscription expired!")

@@ -118,30 +118,56 @@ class ComplianceReportActivity : AppCompatActivity() {
         }
 
     }
+//    private fun setupPieChartColor(final: String) {
+//        // Check if the PieChart already has data
+//        if (binding.pieChartView.data == null || binding.pieChartView.data.dataSet == null) {
+//            // If not, initialize it with default entries so we can set the color
+//            val entries = listOf(
+//                PieEntry(1f, ""), // Placeholder value
+//            )
+//            val dataSet = PieDataSet(entries, "")
+//            binding.pieChartView.data = PieData(dataSet)
+//        }
+//
+//        // Retrieve the dataset
+//        val dataSet = binding.pieChartView.data.dataSet as PieDataSet
+//
+//        // Set color based on the "final" value
+//        dataSet.colors = if (final.equals("PASS", ignoreCase = true)) {
+//            listOf(ContextCompat.getColor(context, R.color.green)) // Set entire pie to green
+//        } else {
+//            listOf(Color.RED) // Set entire pie to red
+//        }
+//
+//        // Refresh the chart to apply the new colors
+//        binding.pieChartView.invalidate()
+//    }
 
-    private fun setupPieChart(interestIncome: String, fl: Float) {
-        val entries = listOf(
-            PieEntry(interestIncome.toFloat(), "Complaint"),
-            PieEntry(fl, "Non-Complaint")
-//            PieEntry(0.97f, "Not Halal")
-        )
-        val dataSet = PieDataSet(entries, "").apply {
-            colors = listOf(
-                ContextCompat.getColor(
-                    context,
-                    R.color.green
-                ),   // Convert resource ID to color value
-                ContextCompat.getColor(context, R.color.yellow),
-                Color.RED // This is already a color value, so no need to convert
-            )
-            valueTextColor = Color.BLACK
-            valueTextSize = 12f
-        }
 
-        val pieData = PieData(dataSet)
-        binding.pieChartView.data = pieData
-        binding.pieChartView.invalidate()
-    }
+
+//    private fun setupPieChart(interestIncome: String, fl: Float) {
+//        val entries = listOf(
+//            PieEntry(interestIncome.toFloat(), "Compliant"),
+//            PieEntry(fl, "Non-Compliant")
+////            PieEntry(0.97f, "Not Halal")
+//        )
+//        val dataSet = PieDataSet(entries, "").apply {
+//            colors = listOf(
+//                ContextCompat.getColor(
+//                    context,
+//                    R.color.green
+//                ),   // Convert resource ID to color value
+//                ContextCompat.getColor(context, R.color.yellow),
+//                Color.RED // This is already a color value, so no need to convert
+//            )
+//            valueTextColor = Color.BLACK
+//            valueTextSize = 12f
+//        }
+//
+//        val pieData = PieData(dataSet)
+//        binding.pieChartView.data = pieData
+//        binding.pieChartView.invalidate()
+//    }
 
     private fun setupPieChartFin(interestIncome: String, fl: Float) {
         val entries = listOf(
@@ -171,7 +197,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
         range.from = 0.0
-        range.to = 30.0
+        range.to = 5.0
 
 //        val range2 = Range()
 //        range2.color = Color.parseColor("#E3E500")
@@ -180,7 +206,7 @@ class ComplianceReportActivity : AppCompatActivity() {
 
         val range3 = Range()
         range3.color = Color.parseColor("#ce0000")
-        range3.from = 30.0
+        range3.from = 5.0
         range3.to = 100.0
 
 
@@ -351,9 +377,13 @@ class ComplianceReportActivity : AppCompatActivity() {
                                         ?: "0.00") + "%"
                                 if (response.body()!!.result.final.contentEquals("PASS")) {
                                     binding.llBusiness.visibility = View.VISIBLE
+                                    binding.businessChartgreen.visibility = View.VISIBLE
+                                    binding.businessChartred.visibility = View.GONE
                                 } else {
                                     binding.llBusinessFail.visibility = View.VISIBLE
                                     binding.layoutFinancial.visibility = View.GONE
+                                    binding.businessChartgreen.visibility = View.GONE
+                                    binding.businessChartred.visibility = View.VISIBLE
 
                                 }
                                 if (response.body()!!.result.financial_screening != null && response.body()!!.result.financial_screening.contentEquals(
@@ -392,12 +422,13 @@ class ComplianceReportActivity : AppCompatActivity() {
                                     (marketCap2 / maxValue2 * 100).toInt().coerceIn(0, 100)
                                 ProgressBarNon.progress = progress2
 
-                                setupPieChart(
-                                    response.body()?.result?.debts_market_cap?.takeIf { !it.isNullOrEmpty() }
-                                        ?: "0",
-                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
-                                        ?: 0f
-                                )
+//                                setupPieChart(
+//                                    response.body()?.result?.debts_market_cap?.takeIf { !it.isNullOrEmpty() }
+//                                        ?: "0",
+//                                    response.body()?.result?.interest_bearing_securities_market_cap?.toFloatOrNull()
+//                                        ?: 0f
+//                                )
+//                                setupPieChartColor(response.body()?.result?.final.toString())
 
                                 setupPieChartFin(
                                     response.body()?.result?.interest_income?.takeIf { !it.isNullOrEmpty() }
@@ -406,10 +437,15 @@ class ComplianceReportActivity : AppCompatActivity() {
                                         ?: 0f
                                 )
 
-                                if (response.body()?.result?.final == "PASS") {
+                                if (response.body()?.result?.final == "PASS" && response.body()?.result?.financial_screening == "PASS") {
                                     binding.complianceTag.visibility = View.VISIBLE
                                     binding.nonComplianceTag.visibility = View.GONE
-                                } else {
+                                } else  if (response.body()?.result?.final == "PASS" && response.body()?.result?.financial_screening == "FAIL")
+                                {
+                                    binding.nonComplianceTag.visibility = View.VISIBLE
+                                    binding.complianceTag.visibility = View.GONE
+                                }else
+                                {
                                     binding.nonComplianceTag.visibility = View.VISIBLE
                                     binding.complianceTag.visibility = View.GONE
 

@@ -265,12 +265,16 @@ class StocksFragment : Fragment() {
     private fun filterList() {
         var filteredList = companyList
 
+//        filteredList = when (selectedCompliance) {
+//            "Compliant" -> filteredList.filter { it.final == "PASS" } as ArrayList<Result>
+//            "Non-Compliant" -> filteredList.filter { it.final == "FAIL" } as ArrayList<Result>
+//            else -> filteredList
+//        }
         filteredList = when (selectedCompliance) {
-            "Compliant" -> filteredList.filter { it.final == "PASS" } as ArrayList<Result>
-            "Non-Compliant" -> filteredList.filter { it.final == "FAIL" } as ArrayList<Result>
+            "Compliant" -> filteredList.filter { it.final == "PASS" && it.financial_screening == "PASS" }
+            "Non-Compliant" -> filteredList.filter { it.final == "FAIL" || it.financial_screening == "FAIL" }
             else -> filteredList
-        }
-
+        } as ArrayList<Result>
 
         filteredList = when (selectedExchange) {
             "BSE" -> filteredList.filter { it.exchange == "BSE" } as ArrayList<Result>

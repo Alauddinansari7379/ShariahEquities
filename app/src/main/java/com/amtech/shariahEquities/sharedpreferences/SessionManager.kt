@@ -33,6 +33,7 @@ class SessionManager(context: Context?) {
         private const val SUBSCRIBED = "Subscribed"
         private const val STARTDATE = "StartDate"
         private const val ENDDATE = "EndDate"
+        private const val ISTRAILDONE = "Istraildone"
          private const val STATUS = "status"
 
     }
@@ -114,6 +115,11 @@ class SessionManager(context: Context?) {
         get() = prefs.getString(ENDDATE, "")
         set(endDate) {
             prefs.edit().putString(ENDDATE, endDate).apply()
+        }
+    var isTrailDone: String?
+        get() = prefs.getString(ISTRAILDONE, "")
+        set(isTrailDone) {
+            prefs.edit().putString(ISTRAILDONE, isTrailDone).apply()
         }
     var latitude: String?
         get() = prefs.getString(LATITUDE, "")

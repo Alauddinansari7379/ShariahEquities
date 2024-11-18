@@ -34,13 +34,18 @@ class AdapterSearch(
             binding.apply {
                 companyName.text = result.name_of_company
                 companySymbol.text = result.nse_symbol_bse_script_id
-                if (result.final == "PASS") {
-                    binding.complianceTag.visibility = View.VISIBLE
-                    binding.nonComplianceTag.visibility = View.GONE
-                } else {
-                    binding.nonComplianceTag.visibility = View.VISIBLE
-                    binding.complianceTag.visibility = View.GONE
+                if (sessionManager.subscribed.toString() != "0"){
+                    if (result.final == "PASS" && result.financial_screening == "PASS") {
+                        binding.complianceTag.visibility = View.VISIBLE
+                        binding.nonComplianceTag.visibility = View.GONE
+                    } else if (result.final == "PASS" && result.financial_screening == "FAIL") {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
+                    } else {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
 
+                    }
                 }
 
                 checkbox.setOnCheckedChangeListener(null)
@@ -69,7 +74,7 @@ class AdapterSearch(
 //                            }
 //                            .show()
 //                    } else {
-                        addWatchList.addWatchList(result.id.toString())
+                    addWatchList.addWatchList(result.id.toString())
 //                    }
                 }
                 binding.root.setOnClickListener {

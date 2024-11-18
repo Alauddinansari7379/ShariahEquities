@@ -126,6 +126,7 @@ interface ApiInterface {
         @Query("value") value:String,
         @Query("start_date") start_date:String,
         @Query("end_date") end_date:String,
+        @Query("isTrailDone") isTrailDone:String,
       ): Call<ModelResetPass>
 
     @POST("create_payment")

@@ -100,29 +100,31 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                               <LinearLayout
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:orientation="horizontal">
-                                   <TextView
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:layout_weight="1"
-                                       android:fontFamily="@font/poppins_semi_bold"
-                                       android:text="Symbol : "
-                                       android:textColor="@color/black"
-                                       android:textSize="12sp" />
-                                   <TextView
-                                       android:id="@+id/companySymbol"
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:layout_weight="1"
-                                       android:fontFamily="@font/poppins_regular"
-                                       android:text="NA"
-                                       android:textColor="@color/black"
-                                       android:textSize="12sp" />
-                               </LinearLayout>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_semi_bold"
+                                        android:text="Symbol : "
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:id="@+id/companySymbol"
+
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="NA"
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -182,25 +184,28 @@
                                 </LinearLayout>
 
                             </androidx.appcompat.widget.LinearLayoutCompat>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_semi_bold"
-                                android:text="Industry group : "
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+
                                 <TextView
-                                android:id="@+id/tvIndustryGroup"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:text="NA"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_semi_bold"
+                                    android:text="Industry group : "
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvIndustryGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="NA"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -353,10 +358,25 @@
                         android:layout_marginTop="16dp"
                         android:orientation="vertical">
 
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/pieChartView"
+                        <!--                        <com.github.mikephil.charting.charts.PieChart-->
+                        <!--                            android:id="@+id/pieChartView"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="200dp" />-->
+                        <ImageView
+                            android:id="@+id/businessChartred"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp" />
+                            android:layout_height="200dp"
+                            android:visibility="gone"
+                            android:backgroundTint="@color/white"
+                            android:src="@drawable/red_img" />
+                        <ImageView
+                            android:id="@+id/businessChartgreen"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:visibility="gone"
+                            android:backgroundTint="@color/white"
+                            android:background="@color/white"
+                            android:src="@drawable/green_img" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -448,7 +468,39 @@
 
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:contentDescription="Checked"
+                            android:src="@drawable/checked" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_semi_bold"
+                            android:text="Interest-bearing income"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semi_bold"
+                            android:text="0.00%"
+                            android:textColor="@android:color/holo_green_dark"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/layoutFinancialSub"
                         android:layout_width="match_parent"
@@ -472,61 +524,71 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center">>
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="30dp"
-                                android:background="@color/green"/>
+                                android:background="@color/green" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:orientation="vertical">
+
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Compliant"
+                                    android:text="Compliant "
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
+
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
-                                    android:text="Less than 30%"
+                                    android:text="Less than 5%"
                                     android:textSize="9sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_gravity="center">
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="30dp"
-                                android:background="@color/red_btn_bg_color"/>
+                                android:background="@color/red_btn_bg_color" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:orientation="vertical">
+
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Non-compliant"
+                                    android:text="Non-compliant "
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
+
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
-                                    android:text="Grater than 30%"
+                                    android:text="Grater than 5%"
                                     android:textSize="9sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -590,19 +652,23 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
                                 android:layout_gravity="center" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center">>
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/green"/>
+                                    android:background="@color/green" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -610,6 +676,7 @@
                                         android:text="Compliant"
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -619,27 +686,32 @@
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_gravity="center">
+                                android:layout_gravity="center"
+                                android:gravity="center">
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/red_btn_bg_color"/>
+                                    android:background="@color/red_btn_bg_color" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
-                                        android:text="Non-compliant"
+                                        android:text="Non-compliant "
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -832,19 +904,23 @@
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
                                 android:layout_gravity="center" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center">>
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/green"/>
+                                    android:background="@color/green" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -852,6 +928,7 @@
                                         android:text="Compliant"
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -861,27 +938,32 @@
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_gravity="center">
+                                android:layout_gravity="center"
+                                android:gravity="center">
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/red_btn_bg_color"/>
+                                    android:background="@color/red_btn_bg_color" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
-                                        android:text="Non-compliant"
+                                        android:text="Non-compliant "
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -1058,7 +1140,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="gone">
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/ivNonPermissibleIncStatus"
@@ -1066,8 +1149,7 @@
                                     android:layout_height="20dp"
                                     android:layout_marginEnd="8dp"
                                     android:contentDescription="Checked"
-                                    android:src="@drawable/checked"
-                                    />
+                                    android:src="@drawable/checked" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="0dp"
@@ -1105,20 +1187,26 @@
                                 android:id="@+id/halfGaugeNon"
                                 android:layout_width="200dp"
                                 android:layout_height="200dp"
-                                android:layout_gravity="center" />
+                                android:layout_gravity="center"
+                                android:visibility="gone" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center">>
+                                android:layout_gravity="center"
+                                android:visibility="gone">>
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/green"/>
+                                    android:background="@color/green" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -1126,6 +1214,7 @@
                                         android:text="Compliant"
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -1135,27 +1224,33 @@
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:gravity="center"
-                                android:layout_gravity="center">
+                                android:visibility="gone">
+
                                 <View
                                     android:layout_width="15dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/red_btn_bg_color"/>
+                                    android:background="@color/red_btn_bg_color" />
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:orientation="vertical">
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/poppins_semi_bold"
-                                        android:text="Non-compliant"
+                                        android:text="Non-compliant "
                                         android:textSize="12sp"
                                         android:textStyle="bold" />
+
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -1173,7 +1268,8 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="The percentage of income generated from non-permissible activities, such as interest or other impermissible sources, should not exceed 5% of the company’s total income"
                                 android:textColor="@android:color/darker_gray"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:visibility="gone" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/disclaimer"

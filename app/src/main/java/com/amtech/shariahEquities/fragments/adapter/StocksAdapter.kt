@@ -41,13 +41,20 @@ class StocksAdapter(
                 binding.companyName.text = name_of_company
                 binding.companySymbol.text = nse_symbol_bse_script_id
                 binding.tvExchange.text = exchange
-                if (final == "PASS") {
-                    binding.complianceTag.visibility = View.VISIBLE
-                    binding.nonComplianceTag.visibility = View.GONE
-                } else {
-                    binding.nonComplianceTag.visibility = View.VISIBLE
-                    binding.complianceTag.visibility = View.GONE
+                if (sessionManager.subscribed.toString() != "0")  {
+                    if (final == "PASS" && financial_screening == "PASS") {
+                        binding.complianceTag.visibility = View.VISIBLE
+                        binding.nonComplianceTag.visibility = View.GONE
+                    }else if(final == "PASS" && financial_screening == "FAIL")
+                    {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
+                    }
+                    else {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
 
+                    }
                 }
 //                if (sessionManager.subscribed == "0") {
 //                     binding.nonComplianceTagBluer.visibility = View.VISIBLE

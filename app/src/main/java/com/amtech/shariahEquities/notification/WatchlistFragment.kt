@@ -81,7 +81,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
         })
         binding.btnExport.setOnClickListener {
             checkAndRequestStoragePermission()
-            exportToExcel()
+            if (sessionManager.subscribed.toString() != "0") {
+                exportToExcel()
+            }else
+            {
+                showExportToExcelPopup()
+            }
+
 
         }
         return binding.root
@@ -115,17 +121,22 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
     }
 
     private fun filterListByCompliance(selectedFilter: String) {
+//        val filteredList = when (selectedFilter) {
+//            "All" -> watchList
+//            "Compliant" -> watchList.filter { it.final == "PASS" }
+//            "Non-Compliant" -> watchList.filter { it.final == "FAIL" }
+//            else -> watchList
+//        }
         val filteredList = when (selectedFilter) {
-            "All" -> watchList
-            "Compliant" -> watchList.filter { it.final == "PASS" }
-            "Non-Compliant" -> watchList.filter { it.final == "FAIL" }
+            "Compliant" -> watchList.filter { it.final == "PASS" && it.financial_screening == "PASS" }
+            "Non-Compliant" -> watchList.filter { it.final == "FAIL" || it.financial_screening == "FAIL" }
             else -> watchList
-        }
+        } as ArrayList<Result>
         setRecyclerViewAdapter(ArrayList(filteredList))
     }
 
     private fun initRecyclerView() {
-        watchListAdapter = WatchListAdapter(watchList, this)
+        watchListAdapter = WatchListAdapter(context as Activity,watchList, this)
         binding.rvWatchlist.apply {
             adapter = watchListAdapter
         }
@@ -238,7 +249,7 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
 
     private fun setRecyclerViewAdapter(filteredList: ArrayList<Result>) {
         watchListAdapter =
-            WatchListAdapter(filteredList, this) // Update the adapter's data
+            WatchListAdapter(context as Activity,filteredList, this) // Update the adapter's data
         binding.rvWatchlist.adapter = watchListAdapter // Set the new adapter
         watchListAdapter.notifyDataSetChanged() // Notify the adapter about the data change
     }
@@ -303,6 +314,23 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
             .setConfirmClickListener { sDialog ->
                 sDialog.dismissWithAnimation()
                 apiDeleteWatchList(id)
+
+            }
+            .setCancelClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
+            }
+
+        sweetAlertDialog.setCanceledOnTouchOutside(false)
+        sweetAlertDialog.setCancelable(false)
+        sweetAlertDialog.show()
+    }
+    private fun showExportToExcelPopup() {
+        val sweetAlertDialog = SweetAlertDialog(requireContext(), SweetAlertDialog.WARNING_TYPE)
+            .setTitleText("Please upgrade your plan to use export to excel.")
+            .setConfirmText("Ok")
+            .showCancelButton(true)
+            .setConfirmClickListener { sDialog ->
+                sDialog.dismissWithAnimation()
 
             }
             .setCancelClickListener { sDialog ->
@@ -485,7 +513,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
             )
         } else {
             // Permission is already granted, proceed with export
-            exportToExcel()
+//            if (sessionManager.subscribed.toString() != "0") {
+//                exportToExcel()
+//            }else
+//            {
+//                showExportToExcelPopup()
+//            }
+
         }
     }
 
@@ -499,7 +533,13 @@ class WatchlistFragment : Fragment(), WatchListAdapter.Delete {
         if (requestCode == REQUEST_CODE) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 // Permission granted, proceed with export
-                exportToExcel()
+                if (sessionManager.subscribed.toString() != "0") {
+                    exportToExcel()
+                }else
+                {
+                    showExportToExcelPopup()
+                }
+
             } else {
                 // Permission denied, notify the user
                 myToast(requireActivity(), "Permission denied, unable to export Watchlist.")

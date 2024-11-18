@@ -154,7 +154,7 @@ class FundsFragment : Fragment() {
                                     compliant_status_interest_bearing_securities_market_cap = "",
                                     interest_income = "",
                                     compliant_status_interest_income = "",
-                                    financial_screening = "",
+                                    financial_screening = "PASS",
                                     created_at = "",
                                     // Add other fields as per your `Result` model
                                 )

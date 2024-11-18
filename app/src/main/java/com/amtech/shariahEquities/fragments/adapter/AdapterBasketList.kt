@@ -41,13 +41,15 @@ class AdapterBasketList(
                     binding.companySymbol.text = nse_symbol_bse_script_id
                     binding.companyName.text = name_of_company
                     binding.tvExchange.text = exchange
-                    if (final == "PASS") {
+                    if (final == "PASS" && financial_screening == "PASS") {
                         binding.complianceTag.visibility = View.VISIBLE
                         binding.nonComplianceTag.visibility = View.GONE
-                    } else {
+                    } else if (final == "PASS" && financial_screening == "FAIL") {
                         binding.nonComplianceTag.visibility = View.VISIBLE
                         binding.complianceTag.visibility = View.GONE
-
+                    }else{
+                            binding.nonComplianceTag.visibility = View.VISIBLE
+                            binding.complianceTag.visibility = View.GONE
                     }
                     binding.imgDelete.setOnClickListener {
                         delete.delete(id.toString())

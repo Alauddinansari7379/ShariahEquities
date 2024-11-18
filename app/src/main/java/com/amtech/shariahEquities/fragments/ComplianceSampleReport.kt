@@ -98,7 +98,7 @@ class ComplianceSampleReport : AppCompatActivity() {
                 (marketCap2 / maxValue2 * 100).toInt().coerceIn(0, 100)
             ProgressBarNon.progress = progress2
 
-            setupPieChart("10", 15F)
+//            setupPieChart("10", 15F)
 
             setupPieChartFin("10", 15F)
 
@@ -107,29 +107,29 @@ class ComplianceSampleReport : AppCompatActivity() {
 
     }
 
-    private fun setupPieChart(interestIncome: String, fl: Float) {
-        val entries = listOf(
-            PieEntry(interestIncome.toFloat(), "Complaint"),
-            PieEntry(fl, "Non-Complaint")
-//            PieEntry(0.97f, "Not Halal")
-        )
-        val dataSet = PieDataSet(entries, "").apply {
-            colors = listOf(
-                ContextCompat.getColor(
-                    context,
-                    R.color.green
-                ),   // Convert resource ID to color value
-                ContextCompat.getColor(context, R.color.yellow),
-                Color.RED // This is already a color value, so no need to convert
-            )
-            valueTextColor = Color.BLACK
-            valueTextSize = 12f
-        }
-
-        val pieData = PieData(dataSet)
-        binding.pieChartView.data = pieData
-        binding.pieChartView.invalidate()
-    }
+//    private fun setupPieChart(interestIncome: String, fl: Float) {
+//        val entries = listOf(
+//            PieEntry(interestIncome.toFloat(), "Complaint"),
+//            PieEntry(fl, "Non-Complaint")
+////            PieEntry(0.97f, "Not Halal")
+//        )
+//        val dataSet = PieDataSet(entries, "").apply {
+//            colors = listOf(
+//                ContextCompat.getColor(
+//                    context,
+//                    R.color.green
+//                ),   // Convert resource ID to color value
+//                ContextCompat.getColor(context, R.color.yellow),
+//                Color.RED // This is already a color value, so no need to convert
+//            )
+//            valueTextColor = Color.BLACK
+//            valueTextSize = 12f
+//        }
+//
+//        val pieData = PieData(dataSet)
+//        binding.pieChartView.data = pieData
+//        binding.pieChartView.invalidate()
+//    }
 
     private fun setupPieChartFin(interestIncome: String, fl: Float) {
         val entries = listOf(
@@ -229,9 +229,11 @@ class ComplianceSampleReport : AppCompatActivity() {
                                         ?: "0.00") + "%"
                                 if (response.body()!!.result.final.contentEquals("PASS")) {
                                     binding.llBusiness.visibility = View.VISIBLE
+
                                 } else {
                                     binding.llBusinessFail.visibility = View.VISIBLE
                                     binding.layoutFinancial.visibility = View.GONE
+
 
                                 }
                                 if (response.body()!!.result.financial_screening != null && response.body()!!.result.financial_screening.contentEquals(

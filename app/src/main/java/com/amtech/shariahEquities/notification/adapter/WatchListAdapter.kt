@@ -9,12 +9,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amtech.shariahEquities.fragments.ComplianceReportActivity
 import com.amtech.shariahEquities.notification.modelwatchlist.Result
+import com.amtech.shariahEquities.sharedpreferences.SessionManager
 import com.sellacha.tlismiherbs.databinding.WatchlistItemBinding
 import retrofit2.http.DELETE
 
-class WatchListAdapter(
+class WatchListAdapter(val context: Context,
     private val watchList: ArrayList<Result>, val delete: Delete,
 ) : RecyclerView.Adapter<WatchListAdapter.MyViewHolder>() {
+
+    private lateinit var sessionManager: SessionManager
+
     class MyViewHolder(val binding: WatchlistItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -23,6 +27,7 @@ class WatchListAdapter(
             parent,
             false
         )
+        sessionManager = SessionManager(parent.context)
         return MyViewHolder(binding)
     }
 
@@ -38,19 +43,24 @@ class WatchListAdapter(
                 companyName.text = item.name_of_company
                 companySymbol.text = item.nse_symbol_bse_script_id
 
-                if (item.final == "PASS") {
-                    binding.complianceTag.visibility = View.VISIBLE
-                    binding.nonComplianceTag.visibility = View.GONE
-                } else {
-                    binding.nonComplianceTag.visibility = View.VISIBLE
-                    binding.complianceTag.visibility = View.GONE
+                if (sessionManager.subscribed.toString() != "0") {
+                    if (item.final == "PASS" && item.financial_screening == "PASS") {
+                        binding.complianceTag.visibility = View.VISIBLE
+                        binding.nonComplianceTag.visibility = View.GONE
+                    } else if (item.final == "PASS" && item.financial_screening == "FAIL") {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
+                    } else {
+                        binding.nonComplianceTag.visibility = View.VISIBLE
+                        binding.complianceTag.visibility = View.GONE
 
+                    }
                 }
-//                binding.root.setOnClickListener {
-//                    val intent = Intent(context, ComplianceReportActivity::class.java)
-//                    intent.putExtra("id", id)
-//                    context.startActivity(intent)
-//                }
+                binding.root.setOnClickListener {
+                    val intent = Intent(context, ComplianceReportActivity::class.java)
+                    intent.putExtra("id", item.company_id.toInt())
+                    context.startActivity(intent)
+                }
             }
         }
     }
@@ -77,6 +87,6 @@ class WatchListAdapter(
     }
 
     interface Delete {
-        fun delete(id:String)
+        fun delete(id: String)
     }
 }
