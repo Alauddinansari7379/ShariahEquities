@@ -75,7 +75,7 @@ class ComplianceReportActivity : AppCompatActivity() {
             startActivity(
                 PdfViewerActivity.launchPdfFromUrl(
                     context,
-                    "http://ehcf.in/public/Shariah_Equities_Screening_Methodology.pdf",
+                    "https://shariahequities.com/shariah_api/public/Shariah_Equities_Screening_Methodology.pdf",
                     "Screening Methodology",
                     "",
                     enableDownload = true
@@ -197,7 +197,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
         range.from = 0.0
-        range.to = 5.0
+        range.to = 3.0
 
 //        val range2 = Range()
 //        range2.color = Color.parseColor("#E3E500")
@@ -206,7 +206,7 @@ class ComplianceReportActivity : AppCompatActivity() {
 
         val range3 = Range()
         range3.color = Color.parseColor("#ce0000")
-        range3.from = 5.0
+        range3.from = 3.0
         range3.to = 100.0
 
 
@@ -231,7 +231,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         val range = Range()
         range.color = Color.parseColor("#00b20b")
         range.from = 0.0
-        range.to = 30.0
+        range.to = 27.0
 
 //        val range2 = Range()
 //        range2.color = Color.parseColor("#E3E500")
@@ -240,7 +240,7 @@ class ComplianceReportActivity : AppCompatActivity() {
 
         val range3 = Range()
         range3.color = Color.parseColor("#ce0000")
-        range3.from = 30.0
+        range3.from = 27.0
         range3.to = 100.0
 
 

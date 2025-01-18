@@ -20,7 +20,7 @@ class PrivacyPolicy : AppCompatActivity() {
         link=intent.getStringExtra("link").toString()
         binding.appCompatTextView2.text=title
 //        if(title=="Privacy Policy"){
-//            link =  "http://ehcf.in/api/users/get_pdf?type=privacy"
+//            link =  "https://shariahequities.com/shariah_api//api/users/get_pdf?type=privacy"
 //        }else{
 //            link =  "https://shariahsecurities.com/contact-us-2/"
 //        }

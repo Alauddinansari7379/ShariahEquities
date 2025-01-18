@@ -171,7 +171,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
                 startActivity(
                      PdfViewerActivity.launchPdfFromUrl(
                         context,
-                        "http://ehcf.in/public/Privacy_policy.pdf",
+                        "https://shariahequities.com/shariah_api//public/Privacy_policy.pdf",
                         "Privacy Policy",
                         "",
                         enableDownload = true
@@ -186,7 +186,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
                 startActivity(
                     PdfViewerActivity.launchPdfFromUrl(
                         context,
-                        "http://ehcf.in/public/Return_&_Refund_Policy.pdf",
+                        "https://shariahequities.com/shariah_api//public/Return_&_Refund_Policy.pdf",
                         "Return & Refund Policy",
                         "",
                         enableDownload = true
@@ -197,7 +197,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
                 startActivity(
                     PdfViewerActivity.launchPdfFromUrl(
                         context,
-                        "http://ehcf.in/public/Shariah_Equities_Screening_Methodology.pdf",
+                        "https://shariahequities.com/shariah_api//public/Shariah_Equities_Screening_Methodology.pdf",
                         "Screening Methodology",
                         "",
                         enableDownload = true
@@ -208,7 +208,7 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
                 startActivity(
                     PdfViewerActivity.launchPdfFromUrl(
                         context,
-                        "http://ehcf.in/public/Shariah_Equities_Terms_and_Conditions.pdf",
+                        "https://shariahequities.com/shariah_api//public/Shariah_Equities_Terms_and_Conditions.pdf",
                         "Terms and Conditions",
                         "",
                         enableDownload = true
@@ -237,14 +237,14 @@ class ProfileFragment : Fragment(),AdapterTransList.Download {
             aboutConst.setOnClickListener {
                 val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                     .putExtra("title", "About Shariah Equities")
-                    .putExtra("link", "https://shariahequities.in")
+                    .putExtra("link", "https://shariahequities.com/about-2/")
                 (context as Activity).startActivity(intent)
             }
 
             cardFAQ.setOnClickListener {
                 val intent = Intent(context as Activity, PrivacyPolicy::class.java)
                     .putExtra("title", "FAQs")
-                    .putExtra("link", "https://shariahequities.in/faq/")
+                    .putExtra("link", "https://shariahequities.com/faq/")
                 (context as Activity).startActivity(intent)
             }
 
