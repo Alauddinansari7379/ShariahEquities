@@ -81,13 +81,13 @@
             android:id="@+id/appCompatTextView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
             android:gravity="start"
             android:text="Home"
-            android:fontFamily="@font/poppins_semi_bold"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:visibility="gone"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,13 +96,37 @@
         </androidx.appcompat.widget.AppCompatTextView>
 
         <LinearLayout
+            android:id="@+id/llExpireStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvExpire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:text="Your free trail will expire on"
+                android:textColor="@color/red" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/btnUpgrade"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:gravity="center"
             android:layout_marginEnd="20dp"
-            android:orientation="horizontal"
             android:background="@drawable/gradient_button"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -110,22 +134,22 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:background="@drawable/upgrade">
 
             </androidx.appcompat.widget.AppCompatImageView>
+
             <androidx.appcompat.widget.AppCompatTextView
-                 android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
                 android:layout_marginEnd="10dp"
-                android:text="Upgrade"
                 android:fontFamily="@font/poppins_regular"
+                android:gravity="start"
+                android:text="Upgrade"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                >
+                android:textStyle="bold">
 
             </androidx.appcompat.widget.AppCompatTextView>
         </LinearLayout>

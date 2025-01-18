@@ -58,7 +58,7 @@ class FundsAdapter(
 
 
                         }
-                        if (sessionManager.subscribed.toString() != "0")  {
+//                        if (sessionManager.subscribed.toString() != "0")  {
                             if (final == "PASS" && financial_screening == "PASS") {
                                 binding.complianceTag.visibility = View.VISIBLE
                                 binding.nonComplianceTag.visibility = View.GONE
@@ -71,7 +71,7 @@ class FundsAdapter(
                                 binding.complianceTag.visibility = View.GONE
 
                             }
-                        }
+//                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

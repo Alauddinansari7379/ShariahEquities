@@ -82,6 +82,7 @@ class Payment : AppCompatActivity() {
 //    val MERCHANT_ID = "PGTESTPAYUAT"  // Merhcant id
 //    val MERCHANT_TID = "txnId"
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,6 +110,10 @@ class Payment : AppCompatActivity() {
             if (sessionManager.isTrailDone.equals("1"))
             {
                 cardFreeTrail.visibility = View.GONE
+//                cardPlainExpair.visibility = View.VISIBLE
+//                val colorStateList1 = ColorStateList.valueOf(Color.parseColor("#D8E6F1"))//gray
+//                cardFreeTrail.backgroundTintList = colorStateList1
+//                tvPlainExpair.text = "Your plain will expire on ${sessionManager.endDate}"
             }
 
             radioYear.isChecked = true

@@ -43,7 +43,7 @@ class WatchListAdapter(val context: Context,
                 companyName.text = item.name_of_company
                 companySymbol.text = item.nse_symbol_bse_script_id
 
-                if (sessionManager.subscribed.toString() != "0") {
+//                if (sessionManager.subscribed.toString() != "0") {
                     if (item.final == "PASS" && item.financial_screening == "PASS") {
                         binding.complianceTag.visibility = View.VISIBLE
                         binding.nonComplianceTag.visibility = View.GONE
@@ -55,7 +55,7 @@ class WatchListAdapter(val context: Context,
                         binding.complianceTag.visibility = View.GONE
 
                     }
-                }
+//                }
                 binding.root.setOnClickListener {
                     val intent = Intent(context, ComplianceReportActivity::class.java)
                     intent.putExtra("id", item.company_id.toInt())

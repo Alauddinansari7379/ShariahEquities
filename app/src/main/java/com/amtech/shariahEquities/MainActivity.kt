@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var count = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -79,6 +79,11 @@ class MainActivity : AppCompatActivity() {
         {
             checkSubscriptionDateRange(sessionManager.startDate.toString(),sessionManager.endDate.toString())
 
+        }
+        if (sessionManager.isTrailDone.equals("1") && sessionManager.endDate!!.isNotEmpty())
+        {
+            binding.llExpireStatus.visibility = View.VISIBLE
+            binding.tvExpire.text = "Your plain will expire on ${sessionManager.endDate}"
         }
         if (sessionManager.subscribed.toString() != "0") {
             binding.btnUpgrade.visibility = View.GONE
