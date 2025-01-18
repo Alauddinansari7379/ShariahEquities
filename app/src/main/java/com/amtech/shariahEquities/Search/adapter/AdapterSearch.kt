@@ -49,7 +49,7 @@ class AdapterSearch(
                 }
 
                 checkbox.setOnCheckedChangeListener(null)
-                checkbox.isChecked = selectedItems[result.id.toLong()] ?: false
+                checkbox.isChecked = selectedItems[result.id!!.toLong()] ?: false
                 checkbox.visibility = if (showCheckboxes) View.VISIBLE else View.GONE
                 checkbox.setOnCheckedChangeListener { _, isChecked ->
                     selectedItems[result.id.toLong()] = isChecked
@@ -102,7 +102,7 @@ class AdapterSearch(
     }
 
     fun getSelectedItems(): List<Result> {
-        return currentList.filter { selectedItems[it.id.toLong()] == true }
+        return currentList.filter { selectedItems[it.id!!.toLong()] == true }
     }
 
     fun clearSelectedItems() {

@@ -331,8 +331,8 @@ class BasketsFragment : Fragment(), AdapterBasket.Delete {
                     recyclerView.scrollToPosition(0)
                 }
                 val filteredList = companyList.filter {
-                    it.name_of_company.contains(s.toString(), ignoreCase = true) ||
-                            it.nse_symbol_bse_script_id.contains(s.toString(), ignoreCase = true)
+                    it.name_of_company!!.contains(s.toString(), ignoreCase = true) ||
+                            it.nse_symbol_bse_script_id!!.contains(s.toString(), ignoreCase = true)
                 }
                 dialogAdapter.submitList(filteredList)
             }

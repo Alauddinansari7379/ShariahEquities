@@ -270,7 +270,7 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_semi_bold"
                     android:gravity="center"
-                    android:text="BUSINESS SCREENING"
+                    android:text="Qualitative Criteria"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -294,7 +294,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_regular"
-                            android:text="Business Activity Screen"
+                            android:text="Business Screening."
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -394,7 +394,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/poppins_semi_bold"
                         android:gravity="center"
-                        android:text="FINANCIAL SCREENING"
+                        android:text="Quantitative Criteria"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -419,7 +419,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/poppins_semi_bold"
-                                android:text="Financial Screen"
+                                android:text="Financial Screening"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -487,7 +487,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_semi_bold"
-                            android:text="Interest-bearing income-total income"
+                            android:text="Interest Income / Total Income"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -620,7 +620,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Interest-bearing debt-total assets"
+                                    android:text="Total Debt / Total Assets"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
 
@@ -727,7 +727,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="A company’s total debt should not exceed 30% of its market capitalisation"
+                                android:text="A company’s total debt should not exceed 27% of its market capitalisation"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="12sp" />
 
@@ -872,7 +872,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semi_bold"
-                                    android:text="Cash-interest-bearing securities-total assets"
+                                    android:text="Cash + Interest bearing Securities / Total Assets"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
 
@@ -1277,7 +1277,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Disclaimer: This Shariah compliance report is based on AAOIFI standards and is for Educational purposes only. Investors are encouraged to consult their financial advisors for personalised guidance."
+                                android:text="Disclaimer: The Shariah Compliance report is based on our own proprietary norms and is for educational purpose only. Investors are encouraged to consult their financial advisors for personalised guidance."
                                 android:textColor="@color/main_color"
                                 android:textSize="12sp" />
 

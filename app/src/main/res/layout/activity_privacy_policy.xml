@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:fontFamily="@font/poppins_semi_bold"
             android:textSize="20sp"
-            android:text="Email: info@shariahequities.in"
+            android:text="Email: info@shariahequities.com"
             android:layout_height="wrap_content"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMobile"
