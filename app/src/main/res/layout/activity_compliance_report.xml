@@ -259,7 +259,7 @@
                         android:drawableTint="@color/main_color"
                         android:fontFamily="@font/poppins_semi_bold"
                         android:gravity="center"
-                        android:text="Based on AAOIFI standards"
+                        android:text="Proprietary Norms"
                         android:textColor="@color/green"
                         android:textSize="12sp" />
                 </LinearLayout>

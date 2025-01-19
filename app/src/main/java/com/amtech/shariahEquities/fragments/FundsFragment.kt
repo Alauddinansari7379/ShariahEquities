@@ -128,16 +128,20 @@ class FundsFragment : Fragment() {
                     AppProgressBar.hideLoaderDialog()
                     try {
                         when {
-                            response.code() == 500 -> myToast(context as Activity, "Server Error")
-                            response.code() == 404 -> myToast(
-                                context as Activity,
-                                "Something went wrong"
-                            )
+                            response.code() == 500 -> {
+                                myToast(context as Activity, "Server Error")
+                            }
+
+                            response.code() == 404 -> {
+                                myToast(context as Activity, "Something went wrong")
+                            }
 
                             response.isSuccessful && response.body() != null -> {
+                                // Retrieve the list from the response
                                 companyList = response.body()!!.result
-                                // Add static data at the 0th index when the adapter is created
-                                val staticData = Result(
+
+                                // Create static data items
+                                val tataEthicalFund = Result(
                                     complaint_type = 1,
                                     id = -1,
                                     name_of_company = "TATA ETHICAL FUND",
@@ -155,23 +159,50 @@ class FundsFragment : Fragment() {
                                     interest_income = "",
                                     compliant_status_interest_income = "",
                                     financial_screening = "PASS",
-                                    created_at = "",
+                                    created_at = ""
                                     // Add other fields as per your `Result` model
                                 )
-                                companyList =
-                                    companyList.toMutableList()
-                                        .apply { add(0, staticData) } as ArrayList<Result>
-                                count = 0
-                                val firstItem = listOf(companyList[0])
 
-                                // Set up the RecyclerView with the single item
+                                val quantumEthicalFund = Result(
+                                    complaint_type = 1,
+                                    id = -1,
+                                    name_of_company = "Quantum Ethical Fund",
+                                    status = 1,
+                                    symbol = "Quantum Ethical Fund",
+                                    nse_symbol_bse_script_id = "Quantum Ethical Fund",
+                                    industry_group = "",
+                                    main_product_service_group = "",
+                                    exchange = "",
+                                    final = "PASS",
+                                    debts_market_cap = "",
+                                    compliant_debts_market_cap_status = "",
+                                    interest_bearing_securities_market_cap = "",
+                                    compliant_status_interest_bearing_securities_market_cap = "",
+                                    interest_income = "",
+                                    compliant_status_interest_income = "",
+                                    financial_screening = "PASS",
+                                    created_at = ""
+                                    // Add other fields as per your `Result` model
+                                )
+
+                                // Add static data to the top of the list
+                                companyList = companyList.toMutableList().apply {
+                                    add(0, quantumEthicalFund)
+                                    add(0, tataEthicalFund)
+                                } as ArrayList<Result>
+
+                                // Optionally, extract the top two items for a different display logic
+                                val firstItems = companyList.take(2)
+
+                                // Set up the RecyclerView with the updated list
                                 binding.rvCompanyList.apply {
-                                    adapter = FundsAdapter(requireContext(), firstItem)
+                                    adapter = FundsAdapter(requireContext(), firstItems)
                                 }
-
                             }
 
-                            else -> myToast(context as Activity, "Unexpected error")
+                            else -> {
+                                myToast(context as Activity, "Unexpected error")
+                            }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
