@@ -84,7 +84,7 @@ class ComplianceReportActivity : AppCompatActivity() {
         }
         setContentView(binding.root)
         val fullText =
-            "Disclaimer: This Shariah compliance report is based on AAOIFI standards and is for Educational purposes only. Investors are encouraged to consult their financial advisors for personalised guidance."
+            "Disclaimer : The Shariah Compliance report is based on our own proprietary norms and is for educational purpose only. Investors are encouraged to consult their financial advisors for personalised guidance."
         val spannable = SpannableString(fullText)
         spannable.setSpan(ForegroundColorSpan(Color.RED), 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannable.setSpan(StyleSpan(Typeface.BOLD), 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
